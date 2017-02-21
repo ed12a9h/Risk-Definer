@@ -1,0 +1,13 @@
+-- SQL command used to create risk table within database
+CREATE TABLE riskEvent (
+	rID INTEGER NOT NULL,
+	rName TEXT NOT NULL,
+	impact INTEGER,
+	probability INTEGER,
+	description TEXT,
+	mitigation TEXT,
+	status TEXT,
+	project TEXT NOT NULL,
+	FOREIGN KEY (project) REFERENCES project(pName) ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (rID, project)
+);

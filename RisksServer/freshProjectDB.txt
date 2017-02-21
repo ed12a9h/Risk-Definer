@@ -1,0 +1,6 @@
+-- SQL command used to create project table within database
+CREATE TABLE project (
+	pName VARCHAR(250) NOT NULL UNIQUE,
+	pmName VARCHAR(100)
+);
+
