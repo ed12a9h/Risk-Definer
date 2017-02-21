@@ -1,3 +1,11 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit
+ * 
+ * This file contains code for all communication between Jersey
+ * and the database.
+ */
+
 package RiskApplication.RisksServer;
 
 //IO Imports
@@ -32,12 +40,16 @@ public class DBConnection {
 		String drivers = props.getProperty("jdbc.drivers");
 		if (drivers != null)
 		  System.setProperty("jdbc.drivers", drivers);
-		  
+		
+		//Foreign Key Support
+		//properties.setProperty("PRAGMA foreign_keys", "ON");
+		
 		
 		// Other parameters used to create connection
 		String url = props.getProperty("jdbc.url");
 		String user = props.getProperty("jdbc.user");
 		String password = props.getProperty("jdbc.password");
+		
 	
 	    return DriverManager.getConnection(url, user, password);
 	}
@@ -46,12 +58,12 @@ public class DBConnection {
 	// Creates a table to hold the data. 
 	// This code is not called from main program but can be used.
 	// WARNING - deletes existing tables
-	public static void createTable() throws SQLException, IOException
+	public static void createTable() throws SQLException, IOException, ClassNotFoundException
 	{
 		Connection database = DBConnection.getConnection();
 		Statement statement = database.createStatement();
 		// Drop existing tables, if present
-		statement.executeUpdate("DROP TABLE IF EXISTS project, riskEvent");
+		//statement.executeUpdate("DROP TABLE IF EXISTS riskEvent");
 		
 		
 		// Create a new project table
@@ -59,7 +71,9 @@ public class DBConnection {
 		statement.executeUpdate(freshProjectDB);
 		//Create new riskEvent table
 		String freshRiskDB = new String(Files.readAllBytes(Paths.get("freshRiskDB.txt"))); 
-		//statement.executeUpdate(freshRiskDB);
+		statement.executeUpdate(freshRiskDB);
+		String freshRiskTrig = new String(Files.readAllBytes(Paths.get("freshRiskTrigger.txt")));
+		//statement.executeUpdate(freshRiskTrig);
 		
 		statement.close();
 		database.close();
@@ -70,7 +84,9 @@ public class DBConnection {
 	public static Response addProject(String pName, String pmName)
 	{
 		try {
+			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
+			
 			Connection database = DBConnection.getConnection();
 			
 		    // Statement used to add new project to project table
@@ -104,10 +120,18 @@ public class DBConnection {
 			String mitigation, String status, String project)
 	{
 		try {
+			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			DBConnection.createTable();
+			
 			Connection database = DBConnection.getConnection();
+			//Statement xstatement = database.createStatement();
+			//System.out.println(xstatement.executeUpdate("PRAGMA foreign_keys"));
+			//xstatement.executeUpdate("PRAGMA foreign_keys= ON");
+			
+			
 		    // Statement used to add new risks to users table
 			PreparedStatement statement =
-					database.prepareStatement("INSERT INTO risk(rName, impact, probability,"
+					database.prepareStatement("INSERT INTO riskEvent(rName, impact, probability,"
 					+ "description, mitigation, status, project) VALUES(?,?,?,?,?,?,?)");
 			statement.setString(1, rName);
 			statement.setInt(2, impact);
@@ -117,11 +141,21 @@ public class DBConnection {
 			statement.setString(6, status);
 			statement.setString(7, project);
 			statement.executeUpdate();
+			
+			// Used purely for testing purposes
+		    ResultSet risks = statement.executeQuery("SELECT rName, project FROM riskEvent");
+	        while (risks.next()) {
+	        	String rName1 = risks.getString("rName");
+	        	String project1 = risks.getString("project");
+	        	System.out.println(rName1 + ":" + project1);
+	        }
+			
 		    statement.close();
 		    database.close();
 		    return Response.ok().build();
 		} 
 		catch (Exception e) {
+			e.printStackTrace();
 			return Response.status(500).build();
 		}
 			

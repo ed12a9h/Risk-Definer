@@ -1,13 +1,15 @@
+-- Risk Definer Web Service
+-- Produced by Adam Hustwit
 -- SQL command used to create risk table within database
-CREATE TABLE riskEvent (
-	rID INTEGER NOT NULL,
-	rName TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS riskEvent (
+	rID INTEGER,
+	rName VARCHAR(250) NOT NULL,
 	impact INTEGER,
 	probability INTEGER,
 	description TEXT,
 	mitigation TEXT,
-	status TEXT,
-	project TEXT NOT NULL,
+	status VARCHAR(25),
+	project VARCHAR(250) NOT NULL,
 	FOREIGN KEY (project) REFERENCES project(pName) ON DELETE CASCADE ON UPDATE CASCADE,
-	PRIMARY KEY (rID, project)
+	CONSTRAINT constraint_1 PRIMARY KEY(rName,project)
 );

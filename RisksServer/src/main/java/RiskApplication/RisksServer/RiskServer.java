@@ -2,8 +2,8 @@
  * Risk Definer Web Service
  * Produced by Adam Hustwit
  * 
- * This file contains code for the start up of the jetty server which 
- * contains my jersey web service framework as a servlet.
+ * This file contains code for defining the routing of URLs 
+ * to java functions.
  */
 
 package RiskApplication.RisksServer;
@@ -49,8 +49,9 @@ public class RiskServer {
     @POST
     @Path("/addrisk/")
     @Produces(MediaType.TEXT_HTML)
-    public Response addRisk(@FormParam("pName") String pName, @FormParam("pmName") String pmName) throws IOException, SQLException {
-	    return DBConnection.addProject(pName, pmName);
+    public Response addRisk(final Risk risk) throws IOException, SQLException {
+	    return DBConnection.addRisk(risk.getrName(), risk.getImpact(), risk.getProbability(),
+	    		risk.getDescription(), risk.getMitigation(), risk.getStatus(), risk.getProject());
     }
     
     

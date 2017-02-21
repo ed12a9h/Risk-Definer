@@ -1,5 +1,7 @@
+-- Risk Definer Web Service
+-- Produced by Adam Hustwit
 -- SQL command used to create project table within database
-CREATE TABLE project (
+CREATE TABLE IF NOT EXISTS project (
 	pName VARCHAR(250) NOT NULL UNIQUE,
 	pmName VARCHAR(100)
 );

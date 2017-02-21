@@ -1,0 +1,8 @@
+CREATE TRIGGER rIdInc BEFORE INSERT ON riskEvent
+FOR EACH ROW BEGIN
+    SET NEW.rID = (
+       SELECT IFNULL(MAX(rID), 0) + 1
+       FROM riskEvent
+       WHERE project  = NEW.project
+    );
+    END

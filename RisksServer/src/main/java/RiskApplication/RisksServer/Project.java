@@ -1,13 +1,17 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit
+ * 
+ * This file defines the class used for conversion of 
+ * json relating to projects
+ */
+
 package RiskApplication.RisksServer;
 
 public class Project {
 	private String pName;
     private String pmName;
-
-    //public Project(String pName, String pmName) {
-    //   this.pName = pName;
-     //   this.pmName = pmName;
-    //}
+    
 
     public String getpName() {
         return pName;
