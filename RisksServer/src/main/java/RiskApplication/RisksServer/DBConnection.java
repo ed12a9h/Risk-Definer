@@ -119,6 +119,33 @@ public class DBConnection {
 		
 	}
 	
+	
+	// Update a risk in riskEvent table
+		public static Response updateProject(Integer pRecID, String pName, String pmName)
+		{
+			try {
+				// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				DBConnection.createTable();
+				
+				Connection database = DBConnection.getConnection();
+				
+				// Statement used to update existing project in project table
+				PreparedStatement statement =
+				database.prepareStatement("UPDATE project SET pName=?, pmName=? WHERE pRecID=" +pRecID);
+				statement.setString(1, pName);
+				statement.setString(2, pmName);
+				statement.executeUpdate();
+				
+			    statement.close();
+			    database.close();
+			    return Response.ok().build();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				return Response.status(500).build();
+			}	
+		}
+	
 	// List all projects.
 	public static List<Project> listProject()
 	{
@@ -218,6 +245,28 @@ public class DBConnection {
 			statement.setString(7, fProject);
 			statement.executeUpdate();
 			
+		    statement.close();
+		    database.close();
+		    return Response.ok().build();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}	
+	}
+	
+	
+	public static Response deleteRisk(Integer rRecID)
+	{
+		try {
+			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			DBConnection.createTable();
+			
+			Connection database = DBConnection.getConnection();
+			
+		    // Statement used to update existing risks in riskEvent table
+			Statement statement = database.createStatement();
+			statement.executeUpdate("DELETE FROM riskEvent WHERE rRecID="+rRecID);
 		    statement.close();
 		    database.close();
 		    return Response.ok().build();
