@@ -2,6 +2,7 @@
 -- Produced by Adam Hustwit
 -- SQL command used to create risk table within database
 CREATE TABLE IF NOT EXISTS riskEvent (
+	rRecID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	rID INTEGER,
 	rName VARCHAR(250) NOT NULL,
 	impact INTEGER,
@@ -9,7 +10,10 @@ CREATE TABLE IF NOT EXISTS riskEvent (
 	description TEXT,
 	mitigation TEXT,
 	status VARCHAR(25),
-	project VARCHAR(250) NOT NULL,
-	FOREIGN KEY (project) REFERENCES project(pName) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT constraint_1 PRIMARY KEY(rName,project)
+	fProject VARCHAR(250) NOT NULL,
+	CONSTRAINT risk_has_project 
+		FOREIGN KEY (fProject) 
+		REFERENCES project(pName) 
+		ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT unique_risk_name UNIQUE (rName, fProject)
 );

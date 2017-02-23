@@ -2,6 +2,7 @@
 -- Produced by Adam Hustwit
 -- SQL command used to create project table within database
 CREATE TABLE IF NOT EXISTS project (
+	pRecID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	pName VARCHAR(250) NOT NULL UNIQUE,
 	pmName VARCHAR(100)
 );

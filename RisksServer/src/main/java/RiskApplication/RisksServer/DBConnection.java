@@ -21,7 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
 //Other Imports
 import java.util.Properties;
 import javax.ws.rs.core.Response;
@@ -41,10 +42,6 @@ public class DBConnection {
 		if (drivers != null)
 		  System.setProperty("jdbc.drivers", drivers);
 		
-		//Foreign Key Support
-		//properties.setProperty("PRAGMA foreign_keys", "ON");
-		
-		
 		// Other parameters used to create connection
 		String url = props.getProperty("jdbc.url");
 		String user = props.getProperty("jdbc.user");
@@ -63,7 +60,7 @@ public class DBConnection {
 		Connection database = DBConnection.getConnection();
 		Statement statement = database.createStatement();
 		// Drop existing tables, if present
-		//statement.executeUpdate("DROP TABLE IF EXISTS riskEvent");
+		//statement.executeUpdate("DROP TABLE IF EXISTS riskEvent, project");
 		
 		
 		// Create a new project table
@@ -72,8 +69,15 @@ public class DBConnection {
 		//Create new riskEvent table
 		String freshRiskDB = new String(Files.readAllBytes(Paths.get("freshRiskDB.txt"))); 
 		statement.executeUpdate(freshRiskDB);
+		//Try create a trigger to automatically increment risk number unique to project.
 		String freshRiskTrig = new String(Files.readAllBytes(Paths.get("freshRiskTrigger.txt")));
-		//statement.executeUpdate(freshRiskTrig);
+		try{
+			statement.executeUpdate(freshRiskTrig);
+		}
+		catch(Exception e){
+			//Do nothing - Trigger already exists.
+		}
+		
 		
 		statement.close();
 		database.close();
@@ -115,39 +119,68 @@ public class DBConnection {
 		
 	}
 	
-	// Add a new risk to risk table --Not yet working
+	// List all projects.
+	public static List<Project> listProject()
+	{
+		try {
+			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			DBConnection.createTable();
+			Connection database = DBConnection.getConnection();
+			Statement statement = database.createStatement();
+		    
+			List<Project> pList = new ArrayList<Project>();
+			
+		    // Used purely for testing purposes
+		    ResultSet projects = statement.executeQuery("SELECT pRecID, pName, pmName FROM project");
+	        while (projects.next()) {
+	        	Project p = new Project();
+	        	p.setpRecID(projects.getInt("pRecID"));
+	        	p.setpName(projects.getString("pName"));
+	        	p.setpmName(projects.getString("pmName"));
+	        	pList.add(p);
+	        	
+	        }
+	        
+	        statement.close();
+		    database.close();
+	        return pList;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+			
+		}
+	}
+	
+	// Add a new risk to risk table
 	public static Response addRisk(String rName, Integer impact, Integer probability, String description, 
-			String mitigation, String status, String project)
+			String mitigation, String status, String fProject)
 	{
 		try {
 			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
 			
 			Connection database = DBConnection.getConnection();
-			//Statement xstatement = database.createStatement();
-			//System.out.println(xstatement.executeUpdate("PRAGMA foreign_keys"));
-			//xstatement.executeUpdate("PRAGMA foreign_keys= ON");
 			
-			
-		    // Statement used to add new risks to users table
+		    // Statement used to add new risks to riskEvent table
 			PreparedStatement statement =
-					database.prepareStatement("INSERT INTO riskEvent(rName, impact, probability,"
-					+ "description, mitigation, status, project) VALUES(?,?,?,?,?,?,?)");
+					database.prepareStatement("INSERT INTO riskEvent(rName, impact, probability, "
+					+ "description, mitigation, status, fProject) VALUES(?,?,?,?,?,?,?)");
 			statement.setString(1, rName);
 			statement.setInt(2, impact);
 			statement.setInt(3, probability);
 			statement.setString(4, description);
 			statement.setString(5, mitigation);
 			statement.setString(6, status);
-			statement.setString(7, project);
+			statement.setString(7, fProject);
 			statement.executeUpdate();
 			
 			// Used purely for testing purposes
-		    ResultSet risks = statement.executeQuery("SELECT rName, project FROM riskEvent");
+		    ResultSet risks = statement.executeQuery("SELECT rName, fProject FROM riskEvent");
 	        while (risks.next()) {
 	        	String rName1 = risks.getString("rName");
-	        	String project1 = risks.getString("project");
-	        	System.out.println(rName1 + ":" + project1);
+	        	String fProject1 = risks.getString("fProject");
+	        	System.out.println(rName1 + ":" + fProject1);
 	        }
 			
 		    statement.close();
@@ -157,7 +190,80 @@ public class DBConnection {
 		catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(500).build();
-		}
+		}	
+	}
+	
+	
+	// Update a risk in riskEvent table
+	public static Response updateRisk(Integer rRecID, Integer rID, String rName, Integer impact, 
+			Integer probability, String description, String mitigation, String status, 
+			String fProject)
+	{
+		try {
+			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			DBConnection.createTable();
+			
+			Connection database = DBConnection.getConnection();
+			
+		    // Statement used to update existing risks in riskEvent table
+			PreparedStatement statement =
+					database.prepareStatement("UPDATE riskEvent SET rName=?, impact=?, probability=?, "
+							+ "description=?, mitigation=?, status=?, fProject=? WHERE rRecID=" +rRecID);
+			statement.setString(1, rName);
+			statement.setInt(2, impact);
+			statement.setInt(3, probability);
+			statement.setString(4, description);
+			statement.setString(5, mitigation);
+			statement.setString(6, status);
+			statement.setString(7, fProject);
+			statement.executeUpdate();
+			
+		    statement.close();
+		    database.close();
+		    return Response.ok().build();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}	
+	}
+	
+	// List all risks relating to a project.
+	public static List<Risk> listRisk()
+	{
+		try {
+			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			DBConnection.createTable();
+			Connection database = DBConnection.getConnection();
+			Statement statement = database.createStatement();
+		    
+			List<Risk> rList = new ArrayList<Risk>();
+			
+		    // Add each risk found in database to a list of risk objects.
+		    ResultSet risks = statement.executeQuery("SELECT * FROM riskEvent;");
+	        while (risks.next()) {
+	        	Risk r = new Risk();
+	        	r.setrRecID(risks.getInt("rRecID"));
+	        	r.setrID(risks.getInt("rID"));
+	        	r.setrName(risks.getString("rName"));
+	        	r.setImpact(risks.getInt("impact"));
+	        	r.setProbability(risks.getInt("probability"));
+	        	r.setDescription(risks.getString("description"));
+	        	r.setMitigation(risks.getString("mitigation"));
+	        	r.setStatus(risks.getString("status"));
+	        	r.setfProject(risks.getString("fProject"));
+	        	rList.add(r);
+	        }
+	        statement.close();
+		    database.close();
+	        return rList;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
 			
 		}
+		
+		
+	}
 }

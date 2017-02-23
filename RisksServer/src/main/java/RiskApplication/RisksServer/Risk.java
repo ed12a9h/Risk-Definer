@@ -9,20 +9,27 @@
 package RiskApplication.RisksServer;
 
 public class Risk {
-	private String rID;
+	private Integer rRecID;
+	private Integer rID;
 	private String rName;
 	private Integer impact;
 	private Integer probability;
 	private String description;
 	private String mitigation;
 	private String status;
-	private String project;
+	private String fProject;
 	
 	
-	public String getrID() {
+	public Integer getrRecID() {
+		return rRecID;
+	}
+	public void setrRecID(Integer rRecID) {
+		this.rRecID = rRecID;
+	}
+	public Integer getrID() {
 		return rID;
 	}
-	public void setrID(String rID) {
+	public void setrID(Integer rID) {
 		this.rID = rID;
 	}
 	public String getrName() {
@@ -61,11 +68,11 @@ public class Risk {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getProject() {
-		return project;
+	public String getfProject() {
+		return fProject;
 	}
-	public void setProject(String project) {
-		this.project = project;
+	public void setfProject(String fProject) {
+		this.fProject = fProject;
 	}
 	
 }
