@@ -34,7 +34,7 @@ public class RiskServer {
 	// and returns success status to client.
     @POST
     @Path("/projects/")
-    @Produces(MediaType.TEXT_HTML)
+    @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addProject(final Project project) throws IOException, SQLException {
 	    return DBConnection.addProject(project.getpName(), project.getpmName());
@@ -43,14 +43,24 @@ public class RiskServer {
     
     // Method to update an existing project to project table. Accepts updated risks details in json
    	// and returns success status to client.
-     @PUT
-     @Path("/projects/{pRecID}/")
-     @Consumes({MediaType.APPLICATION_JSON})
-     @Produces(MediaType.TEXT_HTML)
-     public Response updateProject(@PathParam("pRecID") Integer pRecID, final Project project) 
-     		throws IOException, SQLException {
-     	return DBConnection.updateProject(pRecID, project.getpName(), project.getpmName());
-     }
+    @PUT
+    @Path("/projects/{pRecID}/")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_HTML)
+    public Response updateProject(@PathParam("pRecID") Integer pRecID, final Project project) 
+    		throws IOException, SQLException {
+    	return DBConnection.updateProject(pRecID, project.getpName(), project.getpmName());
+    }
+    
+    
+    // Method to remove an existing risk from the riskEvent table.
+    @DELETE
+    @Path("/projects/{pRecID}/")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_HTML)
+    public Response deleteProject(@PathParam("pRecID") Integer pRecID) throws IOException, SQLException {
+    	return DBConnection.deleteProject(pRecID);
+    }
      
 	
     // Method to list all projects from project table.
@@ -87,15 +97,14 @@ public class RiskServer {
     }
     
     
-    // Method to update an existing risk to riskEvent table. Accepts updated project details in json
-   	// and returns success status to client.
-     @DELETE
-     @Path("/risks/{rRecID}/")
-     @Consumes({MediaType.APPLICATION_JSON})
-     @Produces(MediaType.TEXT_HTML)
-     public Response deleteRisk(@PathParam("rRecID") Integer rRecID) throws IOException, SQLException {
-     	return DBConnection.deleteRisk(rRecID);
-     }
+    // Method to remove an existing risk from the riskEvent table.
+    @DELETE
+    @Path("/risks/{rRecID}/")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_HTML)
+    public Response deleteRisk(@PathParam("rRecID") Integer rRecID) throws IOException, SQLException {
+    	return DBConnection.deleteRisk(rRecID);
+    }
     
     
     // Method to list all risks for a specific project from riskEvent table.

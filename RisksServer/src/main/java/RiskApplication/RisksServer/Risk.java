@@ -9,7 +9,7 @@
 package RiskApplication.RisksServer;
 
 public class Risk {
-	private Integer rRecID;
+	private Integer id;
 	private Integer rID;
 	private String rName;
 	private Integer impact;
@@ -20,11 +20,11 @@ public class Risk {
 	private String fProject;
 	
 	
-	public Integer getrRecID() {
-		return rRecID;
+	public Integer getid() {
+		return id;
 	}
-	public void setrRecID(Integer rRecID) {
-		this.rRecID = rRecID;
+	public void setid(Integer id) {
+		this.id = id;
 	}
 	public Integer getrID() {
 		return rID;

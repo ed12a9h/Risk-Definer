@@ -29,6 +29,8 @@ import javax.ws.rs.core.Response;
 
 // Class for all database communication
 public class DBConnection {
+	
+	
 	//Establish connection to database. 
 	public static Connection getConnection() throws IOException, SQLException
 	{
@@ -46,20 +48,20 @@ public class DBConnection {
 		String url = props.getProperty("jdbc.url");
 		String user = props.getProperty("jdbc.user");
 		String password = props.getProperty("jdbc.password");
-		
-	
-	    return DriverManager.getConnection(url, user, password);
+		Connection connection = DriverManager.getConnection(url, user, password);
+	    return connection;
+	    
 	}
 	  
 
-	// Creates a table to hold the data. 
-	// This code is not called from main program but can be used.
-	// WARNING - deletes existing tables
+	// Creates tables to hold the data and a trigger if they do not already exist. 
 	public static void createTable() throws SQLException, IOException, ClassNotFoundException
 	{
 		Connection database = DBConnection.getConnection();
 		Statement statement = database.createStatement();
+		
 		// Drop existing tables, if present
+		// WARNING - deletes all riskEvent and project table data if uncommented!!!
 		//statement.executeUpdate("DROP TABLE IF EXISTS riskEvent, project");
 		
 		
@@ -88,10 +90,8 @@ public class DBConnection {
 	public static Response addProject(String pName, String pmName)
 	{
 		try {
-			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			Connection database = getConnection();
 			DBConnection.createTable();
-			
-			Connection database = DBConnection.getConnection();
 			
 		    // Statement used to add new project to project table
 			PreparedStatement statement =
@@ -99,75 +99,89 @@ public class DBConnection {
 			statement.setString(1, pName);
 			statement.setString(2, pmName);
 			statement.executeUpdate();
-		    
-		    // Used purely for testing purposes
-		    ResultSet projects = statement.executeQuery("SELECT pName, pmName FROM project");
-	        while (projects.next()) {
-	        	String pName1 = projects.getString("pName");
-	        	String pmName1 = projects.getString("pmName");
-	        	System.out.println(pName1 + ":" + pmName1);
-	        }
-	        
 	        statement.close();
-		    database.close();
-	        return Response.ok().build();
-		} 
-		catch (Exception e) {
+		    
+		    
+	        //HTTP Response body should contain ID assigned to new project in database.
+		    Statement statement2 = database.createStatement();
+		    ResultSet project = statement2.executeQuery("SELECT pRecID FROM project WHERE pName='"+pName+"';");
+	        project.first();
+	        Integer pRecID= project.getInt("pRecID");
+	        statement2.close();
+	        database.close();
+		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
+		}
+		catch (Exception e){
 			e.printStackTrace();
 			return Response.status(500).build();
-		}
-		
+		}	
 	}
 	
 	
 	// Update a risk in riskEvent table
-		public static Response updateProject(Integer pRecID, String pName, String pmName)
-		{
-			try {
-				// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				DBConnection.createTable();
-				
-				Connection database = DBConnection.getConnection();
-				
-				// Statement used to update existing project in project table
-				PreparedStatement statement =
-				database.prepareStatement("UPDATE project SET pName=?, pmName=? WHERE pRecID=" +pRecID);
-				statement.setString(1, pName);
-				statement.setString(2, pmName);
-				statement.executeUpdate();
-				
-			    statement.close();
-			    database.close();
-			    return Response.ok().build();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				return Response.status(500).build();
-			}	
+	public static Response updateProject(Integer pRecID, String pName, String pmName)
+	{
+		try {
+			DBConnection.createTable();
+			
+			Connection database = DBConnection.getConnection();
+			
+			// Statement used to update existing project in project table
+			PreparedStatement statement =
+			database.prepareStatement("UPDATE project SET pName=?, pmName=? WHERE pRecID=" +pRecID);
+			statement.setString(1, pName);
+			statement.setString(2, pmName);
+			statement.executeUpdate();
+			
+		    statement.close();
+		    database.close();
+		    return Response.ok().build();
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}	
+	}
+		
+	
+	public static Response deleteProject(Integer pRecID)
+	{
+		try {
+			DBConnection.createTable();
+			
+			Connection database = DBConnection.getConnection();
+			
+		    // Statement used to update existing risks in riskEvent table
+			Statement statement = database.createStatement();
+			statement.executeUpdate("DELETE FROM project WHERE pRecID="+pRecID);
+		    statement.close();
+		    database.close();
+		    return Response.ok().build();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}	
+	}
 	
 	// List all projects.
 	public static List<Project> listProject()
 	{
 		try {
-			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
 			Connection database = DBConnection.getConnection();
 			Statement statement = database.createStatement();
 		    
 			List<Project> pList = new ArrayList<Project>();
-			
-		    // Used purely for testing purposes
-		    ResultSet projects = statement.executeQuery("SELECT pRecID, pName, pmName FROM project");
-	        while (projects.next()) {
+			// Add each project found in database to a list of risk objects.
+		    ResultSet project = statement.executeQuery("SELECT * FROM project;");
+	        while (project.next()) {
 	        	Project p = new Project();
-	        	p.setpRecID(projects.getInt("pRecID"));
-	        	p.setpName(projects.getString("pName"));
-	        	p.setpmName(projects.getString("pmName"));
+	        	p.setid(project.getInt("pRecID"));
+	        	p.setpName(project.getString("pName"));
+	        	p.setpmName(project.getString("pmName"));
 	        	pList.add(p);
-	        	
 	        }
-	        
 	        statement.close();
 		    database.close();
 	        return pList;
@@ -184,7 +198,6 @@ public class DBConnection {
 			String mitigation, String status, String fProject)
 	{
 		try {
-			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
 			
 			Connection database = DBConnection.getConnection();
@@ -201,18 +214,18 @@ public class DBConnection {
 			statement.setString(6, status);
 			statement.setString(7, fProject);
 			statement.executeUpdate();
-			
-			// Used purely for testing purposes
-		    ResultSet risks = statement.executeQuery("SELECT rName, fProject FROM riskEvent");
-	        while (risks.next()) {
-	        	String rName1 = risks.getString("rName");
-	        	String fProject1 = risks.getString("fProject");
-	        	System.out.println(rName1 + ":" + fProject1);
-	        }
-			
 		    statement.close();
-		    database.close();
-		    return Response.ok().build();
+		    
+		    // HTTP Response contains rID and rRecID assigned by database. 
+		    Statement statement2 = database.createStatement();
+		    ResultSet project = statement2.executeQuery("SELECT rRecID, rID FROM riskEvent WHERE rName='"+rName+
+		    		"' AND fProject='"+ fProject +"';");
+	        project.first();
+	        Integer rRecID= project.getInt("rRecID");
+	        Integer rID= project.getInt("rID");
+	        statement2.close();
+	        database.close();
+		    return Response.ok().entity("{\"id\":"+rRecID+", \"rID\":"+rID+"}").build();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -227,7 +240,6 @@ public class DBConnection {
 			String fProject)
 	{
 		try {
-			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
 			
 			Connection database = DBConnection.getConnection();
@@ -259,7 +271,6 @@ public class DBConnection {
 	public static Response deleteRisk(Integer rRecID)
 	{
 		try {
-			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
 			
 			Connection database = DBConnection.getConnection();
@@ -281,7 +292,6 @@ public class DBConnection {
 	public static List<Risk> listRisk()
 	{
 		try {
-			// Used for Dev purposes ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			DBConnection.createTable();
 			Connection database = DBConnection.getConnection();
 			Statement statement = database.createStatement();
@@ -292,7 +302,7 @@ public class DBConnection {
 		    ResultSet risks = statement.executeQuery("SELECT * FROM riskEvent;");
 	        while (risks.next()) {
 	        	Risk r = new Risk();
-	        	r.setrRecID(risks.getInt("rRecID"));
+	        	r.setid(risks.getInt("rRecID"));
 	        	r.setrID(risks.getInt("rID"));
 	        	r.setrName(risks.getString("rName"));
 	        	r.setImpact(risks.getInt("impact"));
