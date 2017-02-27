@@ -75,8 +75,8 @@ public class RiskServer {
  	// and returns success status to client.
     @POST
     @Path("/risks/")
+    @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_HTML)
     public Response addRisk(final Risk risk) throws IOException, SQLException {
 	    return DBConnection.addRisk(risk.getrName(), risk.getImpact(), risk.getProbability(),
 	    		risk.getDescription(), risk.getMitigation(), risk.getStatus(), risk.getfProject());
