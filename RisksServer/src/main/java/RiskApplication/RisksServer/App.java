@@ -25,7 +25,7 @@ public class App
     	 ServletHolder servlet = new ServletHolder(new ServletContainer(config));
 
     	//Port 9999 Local host
-    	Server server = new Server(9999);
+    	Server server = new Server(80);
     	 ServletContextHandler context = new ServletContextHandler(server, "/*");
     	 context.addServlet(servlet, "/*");
 

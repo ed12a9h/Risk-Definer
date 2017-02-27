@@ -36,6 +36,7 @@ public class DBConnection {
 	{
 		// Load properties from properties file
 		FileInputStream input = new FileInputStream("jdbc.properties");
+		//FileInputStream input = new FileInputStream("src/jdbc.properties");
 		Properties props = new Properties();
 		props.load(input);
 		

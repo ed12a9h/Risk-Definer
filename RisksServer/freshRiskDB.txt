@@ -14,6 +14,5 @@ CREATE TABLE IF NOT EXISTS riskEvent (
 	CONSTRAINT risk_has_project 
 		FOREIGN KEY (fProject) 
 		REFERENCES project(pName) 
-		ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT unique_risk_name UNIQUE (rName, fProject)
+		ON DELETE CASCADE ON UPDATE CASCADE
 );
