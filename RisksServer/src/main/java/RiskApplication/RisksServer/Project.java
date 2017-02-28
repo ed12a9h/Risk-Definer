@@ -32,4 +32,10 @@ public class Project {
     public void setpmName(String pmName) {
     	this.pmName = pmName;
     }
+    
+    public boolean validate(){
+		if (this.pName.length() >=2)
+			return true;
+		else return false;
+    }
 }

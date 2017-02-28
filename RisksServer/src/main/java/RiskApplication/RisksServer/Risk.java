@@ -75,4 +75,10 @@ public class Risk {
 		this.fProject = fProject;
 	}
 	
+	public boolean validate() {
+	if (this.rName.length() >=2)
+		return true;
+	else return false;
+	}
+	
 }

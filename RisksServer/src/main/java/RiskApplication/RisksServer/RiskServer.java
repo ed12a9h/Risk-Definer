@@ -37,7 +37,11 @@ public class RiskServer {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addProject(final Project project) throws IOException, SQLException {
-	    return DBConnection.addProject(project.getpName(), project.getpmName());
+    	if (project.validate()==true){
+    		return DBConnection.addProject(project.getpName(), project.getpmName());
+    	}
+    	else return Response.status(500).build();
+	    
     }
     
     
@@ -49,7 +53,10 @@ public class RiskServer {
     @Produces(MediaType.TEXT_HTML)
     public Response updateProject(@PathParam("pRecID") Integer pRecID, final Project project) 
     		throws IOException, SQLException {
-    	return DBConnection.updateProject(pRecID, project.getpName(), project.getpmName());
+    	if (project.validate()==true){
+    		return DBConnection.updateProject(pRecID, project.getpName(), project.getpmName());
+    	}
+    	else return Response.status(500).build();
     }
     
     
@@ -78,8 +85,12 @@ public class RiskServer {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addRisk(final Risk risk) throws IOException, SQLException {
-	    return DBConnection.addRisk(risk.getrName(), risk.getImpact(), risk.getProbability(),
-	    		risk.getDescription(), risk.getMitigation(), risk.getStatus(), risk.getfProject());
+    	if (risk.validate()==true){
+    		return DBConnection.addRisk(risk.getrName(), risk.getImpact(), risk.getProbability(),
+    	    		risk.getDescription(), risk.getMitigation(), risk.getStatus(), risk.getfProject());
+    	}
+    	else return Response.status(500).build();
+	    
     }
     
     
@@ -91,9 +102,13 @@ public class RiskServer {
     @Produces(MediaType.TEXT_HTML)
     public Response updateRisk(@PathParam("rRecID") Integer rRecID, final Risk risk) 
     		throws IOException, SQLException {
-    	return DBConnection.updateRisk(rRecID, risk.getrID(), risk.getrName(), risk.getImpact(), 
-    			risk.getProbability(), risk.getDescription(), risk.getMitigation(), risk.getStatus(), 
-    			risk.getfProject());
+    	if (risk.validate()==true){
+    		return DBConnection.updateRisk(rRecID, risk.getrID(), risk.getrName(), risk.getImpact(), 
+        			risk.getProbability(), risk.getDescription(), risk.getMitigation(), risk.getStatus(), 
+        			risk.getfProject());
+    	}
+    	else return Response.status(500).build();
+    	
     }
     
     
