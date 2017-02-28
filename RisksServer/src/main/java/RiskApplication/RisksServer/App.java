@@ -8,7 +8,11 @@
 
 package RiskApplication.RisksServer;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -19,15 +23,27 @@ public class App
 {
     public static void main( String[] args )
     {
-    	//Server config
+    	//Create server port 9999 Local host
+    	Server server = new Server(9999);
+    	
+    	//Servlet Config for web service (/server)
     	ResourceConfig config = new ResourceConfig();
-    	 config.packages("RiskApplication");
-    	 ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-
-    	//Port 9999 Local host
-    	Server server = new Server(80);
-    	 ServletContextHandler context = new ServletContextHandler(server, "/*");
-    	 context.addServlet(servlet, "/*");
+    	config.packages("RiskApplication");
+    	ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+    	ServletContextHandler sctxHandler = new ServletContextHandler(server, "/*");
+    	sctxHandler.addServlet(servlet, "/server/*");    	
+    	
+    	 
+    	// Web Application Hosting Config (/client)
+    	ResourceHandler rHandler = new ResourceHandler();
+    	rHandler.setResourceBase("client");
+    	ContextHandler rctxHandler = new ContextHandler ("/client/*");
+    	rctxHandler.setHandler(rHandler);
+    	
+    	// Combining of both context handlers
+    	HandlerList hList = new HandlerList();
+    	hList.setHandlers(new Handler[]{rctxHandler, sctxHandler});
+    	server.setHandler(hList);
 
     	// Try to start server - catch and print any exception
     	try {
