@@ -75,7 +75,6 @@ public class RiskServer {
     @Path("/projects/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Project> listProjects() throws IOException, SQLException {
-    	System.out.println("Request");
     	return DBConnection.listProject();
      }
     
