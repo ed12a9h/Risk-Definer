@@ -43,10 +43,10 @@ BBProj.Views.ProjectView = Backbone.View.extend({
     	var newProjectpmName =document.getElementById("pmNameInput"+this.model.get("id")).value;
         
     	// Ensure project name is not null.
-    	if (!projectpName || projectpName == "")return;
+    	if (!newProjectpName || newProjectpName == "")return;
     	else {
     		//Update project with new details.
-    		this.model.save({"pName":newProjectpName});
+    		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName});
             this.render();
     	}
         

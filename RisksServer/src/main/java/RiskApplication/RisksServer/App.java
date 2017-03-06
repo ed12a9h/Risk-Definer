@@ -15,16 +15,21 @@ import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.LoginService;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.security.Constraint;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -62,12 +67,21 @@ public class App
     	server.setHandler(hList);
     	
     	// Config for SSL
-    	//HttpConfiguration http_config = new HttpConfiguration();
-        //http_config.setSecureScheme("https");
-        //http_config.setSecurePort(8443);
-        //HttpConfiguration https_config = new HttpConfiguration(http_config);
-        //https_config.addCustomizer(new SecureRequestCustomizer()); 
-    	
+    	HttpConfiguration http_config = new HttpConfiguration();
+        http_config.setSecureScheme("https");
+        http_config.setSecurePort(443);
+        HttpConfiguration https_config = new HttpConfiguration(http_config);
+        https_config.addCustomizer(new SecureRequestCustomizer()); 
+        SslContextFactory sslContextFactory = new SslContextFactory("ssl/keystore");
+        sslContextFactory.setKeyStorePassword("chUya7RaQ+s3");
+        ServerConnector httpsConnector = new ServerConnector(server, 
+        		new SslConnectionFactory(sslContextFactory, "http/1.1"),
+        		new HttpConnectionFactory(https_config));
+        httpsConnector.setPort(443);
+        httpsConnector.setIdleTimeout(50000);
+        //server.setConnectors(new Connector[]{ httpsConnector });
+        
+        
 
     	// Try to start server - catch and print any exception
     	try {

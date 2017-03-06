@@ -17,6 +17,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -24,6 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 
 
 // Call containing routing for all urls
@@ -75,7 +77,13 @@ public class RiskServer {
     @Path("/projects/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Project> listProjects() throws IOException, SQLException {
-    	return DBConnection.listProject();
+    	//if (AuthenticationFilter.filter(getHeaderString())){
+    		return DBConnection.listProject();
+    	//}
+    	//else {
+    	//	throw new NotAuthorizedException("Token must be provided");
+    	//}
+    	
      }
     
     // Method to add new risk to riskEvent table. Accepts new risks details in json
@@ -129,6 +137,10 @@ public class RiskServer {
     public List<Risk> listRisks() throws IOException, SQLException {
     	return DBConnection.listRisk();
     }
+    
+    
+    
+
     
     
 }
