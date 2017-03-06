@@ -16,6 +16,8 @@ import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.LoginService;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -58,6 +60,13 @@ public class App
     	HandlerList hList = new HandlerList();
     	hList.setHandlers(new Handler[]{security, rctxHandler, sctxHandler});
     	server.setHandler(hList);
+    	
+    	// Config for SSL
+    	//HttpConfiguration http_config = new HttpConfiguration();
+        //http_config.setSecureScheme("https");
+        //http_config.setSecurePort(8443);
+        //HttpConfiguration https_config = new HttpConfiguration(http_config);
+        //https_config.addCustomizer(new SecureRequestCustomizer()); 
     	
 
     	// Try to start server - catch and print any exception

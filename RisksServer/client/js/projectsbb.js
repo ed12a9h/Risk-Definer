@@ -9,11 +9,10 @@ window.BBProj = {
 // Default Model for Projects
 BBProj.Models.Project = Backbone.Model.extend({
 	defaults: {
-		//id: 0,
 		pName: '',
 		pmName: ''
 	},
-	urlRoot: 'http://0.0.0.0:9999/server/request/projects/',
+	urlRoot: '../server/request/projects/',
 	idAttribute: "id"
 });
 
@@ -21,7 +20,7 @@ BBProj.Models.Project = Backbone.Model.extend({
 // Projects Collection
 BBProj.Collections.Projects=  Backbone.Collection.extend({
 	model: BBProj.Models.Project,
-	url: 'http://0.0.0.0:9999/server/request/projects/' // Web Service URL for CRUD operations
+	url: '../server/request/projects/', // Web Service URL for CRUD operations
 });
 
 
@@ -133,11 +132,14 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     	
     	// Save a newly create project and fetch details into list.
     	else {
-    		var addingProject = new BBProj.Models.Project({"pName":projectpName, "pmName":projectpmName})
-        	addingProject.save();
-        	this.collection.fetch();
+    		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName}, {wait: true});
     	}	
     },
+    onModelCreated: function() {
+	    // the model is now created and its attributes are up-to-date
+		this.collection.fetch();
+    	this.render();
+	}
 });
 
 // Create an instance of projects view

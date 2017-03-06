@@ -35,7 +35,7 @@ public class DBConnection {
 	public static Connection getConnection() throws IOException, SQLException
 	{
 		// Load properties from properties file
-		FileInputStream input = new FileInputStream("jdbc.properties");
+		FileInputStream input = new FileInputStream("servFiles/jdbc.properties");
 		//FileInputStream input = new FileInputStream("src/jdbc.properties");
 		Properties props = new Properties();
 		props.load(input);
@@ -67,13 +67,13 @@ public class DBConnection {
 		
 		
 		// Create a new project table
-		String freshProjectDB = new String(Files.readAllBytes(Paths.get("freshProjectDB.txt"))); 
+		String freshProjectDB = new String(Files.readAllBytes(Paths.get("servFiles/freshProjectDB.txt"))); 
 		statement.executeUpdate(freshProjectDB);
 		//Create new riskEvent table
-		String freshRiskDB = new String(Files.readAllBytes(Paths.get("freshRiskDB.txt"))); 
+		String freshRiskDB = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskDB.txt"))); 
 		statement.executeUpdate(freshRiskDB);
 		//Try create a trigger to automatically increment risk number unique to project.
-		String freshRiskTrig = new String(Files.readAllBytes(Paths.get("freshRiskTrigger.txt")));
+		String freshRiskTrig = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskTrigger.txt")));
 		try{
 			statement.executeUpdate(freshRiskTrig);
 		}
