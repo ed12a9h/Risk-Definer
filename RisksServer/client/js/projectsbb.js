@@ -5,7 +5,10 @@ $.ajaxSetup({
         'token':localStorage.getItem("rd_id_token")
     }
 });
-
+var loggedIn= true;
+//while (loggedIn) {
+    
+//};
 
 // defines the namespace
 window.BBProj = {
@@ -133,8 +136,6 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         // Connection for external incoming method call to save a new project
         // Allows method calls from outside el("#projects")
         this.bind("newProjectEvent", this.saveNewProject);
-        //this.bind("refreshEvent", this.collection.reset);
-        
         
         // Begin long polling. Listen for changes within collection and
         // re-render page accordingly.
@@ -142,10 +143,6 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         this.listenTo(this.collection, 'change', this.render);
         this.listenTo(this.collection, 'remove', this.render);  
     },
-    
-    
-	
-	
     
     // Produce HTML for list of projects
     render:function () {
@@ -186,8 +183,10 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     }
 });
 
+
 // Create an instance of projects view
 BBProj.Views.projectsView = new BBProj.Views.ProjectsView();
+
 
 // A view created in order to receive event from from a button outside of el of projectsView.
 BBProj.Views.TFooterView = Backbone.View.extend({
@@ -208,6 +207,7 @@ BBProj.Views.TFooterView = Backbone.View.extend({
     	BBProj.Views.projectsView.trigger("newProjectEvent");
     }
 });
+
 
 // Create an instance of tFooterView
 BBProj.Views.tFooterView = new BBProj.Views.TFooterView();

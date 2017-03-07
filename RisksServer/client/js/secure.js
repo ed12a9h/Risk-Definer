@@ -1,6 +1,12 @@
-var auth2;
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit
+ * 
+ * This Javascript file provides functions for presenting and hiding login
+ * screens and other security features.
+ */
 
-
+// Stores login token in local storage and hides login window after successful login.
 function onSignIn(googleUser) {
     // Get ID Token and user name then save in Local Storage
     var id_token = googleUser.getAuthResponse().id_token;
@@ -8,20 +14,19 @@ function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     localStorage.setItem("g_user_name", profile.getName());
     
+    // Load backbone script after login.
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'js/projectsbb.js';
+    document.getElementById('bbScriptHolder').appendChild(script);
     
     // Hide Login window and reveal web application
     $('.container').show();
     $('#loginWindow').hide();
-    //try{
-    //	window.BBProj.Views.projectsView.render()
-    //}
-    //catch(err){
-    //	console.log(err)
-    //}
-    
-    
 };
 
+
+// Sign user out. Remove data from HTML. Hide web app and show login window.
 function signOut() {
 	var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
