@@ -17,7 +17,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -34,11 +34,12 @@ public class RiskServer {
 	
 	// Method to add new project to project table. Accepts new project details in json
 	// and returns success status to client.
-    @POST
+	@POST
     @Path("/projects/")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response addProject(final Project project) throws IOException, SQLException {
+    public Response addProject(@HeaderParam("token") String token, final Project project) throws IOException, SQLException {
+		AuthenticationFilter.validateToken(token);
     	if (project.validate()==true){
     		return DBConnection.addProject(project.getpName(), project.getpmName());
     	}
@@ -53,8 +54,9 @@ public class RiskServer {
     @Path("/projects/{pRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_HTML)
-    public Response updateProject(@PathParam("pRecID") Integer pRecID, final Project project) 
+    public Response updateProject(@HeaderParam("token") String token, @PathParam("pRecID") Integer pRecID, final Project project) 
     		throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
     	if (project.validate()==true){
     		return DBConnection.updateProject(pRecID, project.getpName(), project.getpmName());
     	}
@@ -67,7 +69,8 @@ public class RiskServer {
     @Path("/projects/{pRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_HTML)
-    public Response deleteProject(@PathParam("pRecID") Integer pRecID) throws IOException, SQLException {
+    public Response deleteProject(@HeaderParam("token") String token, @PathParam("pRecID") Integer pRecID) throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
     	return DBConnection.deleteProject(pRecID);
     }
      
@@ -76,13 +79,10 @@ public class RiskServer {
     @GET
     @Path("/projects/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Project> listProjects() throws IOException, SQLException {
-    	//if (AuthenticationFilter.filter(getHeaderString())){
-    		return DBConnection.listProject();
-    	//}
-    	//else {
-    	//	throw new NotAuthorizedException("Token must be provided");
-    	//}
+    public List<Project> listProjects(@HeaderParam("token") String token) throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
+    	return DBConnection.listProject();
+    	
     	
      }
     
@@ -92,7 +92,8 @@ public class RiskServer {
     @Path("/risks/")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response addRisk(final Risk risk) throws IOException, SQLException {
+    public Response addRisk(@HeaderParam("token") String token, final Risk risk) throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
     	if (risk.validate()==true){
     		return DBConnection.addRisk(risk.getrName(), risk.getImpact(), risk.getProbability(),
     	    		risk.getDescription(), risk.getMitigation(), risk.getStatus(), risk.getfProject());
@@ -108,8 +109,9 @@ public class RiskServer {
     @Path("/risks/{rRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_HTML)
-    public Response updateRisk(@PathParam("rRecID") Integer rRecID, final Risk risk) 
+    public Response updateRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID, final Risk risk) 
     		throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
     	if (risk.validate()==true){
     		return DBConnection.updateRisk(rRecID, risk.getrID(), risk.getrName(), risk.getImpact(), 
         			risk.getProbability(), risk.getDescription(), risk.getMitigation(), risk.getStatus(), 
@@ -125,7 +127,8 @@ public class RiskServer {
     @Path("/risks/{rRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.TEXT_HTML)
-    public Response deleteRisk(@PathParam("rRecID") Integer rRecID) throws IOException, SQLException {
+    public Response deleteRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID) throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
     	return DBConnection.deleteRisk(rRecID);
     }
     
@@ -134,7 +137,8 @@ public class RiskServer {
     @GET
     @Path("/risks/")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Risk> listRisks() throws IOException, SQLException {
+    public List<Risk> listRisks(@HeaderParam("token") String token) throws IOException, SQLException {
+    	AuthenticationFilter.validateToken(token);
     	return DBConnection.listRisk();
     }
     

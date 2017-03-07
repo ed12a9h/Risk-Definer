@@ -1,3 +1,12 @@
+// Google Sign-in id token must be sent in the header of all requests to web service.
+// Web service will verify this token for authentication purposes.
+$.ajaxSetup({
+    headers: {
+        'token':localStorage.getItem("rd_id_token")
+    }
+});
+
+
 // defines the namespace
 window.BBProj = {
   Models: {},

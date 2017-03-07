@@ -63,7 +63,7 @@ public class App
     	
     	// Combining of both context handlers and security
     	HandlerList hList = new HandlerList();
-    	hList.setHandlers(new Handler[]{security, rctxHandler, sctxHandler});
+    	hList.setHandlers(new Handler[]{rctxHandler, sctxHandler}); // Security removed now google auth implemented.
     	server.setHandler(hList);
     	
     	// Config for SSL

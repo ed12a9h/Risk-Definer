@@ -33,9 +33,7 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
-	<!-- Google Sign In -->
-    <meta name="google-signin-client_id" content="569521908010-9od0p1vsjov49f19jqchopfkg449vin4.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
 	
 </head>	
 <body>
@@ -75,17 +73,19 @@
 	        // The ID token you need to pass to your backend:
 	        var id_token = googleUser.getAuthResponse().id_token;
 	        console.log("ID Token: " + id_token);
-	        var xhr = new XMLHttpRequest();
-	        xhr.open('POST', 'http://localhost:9999');
-	        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	        xhr.onload = function() {
-	          console.log('Signed in as: ' + xhr.responseText);
-	        };
-	        xhr.send('idtoken=' + id_token);
+	        localStorage.setItem("rd_id_token", id_token);
+	        document.getElementById("result").innerHTML = localStorage.getItem("rd_id_token");
+	        //var xhr = new XMLHttpRequest();
+	        //xhr.open('POST', 'http://localhost:9999/token');
+	        //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	        //xhr.onload = function() {
+	        //  console.log('Signed in as: ' + xhr.responseText);
+	        //};
+	        //xhr.send('idtoken=' + id_token);
 	    };
 	    </script>
     	
-	    
+	    <div id="result"></div>
 	</div>	
   
 </body>
