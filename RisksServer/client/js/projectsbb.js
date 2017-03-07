@@ -30,6 +30,37 @@ BBProj.Models.Project = Backbone.Model.extend({
 BBProj.Collections.Projects=  Backbone.Collection.extend({
 	model: BBProj.Models.Project,
 	url: '../server/request/projects/', // Web Service URL for CRUD operations
+	
+	
+	//Long Polling:
+	longPolling : false,
+	intervalMinutes : 0.0001,
+	
+	initialize : function(){
+	    _.bindAll(this, "stopLongPolling", "startLongPolling", "executeLongPolling", "onFetch");
+	},
+	
+	stopLongPolling : function(){
+		this.longPolling = false;
+	},
+	startLongPolling : function(intervalMinutes){
+	    this.longPolling = true;
+	    if( intervalMinutes ){
+	      this.intervalMinutes = intervalMinutes;
+	    }
+	    this.executeLongPolling();
+	},
+	
+	executeLongPolling : function(){
+	    this.fetch({ success : this.onFetch});
+	},
+	onFetch : function () {
+		if( this.longPolling ){
+			//this.reset()
+			setTimeout(this.executeLongPolling, 1000 * 60 * this.intervalMinutes); // in order to update the view each N minutes
+	    }
+	},
+	
 });
 
 
@@ -40,10 +71,10 @@ BBProj.Views.ProjectView = Backbone.View.extend({
 	template:$("#pTemplate").html(),
 	
 	events: {
-        //'click .edit':   'editProject',
         'click .delete':   'deleteProject',
         'click .saveEdit':   'saveEditProject'
     },
+    
     
     // Function used to update existing projects.
     saveEditProject: function(){
@@ -93,24 +124,33 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     initialize:function () {
         this.collection = new BBProj.Collections.Projects();
         // Get project items from web service.
-        this.collection.fetch({
-            error:function () {
-                console.log(arguments);
-            }
-        });
+        this.collection.fetch({ update: true });
         
         // Call function to produce HTML 
         this.render();
         this.collection.on("add", this.renderProject, this);
-        this.collection.on("reset", this.render, this);
         
         // Connection for external incoming method call to save a new project
         // Allows method calls from outside el("#projects")
         this.bind("newProjectEvent", this.saveNewProject);
+        //this.bind("refreshEvent", this.collection.reset);
+        
+        
+        // Begin long polling. Listen for changes within collection and
+        // re-render page accordingly.
+        this.collection.startLongPolling();
+        this.listenTo(this.collection, 'change', this.render);
+        this.listenTo(this.collection, 'remove', this.render);  
     },
+    
+    
+	
+	
     
     // Produce HTML for list of projects
     render:function () {
+    	console.log("Change");
+    	this.$el.empty();
         var that = this;
         _.each(this.collection.models, function (item) {
         	// For each project in list call renderProject function.
@@ -134,7 +174,7 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         
     	// Clear Form Ready for re-use
     	document.getElementById("pNameInput").value = "";
-    	document.getElementById("pmNameInput").value = "";
+    	document.getElementById("pmNameInput").value = localStorage.getItem("g_user_name");
     	
     	// If project name field is blank ignore form submission
     	if (!projectpName || projectpName == "")return;
@@ -143,12 +183,7 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     	else {
     		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName}, {wait: true});
     	}	
-    },
-    onModelCreated: function() {
-	    // the model is now created and its attributes are up-to-date
-		this.collection.fetch();
-    	this.render();
-	}
+    }
 });
 
 // Create an instance of projects view
@@ -156,7 +191,7 @@ BBProj.Views.projectsView = new BBProj.Views.ProjectsView();
 
 // A view created in order to receive event from from a button outside of el of projectsView.
 BBProj.Views.TFooterView = Backbone.View.extend({
-    el: '#newProjectModal',
+    el: '#pageBody',
     
     // Listens for click on button.
     events: {

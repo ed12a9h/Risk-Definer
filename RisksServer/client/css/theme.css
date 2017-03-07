@@ -23,3 +23,8 @@ body {
 	width: 100%;
 }
 
+/* Page Content Hidden Until Login */
+.contentHolder {
+	display:none
+}
+
