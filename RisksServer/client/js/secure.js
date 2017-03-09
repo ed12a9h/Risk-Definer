@@ -14,6 +14,12 @@ function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     localStorage.setItem("g_user_name", profile.getName());
     
+    // Google Sign-in id token must be sent in the header of all requests to web service.
+    // Web service will verify this token for authentication purposes.
+    $.ajaxSetup({
+    	headers: {'token':localStorage.getItem("rd_id_token")}
+    });
+    
     // Load backbone script after login.
     var script = document.createElement('script');
     script.type = 'text/javascript';
@@ -35,6 +41,16 @@ function signOut() {
     	localStorage.removeItem("g_user_name");
     	// remove project details from HTML
     	$('.pItem').remove();
+    	$('#bbScriptHolder').remove();
+    	$.ajaxSetup({
+    	    headers: {
+    	        'token':'none'
+    	    }
+    	});
+    	
+    	//Refresh Page
+    	window.location.reload()
+    	
     	// Hide web application and display login window
     	$('.container').hide();
     	$('#loginWindow').show();

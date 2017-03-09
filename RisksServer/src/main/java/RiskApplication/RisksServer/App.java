@@ -42,7 +42,7 @@ public class App
     public static void main( String[] args )
     {
     	//Security
-    	ConstraintSecurityHandler security = userAuth(server);
+    	//ConstraintSecurityHandler security = userAuth(server);
     	
     	
     	

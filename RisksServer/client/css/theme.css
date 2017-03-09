@@ -3,28 +3,133 @@ body {
 	padding-top: 70px;
 	padding-bottom: 30px;
 }
-
 .theme-dropdown .dropdown-menu {
 	position: static;
 	display: block;
 	margin-bottom: 20px;
 }
-
 .theme-showcase > p > .btn {
 	margin: 5px 0;
 }
-
 .theme-showcase .navbar .container {
 	width: auto;
 }
+
 
 /* Modal Window */
 .input-group {
 	width: 100%;
 }
 
+
 /* Page Content Hidden Until Login */
 .contentHolder {
-	display:none
+	display:none;
 }
 
+
+/* Project and Risk Lists */
+.rButtons {
+	margin-right: 15px;
+}
+.table thead tr th {
+	border-bottom: 2px solid #87D542!important;
+}
+.table tbody tr td {
+	border-bottom: 1px solid #AED18E!important;
+}
+
+
+/* Jumbotron */
+.jumbotron {
+	background-color:#AED18E!important;
+	border: 3px solid #87D542!important;
+}
+
+
+/* Navigation Bar */
+.navbar-default {
+	border-top: 2px solid!important;
+	border-bottom: 2px solid!important;
+  	border-color: #87D542!important;
+}
+.active1 {
+	background-color:#AED18E!important;
+}
+.nav>li.active1 {
+	background-color:#AED18E!important;
+}
+.navbar-default .navbar-nav>.active1>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    background-color:#AED18E!important;
+}
+.active1:after{
+	content: " ";
+	border-top: 25px solid transparent;           /* Go big on the size, and let overflow hide */
+	border-bottom: 25px solid transparent;
+	border-left: 25px solid #AED18E;
+	position: absolute;
+	top: 50%;
+	margin-top: -25px; 
+	left: 100%;
+}
+.navbar-right>li{
+	border-left: 2px solid #AED18E!important;
+}
+.navbar-right{
+	border-right: 2px solid #AED18E!important;
+}
+.nav .subsequentItem{
+	margin-left:13px!important;
+}
+.nav .subsequentItem> a:hover{
+	color:#777!important;
+}
+
+
+/* Buttons */
+.btn-primary {
+    color: #000;
+    background-color: #AED18E!important;
+    border: solid 2px #87D542!important;
+}
+.close {
+    color: green!important;
+}
+.btn-default {
+    border: solid 2px #87D542!important;
+}
+.btn-default:hover {
+    color: #fff;
+    background-color: #AED18E!important;
+}
+
+
+/* Bootstrap bug fix for nav bar nudge on model open. */
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+padding-right: 17px;
+}
+
+
+/* Model Window */
+.modal-header {
+    border-bottom: 1px solid #AED18E;
+}
+
+
+/* Form */
+.form-control {
+    border-color: #AED18E!important;
+}
+.form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(92, 184, 92, 0.77);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(92, 184, 92, 0.77);;
+}
+
+
+
+    
+    
+    
