@@ -53,7 +53,7 @@ public class RiskServer {
     @PUT
     @Path("/projects/{pRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_HTML)
+    @Produces({MediaType.APPLICATION_JSON})
     public Response updateProject(@HeaderParam("token") String token, @PathParam("pRecID") Integer pRecID, final Project project) 
     		throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
@@ -107,8 +107,8 @@ public class RiskServer {
   	// and returns success status to client.
     @PUT
     @Path("/risks/{rRecID}/")
+    @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_HTML)
     public Response updateRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID, final Risk risk) 
     		throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);

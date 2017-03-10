@@ -136,7 +136,7 @@ public class DBConnection {
 			
 		    statement.close();
 		    database.close();
-		    return Response.ok().build();
+		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -260,7 +260,7 @@ public class DBConnection {
 			
 		    statement.close();
 		    database.close();
-		    return Response.ok().build();
+		    return Response.ok().entity("{\"id\":"+rRecID+"}").build();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
