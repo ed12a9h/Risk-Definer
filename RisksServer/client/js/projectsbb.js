@@ -1,7 +1,3 @@
-
-
-
-
 // defines the namespace
 window.BBProj = {
   Models: {},
@@ -47,7 +43,14 @@ BBProj.Collections.Projects=  Backbone.Collection.extend({
 	},
 	
 	executeLongPolling : function(){
-	    this.fetch({ success : this.onFetch});
+	    this.fetch({
+	        error: function() {
+	        	// Call fetch fail function.
+	            errorFetchFail();
+	        },
+	        success: this.onFetch,
+	        wait: true // Do not report status until web service response.
+	    });
 	},
 	onFetch : function () {
 		if( this.longPolling ){
@@ -76,31 +79,55 @@ BBProj.Views.ProjectView = Backbone.View.extend({
     	// Get contents of edit form.
     	var newProjectpName = document.getElementById("pNameInput"+this.model.get("id")).value;
     	var newProjectpmName =document.getElementById("pmNameInput"+this.model.get("id")).value;
-        
-    	// Ensure project name is not null.
-    	if (!newProjectpName || newProjectpName == "")return;
-    	else {
-    		//Update project with new details.
-    		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName});
-            this.render();
-    	}
-        
-        //Remove UI Backdrop from Model that contained form. 
-        //Required to be called manually due to the above render method.
-        $(document).ready(function(){
-        	$(".modal-backdrop").fadeOut(function() {
-        	    // Remove element after the fadeOut
-        		$(".modal-backdrop").remove()
-        	});
-        });
+    	
+		//Update project with new details.
+		var thisObj= this;
+		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName}, {
+		        error: function(model, response) {
+		        	// Get Error response and pass to error function.
+		        	
+		            //console.log(responseObj.error);
+		            errorNewProject(response);
+		        },
+		        success: function(model, response) {
+		        	errorHideAll();
+		        	thisObj.render();
+		        	
+		        	//Remove Model
+		        	$(".modal .close").click();
+		        	
+		        	//Remove UI Backdrop from Model that contained form. 
+		            //Required to be called manually due to the above render method.
+		            $(document).ready(function(){
+		            	$(".modal-backdrop").fadeOut(function() {
+		            	    // Remove element after the fadeOut
+		            		$(".modal-backdrop").remove()
+		            		$("#pageBody").removeClass("modal-open");
+		            		$("#pageBody").css("padding", "");
+		            	});
+		            });
+		        },
+		        wait: true // Do not report status until web service response.
+		});
     },
+    
     
     // Function to delete a project.
     deleteProject:function () {
         //Delete model
-        this.model.destroy();
-        //Delete view
-        this.remove();
+        this.model.destroy({
+	        error: function(model, response) {
+	        	console.log(response);
+	        	// Show unsuccessful modification message
+	        	$("#modFailed").show();
+	        },
+	        success: function(model, response) {
+	        	errorHideAll();
+	        	//Delete view
+	            this.remove();
+	        },
+	        wait: true // Do not report status until web service response.
+        });
     },
     
     // Produce HTML in template for a project.
@@ -119,7 +146,13 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     initialize:function () {
         this.collection = new BBProj.Collections.Projects();
         // Get project items from web service.
-        this.collection.fetch({ update: true });
+        this.collection.fetch({
+	        error: function() {
+	        	// Call fetch fail function.
+	            errorFetchFail();
+	        },
+	        wait: true // Do not report status until web service response.
+	    });
         
         // Call function to produce HTML 
         this.render();
@@ -138,7 +171,6 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     
     // Produce HTML for list of projects
     render:function () {
-    	console.log("Change");
     	this.$el.empty();
         var that = this;
         _.each(this.collection.models, function (item) {
@@ -162,15 +194,37 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     	var projectpmName =document.getElementById("pmNameInput").value;
         
     	// Clear Form Ready for re-use
-    	document.getElementById("pNameInput").value = "";
-    	document.getElementById("pmNameInput").value = localStorage.getItem("g_user_name");
+    	//document.getElementById("pNameInput").value = "";
+    	//document.getElementById("pmNameInput").value = localStorage.getItem("g_user_name");
     	
     	// If project name field is blank ignore form submission
     	if (!projectpName || projectpName == "")return;
     	
-    	// Save a newly create project and fetch details into list.
+    	// Save a newly create project and a details into list.
     	else {
-    		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName}, {wait: true});
+    		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName}, {
+		        error: function(model, response) {
+		        	// Get Error response and pass to error function.
+		            errorNewProject(response);
+		        },
+		        success: function(model, response) {
+		        	errorHideAll();
+		        	//Remove Model
+		        	$(".modal .close").click();
+		        	
+		        	//Remove UI Backdrop from Model that contained form. 
+		            //Required to be called manually due to the above render method.
+		            $(document).ready(function(){
+		            	$(".modal-backdrop").fadeOut(function() {
+		            	    // Remove element after the fadeOut
+		            		$(".modal-backdrop").remove()
+		            		$('#pageBody').removeClass("modal-open");
+		            		$('#pageBody').css("padding", "");
+		            	});
+		            });
+		        },
+		        wait: true // Do not report status until web service response.
+    		});
     	}	
     }
 });

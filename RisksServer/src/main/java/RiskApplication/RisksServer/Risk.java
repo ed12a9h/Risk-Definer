@@ -8,6 +8,10 @@
 
 package RiskApplication.RisksServer;
 
+import java.util.List;
+
+import javax.ws.rs.core.Response;
+
 public class Risk {
 	private Integer id;
 	private Integer rID;
@@ -18,6 +22,8 @@ public class Risk {
 	private String mitigation;
 	private String status;
 	private String fProject;
+    private String vErrors = "";
+    private Integer veCount = 0;
 	
 	
 	public Integer getid() {
@@ -75,10 +81,90 @@ public class Risk {
 		this.fProject = fProject;
 	}
 	
-	public boolean validate() {
-	if (this.rName.length() >=2)
-		return true;
-	else return false;
-	}
 	
+	// Method returns false if a risk name matches with a name which already exists in database.
+    private boolean validateUnique() {
+    	List<Risk> rList = DBConnection.listRisk();
+    	for (Risk risk : rList) {
+    	    if (risk.rName.equalsIgnoreCase(this.rName)){
+    			return false;
+    	    }
+    	}
+    	return true;
+    }
+    
+    
+    // Validate update to a project
+    public Response validateUpdate(){
+		if (this.rName.length() <=1){
+			vErrors= vErrors + "\"Risk name must be longer than one character.\", ";
+			veCount = veCount+1;
+		}
+		if (this.rName.length() >=250){
+			vErrors= vErrors + "\"Risk name should be less than 250 characters.\", ";
+			veCount = veCount+1;
+		}
+		if (validateUnique() ==false){
+			vErrors= vErrors + "\"Risk name already exists.\", ";
+			veCount = veCount+1;
+		}
+		// No validation errors - submit to database
+		if (veCount==0){
+			return DBConnection.updateRisk(getid(), getrID(), getrName(), getImpact(), getProbability(),
+    	    		getDescription(), getMitigation(), getStatus(), getfProject());
+		}
+		// Validation errors - send errors to client with 500 response 
+		else {
+			vErrors = vErrors.substring(0, vErrors.length() - 2);
+			return Response.status(422).entity("{\"error\": [" + vErrors + "], \"errorType\":\"validation\"}").build();
+		}
+    }
+    
+    
+    // Validate addition of a new project
+    public Response validateAdd(){
+		if (this.rName.length() <=1){
+			vErrors= vErrors + "\"Risk name must be longer than one character.\", ";
+			veCount = veCount+1;
+		}
+		if (this.rName.length() >=250){
+			vErrors= vErrors + "\"Risk name should be less than 250 characters.\", ";
+			veCount = veCount+1;
+		}
+		if (validateUnique() ==false){
+			vErrors= vErrors + "\"Risk name already exists.\", ";
+			veCount = veCount+1;
+		}
+		// No validation errors - submit to database
+		if (veCount==0){
+			return DBConnection.addRisk(getrName(), getImpact(), getProbability(),
+    	    		getDescription(), getMitigation(), getStatus(), getfProject());
+		}
+		// Validation errors - send errors to client with 500 response 
+		else {
+			vErrors = vErrors.substring(0, vErrors.length() - 2);
+			return Response.status(422).entity("{\"error\": [" + vErrors + "], \"errorType\":\"validation\"}").build();
+		}
+    }
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	//public Response validateAdd() {
+//		if (this.rName.length() >=2)
+//			return DBConnection.addRisk(getrName(), getImpact(), getProbability(),
+//    	    		getDescription(), getMitigation(), getStatus(), getfProject());
+//		else return Response.status(500).entity("{\"error\":\"Risk name should have more than one character.\", \"errorType\":\"validation\"}").build();
+//	}
+	
+//	public Response validateUpdate() {
+//		if (this.rName.length() >=2)
+//			return DBConnection.addRisk(getrName(), getImpact(), getProbability(),
+ //   	    		getDescription(), getMitigation(), getStatus(), getfProject());
+//		else return Response.status(500).entity("{\"error\":\"Risk name should have more than one character.\", \"errorType\":\"validation\"}").build();
+//	}

@@ -157,7 +157,7 @@ public class DBConnection {
 			statement.executeUpdate("DELETE FROM project WHERE pRecID="+pRecID);
 		    statement.close();
 		    database.close();
-		    return Response.ok().build();
+		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -281,7 +281,7 @@ public class DBConnection {
 			statement.executeUpdate("DELETE FROM riskEvent WHERE rRecID="+rRecID);
 		    statement.close();
 		    database.close();
-		    return Response.ok().build();
+		    return Response.ok().entity("{\"id\":"+rRecID+"}").build();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
