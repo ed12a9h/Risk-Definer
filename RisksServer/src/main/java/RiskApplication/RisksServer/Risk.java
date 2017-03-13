@@ -84,11 +84,13 @@ public class Risk {
 	
 	// Method returns false if a risk name matches with a name which already exists in database.
     private boolean validateUnique() {
-    	List<Risk> rList = DBConnection.listRisk();
+    	List<Risk> rList = DBConnection.listRisk(this.fProject);
     	for (Risk risk : rList) {
-    	    if (risk.rName.equalsIgnoreCase(this.rName)){
-    			return false;
-    	    }
+    		if (risk.id!=this.id){
+	    	    if (risk.rName.equalsIgnoreCase(this.rName)){
+	    			return false;
+	    	    }
+    		}
     	}
     	return true;
     }

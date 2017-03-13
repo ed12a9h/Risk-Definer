@@ -45,7 +45,7 @@ body {
 	color: #777;
 	text-decoration: none;
 }
-.table #col3{
+.table #col3, .table #col5r{
 	min-width:240px;
 } 
 .table #col2{
@@ -54,6 +54,12 @@ body {
 .table>tbody>tr>td{
 	    vertical-align: middle;
 }
+.table #col2r, .table #col3r, .table #col4r{
+	text-align:center;
+} 
+.table .center{
+	text-align:center;
+} 
 
 
 /* Jumbotron */

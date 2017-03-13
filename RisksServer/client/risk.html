@@ -58,14 +58,13 @@
 	  	<div class="container contentHolder">
 	        <div id="navbar" class="navbar-collapse collapse">
 	       		<ul class="nav navbar-nav">
-	            	<li class="active1"><a href="">Select Project</a></li>
-	           		<li class="subsequentItem"><a>Project Risks</a></li>
+	            	<li><a href="/client/">Select Project</a></li>
+	           		<li class="active1"><a>Project Risks</a></li>
 	        	</ul>
 	        	<ul class="nav navbar-nav navbar-right">
 			    	<li>
-			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="document.getElementById('pmNameInput').value = 
-			    				localStorage.getItem('g_user_name'); errorHideAll(); document.getElementById('pNameInput').value = ''" href="">
-			    			Add Project
+			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="errorHideAll();emptyFields()" href="">
+			    			Add Risk
 			    		</a>
 	  				</li>
 	  				<li><a href="" onclick="signOut();">Logout</a></li>
@@ -78,7 +77,8 @@
 		<!-- Main jumbotron-->
       	<div class="jumbotron">
         <h1>Risk Definer</h1>
-        <p>Select a project from the list below or add a new project now to get started!</p>
+        <p id="projectName"></p>
+        <p id="managerName"></p>
         </div>
         
         <!-- Error Messages -->
@@ -96,17 +96,21 @@
 	    <table class="table">
 	    	<thead>
 	        <tr>
-	            <th id="col1">Project</th>
-	            <th id="col2">Project Manager</th>
-	            <th id="col3"></th>
+	            <th id="col1r">Risk</th>
+	            <th id="col2r">Impact</th>
+	            <th id="col3r">Probability</th>
+	            <th id="col4r">Status</th>
+	            <th id="col5r"></th>
 	        </tr>
 	        </thead>
-	        <tbody id="projects">
-	        	<script id="pTemplate" type="text/template">
+	        <tbody id="risks">
+	        	<script id="rTemplate" type="text/template">
     				<td>
-						<a href="/client/risk.html#<%= id %>"><%= pName %></a>
+						<a href="/client/application.html#<%= id %>"><%= rName %></a>
 					</td>
-					<td><%= pmName %></td>
+					<td class="center"><%= impact %></td>
+					<td class="center"><%= probability %></td>
+					<td class="center"><%= status %></td>
 					<td>
 						
 						<button class="delete pull-right rButtons btn btn-info" aria-label="Delete Project" title="Delete">
@@ -116,46 +120,67 @@
 								data-target="#editModal<%= id %>" onclick="errorHideAll()">
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true">
 						</button>
-						<a  href="/client/risk.html#<%= id %>" class="pull-right rButtons btn btn-info" aria-label="View Risks" title="View Risks" 
-								role="button">
-							View Risks
-						</a>
+						<button class="edit pull-right rButtons btn btn-info" aria-label="Full Details" title="Full Details" data-toggle="modal" 
+								data-target="#editModal<%= id %>" onclick="errorHideAll()">
+							Full Details
+						</button>
 						
 						<!-- Popup Modal for project edit-->
-						<div class="modal fade" id="editModal<%= id %>" tabindex="-1" role="dialog" aria-labelledby="EditProject">
+						<div class="modal fade" id="editModal<%= id %>" tabindex="-1" role="dialog" aria-labelledby="EditRisk">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 							    	<div class="modal-header">
 							        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-							        	<h4 class="modal-title">Edit Project: <%= pName %></h4>
+							        	<h4 class="modal-title">Edit Project: <%= rName %></h4>
 							      	</div>
 							    	<div class="modal-body">
 										<!-- Validation Error Messages -->
         								<div class="alert alert-danger alert-dismissible saveFailed" role="alert">
   											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
+												<span aria-hidden="true">&times;</span>
 											</button>
  											<strong>Warning!</strong> Sorry the system cannot submit this because...
 											<ul class="vfReason"></ul>
 										</div>
 							        	<form>
-							        		<label for="pNameInput">Project Name</label>
-							        		<div class="input-group">
-												<input type="text" id="pNameInput<%= id %>" class="form-control" value="<%= pName %>"
-														placeholder="project name" aria-describedby="sizing-addon2">
+		        							<label for="rNameInput">Risk Name</label>
+		       						 		<div class="input-group">
+												<input type="text" id="rNameInput<%= id %>" class="form-control" placeholder="risk name" 
+														aria-describedby="sizing-addon2" value="<%= rName %>">
 											</div>
-											<label for="pmNameInput">Project Manager Name</label>
-							        		<div class="input-group">
-												<input type="text" id="pmNameInput<%= id %>" class="form-control" value="<%= pmName %>" 
-														placeholder="project manager name" aria-describedby="sizing-addon2">
+											<label for="impactInput">Impact</label>
+		 						       		<div class="input-group">
+												<input type="text" id="impactInput<%= id %>" class="form-control" placeholder="impact" 
+														aria-describedby="sizing-addon2" value="<%= impact %>">
 											</div>
-		        						</form>
+											<label for="probabilityInput">Probability</label>
+		        							<div class="input-group">
+												<input type="text" id="probabilityInput<%= id %>" class="form-control" placeholder="probability" 
+														aria-describedby="sizing-addon2"  value="<%= probability %>">
+											</div>
+											<label for="descriptionInput">Description</label>
+		        							<div class="input-group">
+												<input type="text" id="descriptionInput<%= id %>" class="form-control" placeholder="description" 
+														aria-describedby="sizing-addon2" value="<%= description %>">
+											</div>
+											<label for="mitigationInput">Mitigation</label>
+		        							<div class="input-group">
+												<input type="text" id="mitigationInput<%= id %>" class="form-control" placeholder="mitigation" 
+														aria-describedby="sizing-addon2"  value="<%= mitigation %>">
+											</div>
+											<label for="statusInput">Status</label>
+		        							<div class="input-group">
+												<input type="text" id="statusInput<%= id %>" class="form-control" placeholder="project manager name" 
+														aria-describedby="sizing-addon2"  value="<%= status %>">
+											</div>
+							        	</form>
 							    	</div>
 							    	<div class="modal-footer">
 							       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							       		<button type="button" class="btn btn-primary saveEdit" >Save changes</button>
+					
 							    	</div>
 							    </div>
 							</div>
@@ -168,10 +193,11 @@
 	        	<tr>
 	  				<td></td>
 	  				<td></td>
+	  				<td></td>
+	  				<td></td>
 	  				<td>
 	  					<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal"
-	  							style="margin-top:30px;" onclick="document.getElementById('pmNameInput').value = localStorage.getItem('g_user_name');
-	  							errorHideAll(); document.getElementById('pNameInput').value = ''">
+	  							style="margin-top:30px;" onclick="errorHideAll();emptyFields()">
   							Add New Risk
 						</button>
 					</td>
@@ -196,19 +222,35 @@
 						<ul class="vfReason"></ul>
 					</div>
 		        	<form>
-		        		<label for="pNameInput">Project Name</label>
+		        		<label for="rNameInput">Project Name</label>
 		        		<div class="input-group">
-							<input type="text" id="pNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2">
+							<input type="text" id="rNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2">
 						</div>
-						<label for="pmNameInput">Project Manager Name</label>
+						<label for="impactInput">Impact</label>
 		        		<div class="input-group">
-							<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" aria-describedby="sizing-addon2">
+							<input type="text" id="impactInput" class="form-control" placeholder="impact" aria-describedby="sizing-addon2">
+						</div>
+						<label for="probabilityInput">Probability</label>
+		        		<div class="input-group">
+							<input type="text" id="probabilityInput" class="form-control" placeholder="probability" aria-describedby="sizing-addon2">
+						</div>
+						<label for="descriptionInput">Description</label>
+		        		<div class="input-group">
+							<input type="text" id="descriptionInput" class="form-control" placeholder="description" aria-describedby="sizing-addon2">
+						</div>
+						<label for="mitigationInput">Mitigation</label>
+		        		<div class="input-group">
+							<input type="text" id="mitigationInput" class="form-control" placeholder="mitigation" aria-describedby="sizing-addon2">
+						</div>
+						<label for="statusInput">Status</label>
+		        		<div class="input-group">
+							<input type="text" id="statusInput" class="form-control" placeholder="status" aria-describedby="sizing-addon2">
 						</div>
 		        	</form>
 		    	</div>
 		    	<div class="modal-footer">
 		       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		       		<button type="button" class="btn btn-primary saveNew" >Save</button>
+		       		<button type="button" class="btn btn-primary saveNew">Save</button>
 		    	</div>
 		    </div>
 		</div>
@@ -232,6 +274,6 @@
   	</div>
 	
   	
-  	<div id="bbProjectScriptHolder"></div>
+  	<div id="bbRiskScriptHolder"></div>
 </body>
 </html>

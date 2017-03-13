@@ -21,10 +21,18 @@ function onSignIn(googleUser) {
     });
     
     // Load backbone script after login.
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'js/projectsbb.js';
-    document.getElementById('bbScriptHolder').appendChild(script);
+    if (document.getElementById("bbProjectScriptHolder")){
+    	var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'js/projectsbb.js';
+        document.getElementById('bbProjectScriptHolder').appendChild(script);
+    }
+    if (document.getElementById("bbRiskScriptHolder")){
+    	var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'js/risksbb.js';
+        document.getElementById('bbRiskScriptHolder').appendChild(script);
+    }
     
     // Hide Login window and reveal web application
     $('.container').show();
@@ -41,7 +49,8 @@ function signOut() {
     	localStorage.removeItem("g_user_name");
     	// remove project details from HTML
     	$('.pItem').remove();
-    	$('#bbScriptHolder').remove();
+    	$('#bbProjectScriptHolder').remove();
+    	$('#bbRiskHolder').remove();
     	$.ajaxSetup({
     	    headers: {
     	        'token':'none'

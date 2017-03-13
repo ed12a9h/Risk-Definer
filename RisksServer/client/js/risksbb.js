@@ -1,26 +1,29 @@
 // defines the namespace
-window.BBProj = {
+window.BBRisk = {
   Models: {},
   Collections: {},
   Views: {},
   Router: {}
 };
 
+//Build web service url
+var rID = window.location.hash.substr(1);
+var url = "../server/request/risks/"+rID
+
 // Default Model for Projects
-BBProj.Models.Project = Backbone.Model.extend({
+BBRisk.Models.Project = Backbone.Model.extend({
 	defaults: {
-		pName: '',
-		pmName: ''
+		rName: ''
 	},
-	urlRoot: '../server/request/projects/',
+	urlRoot: url,
 	idAttribute: "id"
 });
 
 
 // Projects Collection
-BBProj.Collections.Projects=  Backbone.Collection.extend({
-	model: BBProj.Models.Project,
-	url: '../server/request/projects/', // Web Service URL for CRUD operations
+BBRisk.Collections.Risks=  Backbone.Collection.extend({
+	model: BBRisk.Models.Project,
+	url: url, // Web Service URL for CRUD operations
 	
 	
 	//Long Polling:
@@ -63,30 +66,34 @@ BBProj.Collections.Projects=  Backbone.Collection.extend({
 
 
 // View for Single Project
-BBProj.Views.ProjectView = Backbone.View.extend({
+BBRisk.Views.RiskView = Backbone.View.extend({
 	tagName: 'tr',
-	className: 'pItem',
-	template:$("#pTemplate").html(),
+	className: 'rItem',
+	template:$("#rTemplate").html(),
 	
 	events: {
-        'click .delete':   'deleteProject',
-        'click .saveEdit':   'saveEditProject'
+        'click .delete':   'deleteRisk',
+        'click .saveEdit':   'saveEditRisk'
     },
     
     
     // Function used to update existing projects.
-    saveEditProject: function(){
-    	// Get contents of edit form.
-    	var newProjectpName = document.getElementById("pNameInput"+this.model.get("id")).value;
-    	var newProjectpmName =document.getElementById("pmNameInput"+this.model.get("id")).value;
+    saveEditRisk: function() {
+    	//Get Details entered in form
+    	var riskrName = document.getElementById("rNameInput"+this.model.get("id")).value;
+    	var riskImpact = document.getElementById("impactInput"+this.model.get("id")).value;
+    	var riskProbability = document.getElementById("probabilityInput"+this.model.get("id")).value;
+    	var riskDescription = document.getElementById("descriptionInput"+this.model.get("id")).value;
+    	var riskMitigation = document.getElementById("mitigationInput"+this.model.get("id")).value;
+    	var riskStatus = document.getElementById("statusInput"+this.model.get("id")).value;
+    	var riskfProject = headerpName;
     	
 		//Update project with new details.
 		var thisObj= this;
-		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName}, {
+		this.model.save({"rName":riskrName, "impact":riskImpact, "probability":riskProbability,
+    		"description":riskDescription, "mitigation":riskMitigation, "status":riskStatus, "fProject":riskfProject}, {
 		        error: function(model, response) {
 		        	// Get Error response and pass to error function.
-		        	
-		            //console.log(responseObj.error);
 		            errorNewProject(response);
 		        },
 		        success: function(model, response) {
@@ -113,7 +120,7 @@ BBProj.Views.ProjectView = Backbone.View.extend({
     
     
     // Function to delete a project.
-    deleteProject:function () {
+    deleteRisk:function () {
         //Delete model
         this.model.destroy({
 	        error: function(model, response) {
@@ -140,13 +147,22 @@ BBProj.Views.ProjectView = Backbone.View.extend({
 
 
 // View for collection of Projects
-BBProj.Views.ProjectsView = Backbone.View.extend({
-    el:$("#projects"),
+BBRisk.Views.RisksView = Backbone.View.extend({
+    el:$("#risks"),
 
     initialize:function () {
-        this.collection = new BBProj.Collections.Projects();
+        this.collection = new BBRisk.Collections.Risks();
         // Get project items from web service.
         this.collection.fetch({
+        	success: function(collection, response, options) {
+        		headerpName= options.xhr.getResponseHeader("projectName");
+        		headerpmName= options.xhr.getResponseHeader("managerName");
+        		if (!headerpmName){
+        			headerpmName="";
+        		}
+        		document.getElementById("projectName").textContent = "Project: "+headerpName;
+        		document.getElementById("managerName").textContent = "Project Manager: "+headerpmName;
+        	},
 	        error: function() {
 	        	// Call fetch fail function.
 	            errorFetchFail();
@@ -156,11 +172,11 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         
         // Call function to produce HTML 
         this.render();
-        this.collection.on("add", this.renderProject, this);
+        this.collection.on("add", this.renderRisk, this);
         
         // Connection for external incoming method call to save a new project
-        // Allows method calls from outside el("#projects")
-        this.bind("newProjectEvent", this.saveNewProject);
+        // Allows method calls from outside el("#risks")
+        this.bind("newRiskEvent", this.saveNewRisk);
         
         // Begin long polling. Listen for changes within collection and
         // re-render page accordingly.
@@ -169,32 +185,38 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         this.listenTo(this.collection, 'remove', this.render);  
     },
     
-    // Produce HTML for list of projects
+    // Produce HTML for list of risks
     render:function () {
     	this.$el.empty();
         var that = this;
         _.each(this.collection.models, function (item) {
-        	// For each project in list call renderProject function.
-            that.renderProject(item);
+        	// For each project in list call renderRisk function.
+            that.renderRisk(item);
         });
     },
     
-    // Produce HTML for an individual project item.
-    renderProject:function (item) {
-    	BBProj.Views.projectView = new BBProj.Views.ProjectView({
+    // Produce HTML for an individual risk item.
+    renderRisk:function (item) {
+    	BBRisk.Views.riskView = new BBRisk.Views.RiskView({
             model:item
         });
-        this.$el.append(BBProj.Views.projectView.render().el);
+        this.$el.append(BBRisk.Views.riskView.render().el);
     },
     
     // Function to save a new project.
-    saveNewProject: function(){
+    saveNewRisk: function(){
     	//Get Details entered in form
-    	var projectpName = document.getElementById("pNameInput").value;
-    	var projectpmName =document.getElementById("pmNameInput").value;
+    	var riskrName = document.getElementById("rNameInput").value;
+    	var riskImpact = document.getElementById("impactInput").value;
+    	var riskProbability = document.getElementById("probabilityInput").value;
+    	var riskDescription = document.getElementById("descriptionInput").value;
+    	var riskMitigation = document.getElementById("mitigationInput").value;
+    	var riskStatus = document.getElementById("statusInput").value;
+    	var riskfProject = headerpName;
         
-    	// Save a newly create project and a details into list.
-		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName}, {
+    	// Save a newly created risk and its details into list.
+		saveNew = this.collection.create({"rName":riskrName, "impact":riskImpact, "probability":riskProbability,
+    		"description":riskDescription, "mitigation":riskMitigation, "status":riskStatus, "fProject":riskfProject}, {
 	        error: function(model, response) {
 	        	// Get Error response and pass to error function.
 	            errorNewProject(response);
@@ -217,35 +239,43 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
 	        },
 	        wait: true // Do not report status until web service response.
 		});
-    		
     }
 });
 
 
 // Create an instance of projects view
-BBProj.Views.projectsView = new BBProj.Views.ProjectsView();
+BBRisk.Views.risksView = new BBRisk.Views.RisksView();
 
 
 // A view created in order to receive event from from a button outside of el of projectsView.
-BBProj.Views.TFooterView = Backbone.View.extend({
+BBRisk.Views.TFooterView = Backbone.View.extend({
     el: '#pageBody',
     
     // Listens for click on button.
     events: {
-        "click .saveNew" : "saveNewProjectLink"
+        "click .saveNew" : "saveNewRiskLink"
     },
     
     // Bind functions to view.
     initialize: function(){
-        _.bindAll(this, "saveNewProjectLink");
+        _.bindAll(this, "saveNewRiskLink");
     },
     
     // Function which links to trigger on projectsView
-    saveNewProjectLink: function() {
-    	BBProj.Views.projectsView.trigger("newProjectEvent");
+    saveNewRiskLink: function() {
+    	BBRisk.Views.risksView.trigger("newRiskEvent");
     }
 });
 
 
 // Create an instance of tFooterView
-BBProj.Views.tFooterView = new BBProj.Views.TFooterView();
+BBRisk.Views.tFooterView = new BBRisk.Views.TFooterView();
+
+function emptyFields(){
+	document.getElementById("rNameInput").value= "";
+	document.getElementById("impactInput").value= "";
+	document.getElementById("probabilityInput").value= "";
+	document.getElementById("descriptionInput").value= "";
+	document.getElementById("mitigationInput").value= "";
+	document.getElementById("statusInput").value= "";
+}

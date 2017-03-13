@@ -55,6 +55,7 @@ function errorHideAll() {
 // Network connection lost.
 function errorFetchFail() {
 	$('.pItem').remove();
+	$('.rItem').remove();
 	$("#networkLost").show();
 };
 

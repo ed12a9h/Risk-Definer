@@ -194,6 +194,54 @@ public class DBConnection {
 		}
 	}
 	
+	
+	// Get project name using project ID
+	public static String projectName(Integer pID)
+	{
+		try {
+			DBConnection.createTable();
+			Connection database = DBConnection.getConnection();
+			Statement statement = database.createStatement();
+			String pName = null;
+			// Find project name by searching for ID.
+		    ResultSet project = statement.executeQuery("SELECT pName FROM project WHERE pRecID="+pID);
+		    if(project.next()) {
+		    	pName= project.getString("pName");
+		    }
+	        statement.close();
+		    database.close();
+	        return pName;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	// Get project name using project ID
+	public static String managerName(Integer pID)
+	{
+		try {
+			DBConnection.createTable();
+			Connection database = DBConnection.getConnection();
+			Statement statement = database.createStatement();
+			String pmName = null;
+			// Find project name by searching for ID.
+		    ResultSet project = statement.executeQuery("SELECT pmName FROM project WHERE pRecID="+pID);
+		    if(project.next()) {
+		    	pmName= project.getString("pmName");
+		    }
+	        statement.close();
+		    database.close();
+	        return pmName;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+		
 	// Add a new risk to risk table
 	public static Response addRisk(String rName, Integer impact, Integer probability, String description, 
 			String mitigation, String status, String fProject)
@@ -278,7 +326,7 @@ public class DBConnection {
 			
 		    // Statement used to update existing risks in riskEvent table
 			Statement statement = database.createStatement();
-			statement.executeUpdate("DELETE FROM riskEvent WHERE rRecID="+rRecID);
+			statement.executeUpdate("DELETE FROM riskEvent WHERE rRecID='"+rRecID+"';");
 		    statement.close();
 		    database.close();
 		    return Response.ok().entity("{\"id\":"+rRecID+"}").build();
@@ -290,7 +338,7 @@ public class DBConnection {
 	}
 	
 	// List all risks relating to a project.
-	public static List<Risk> listRisk()
+	public static List<Risk> listRisk(String pName)
 	{
 		try {
 			DBConnection.createTable();
@@ -300,7 +348,7 @@ public class DBConnection {
 			List<Risk> rList = new ArrayList<Risk>();
 			
 		    // Add each risk found in database to a list of risk objects.
-		    ResultSet risks = statement.executeQuery("SELECT * FROM riskEvent;");
+		    ResultSet risks = statement.executeQuery("SELECT * FROM riskEvent WHERE fProject='"+pName+"';");
 	        while (risks.next()) {
 	        	Risk r = new Risk();
 	        	r.setid(risks.getInt("rRecID"));

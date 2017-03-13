@@ -23,6 +23,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -73,16 +74,18 @@ public class RiskServer {
     @GET
     @Path("/projects/")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Project> listProjects(@HeaderParam("token") String token) throws IOException, SQLException {
+    public Response listProjects(@HeaderParam("token") String token) throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
-    	return DBConnection.listProject();
+    	List <Project> projects = DBConnection.listProject();
+    	GenericEntity<List<Project>> pList = new GenericEntity<List<Project>>(projects) {};
+    	return Response.ok(pList).build();
     }
     
     
     // Method to add new risk to riskEvent table. Accepts new risks details in json
  	// and returns success status to client.
     @POST
-    @Path("/risks/")
+    @Path("/risks/{pID}/")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addRisk(@HeaderParam("token") String token, final Risk risk) throws IOException, SQLException {
@@ -94,7 +97,7 @@ public class RiskServer {
     // Method to update an existing risk to riskEvent table. Accepts updated project details in json
   	// and returns success status to client.
     @PUT
-    @Path("/risks/{rRecID}/")
+    @Path("/risks/{pID}/{rRecID}/")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID, final Risk risk) 
@@ -106,7 +109,7 @@ public class RiskServer {
     
     // Method to remove an existing risk from the riskEvent table.
     @DELETE
-    @Path("/risks/{rRecID}/")
+    @Path("/risks/{pID}/{rRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response deleteRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID) throws IOException, SQLException {
@@ -117,11 +120,15 @@ public class RiskServer {
     
     // Method to list all risks for a specific project from riskEvent table.
     @GET
-    @Path("/risks/")
+    @Path("/risks/{pID}/")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Risk> listRisks(@HeaderParam("token") String token) throws IOException, SQLException {
+    public Response listRisks(@HeaderParam("token") String token, @PathParam("pID") Integer pID) throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
-    	return DBConnection.listRisk();
+    	String pName= DBConnection.projectName(pID);
+    	String pmName= DBConnection.managerName(pID);
+    	List <Risk> risks = DBConnection.listRisk(pName);
+    	GenericEntity<List<Risk>> rList = new GenericEntity<List<Risk>>(risks) {};
+    	return Response.ok(rList).header("projectName", pName).header("managerName", pmName).build();
     }
     
 }

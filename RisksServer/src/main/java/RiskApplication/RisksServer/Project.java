@@ -44,9 +44,11 @@ public class Project {
     private boolean validateUnique() {
     	List<Project> pList = DBConnection.listProject();
     	for (Project project : pList) {
-    	    if (project.pName.equalsIgnoreCase(this.pName)){
-    			return false;
-    	    }
+    		if (project.id!=this.id){
+    			if (project.pName.equalsIgnoreCase(this.pName)){
+    				return false;
+    			}
+    		}
     	}
     	return true;
     }
