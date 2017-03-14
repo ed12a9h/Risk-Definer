@@ -110,6 +110,18 @@ public class Risk {
 			vErrors= vErrors + "\"Risk name already exists.\", ";
 			veCount = veCount+1;
 		}
+		if (this.impact<1  || this.impact>10){
+			vErrors= vErrors + "\"Impact must be between 1 and 10.\", ";
+			veCount = veCount+1;
+		}
+		if (this.probability<1  || this.probability>10){
+			vErrors= vErrors + "\"Probability must be between 1 and 10.\", ";
+			veCount = veCount+1;
+		}
+		if (!this.status.equals("Open") && !this.status.equals("Closed")){
+			vErrors= vErrors + "\"Status Must be open or closed.\", ";
+			veCount = veCount+1;
+		}
 		// No validation errors - submit to database
 		if (veCount==0){
 			return DBConnection.updateRisk(getid(), getrID(), getrName(), getImpact(), getProbability(),
@@ -135,6 +147,18 @@ public class Risk {
 		}
 		if (validateUnique() ==false){
 			vErrors= vErrors + "\"Risk name already exists.\", ";
+			veCount = veCount+1;
+		}
+		if (this.impact<1  || this.impact>10){
+			vErrors= vErrors + "\"Impact must be between 1 and 10.\", ";
+			veCount = veCount+1;
+		}
+		if (this.probability<1  || this.probability>10){
+			vErrors= vErrors + "\"Probability must be between 1 and 10.\", ";
+			veCount = veCount+1;
+		}
+		if (!this.status.equals("Open") && !this.status.equals("Closed")){
+			vErrors= vErrors + "\"Status Must be open or closed.\", ";
 			veCount = veCount+1;
 		}
 		// No validation errors - submit to database

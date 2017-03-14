@@ -144,12 +144,12 @@
 							        		<label for="pNameInput">Project Name</label>
 							        		<div class="input-group">
 												<input type="text" id="pNameInput<%= id %>" class="form-control" value="<%= pName %>"
-														placeholder="project name" aria-describedby="sizing-addon2">
+														placeholder="project name" aria-describedby="sizing-addon2" maxlength="250">
 											</div>
 											<label for="pmNameInput">Project Manager Name</label>
 							        		<div class="input-group">
 												<input type="text" id="pmNameInput<%= id %>" class="form-control" value="<%= pmName %>" 
-														placeholder="project manager name" aria-describedby="sizing-addon2">
+														placeholder="project manager name" aria-describedby="sizing-addon2" maxlength="250">
 											</div>
 		        						</form>
 							    	</div>
@@ -172,7 +172,7 @@
 	  					<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal"
 	  							style="margin-top:30px;" onclick="document.getElementById('pmNameInput').value = localStorage.getItem('g_user_name');
 	  							errorHideAll(); document.getElementById('pNameInput').value = ''">
-  							Add New Risk
+  							Add New Project
 						</button>
 					</td>
 	  			</tr>
@@ -198,11 +198,13 @@
 		        	<form>
 		        		<label for="pNameInput">Project Name</label>
 		        		<div class="input-group">
-							<input type="text" id="pNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2">
+							<input type="text" id="pNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2"
+									maxlength="250">
 						</div>
 						<label for="pmNameInput">Project Manager Name</label>
 		        		<div class="input-group">
-							<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" aria-describedby="sizing-addon2">
+							<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" 
+									aria-describedby="sizing-addon2" maxlength="250">
 						</div>
 		        	</form>
 		    	</div>

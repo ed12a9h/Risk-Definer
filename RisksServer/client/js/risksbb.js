@@ -85,7 +85,8 @@ BBRisk.Views.RiskView = Backbone.View.extend({
     	var riskProbability = document.getElementById("probabilityInput"+this.model.get("id")).value;
     	var riskDescription = document.getElementById("descriptionInput"+this.model.get("id")).value;
     	var riskMitigation = document.getElementById("mitigationInput"+this.model.get("id")).value;
-    	var riskStatus = document.getElementById("statusInput"+this.model.get("id")).value;
+    	var riskStatus = $("input[name=statusInput"+this.model.get("id")+"]:checked").val();
+    	//document.getElementById("statusInput"+this.model.get("id")).value;
     	var riskfProject = headerpName;
     	
 		//Update project with new details.
@@ -211,7 +212,7 @@ BBRisk.Views.RisksView = Backbone.View.extend({
     	var riskProbability = document.getElementById("probabilityInput").value;
     	var riskDescription = document.getElementById("descriptionInput").value;
     	var riskMitigation = document.getElementById("mitigationInput").value;
-    	var riskStatus = document.getElementById("statusInput").value;
+    	var riskStatus = $('input[name=statusInput]:checked').val();
     	var riskfProject = headerpName;
         
     	// Save a newly created risk and its details into list.
@@ -278,4 +279,5 @@ function emptyFields(){
 	document.getElementById("descriptionInput").value= "";
 	document.getElementById("mitigationInput").value= "";
 	document.getElementById("statusInput").value= "";
+	$("#sDefault").prop('checked',true);
 }
