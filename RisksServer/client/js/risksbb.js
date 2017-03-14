@@ -86,7 +86,6 @@ BBRisk.Views.RiskView = Backbone.View.extend({
     	var riskDescription = document.getElementById("descriptionInput"+this.model.get("id")).value;
     	var riskMitigation = document.getElementById("mitigationInput"+this.model.get("id")).value;
     	var riskStatus = $("input[name=statusInput"+this.model.get("id")+"]:checked").val();
-    	//document.getElementById("statusInput"+this.model.get("id")).value;
     	var riskfProject = headerpName;
     	
 		//Update project with new details.
@@ -272,12 +271,4 @@ BBRisk.Views.TFooterView = Backbone.View.extend({
 // Create an instance of tFooterView
 BBRisk.Views.tFooterView = new BBRisk.Views.TFooterView();
 
-function emptyFields(){
-	document.getElementById("rNameInput").value= "";
-	document.getElementById("impactInput").value= "";
-	document.getElementById("probabilityInput").value= "";
-	document.getElementById("descriptionInput").value= "";
-	document.getElementById("mitigationInput").value= "";
-	document.getElementById("statusInput").value= "";
-	$("#sDefault").prop('checked',true);
-}
+

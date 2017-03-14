@@ -1,0 +1,12 @@
+-- Risk Definer Web Service
+-- Produced by Adam Hustwit
+-- SQL command used to create user table within database
+CREATE TABLE IF NOT EXISTS user (
+	user VARCHAR(100) NOT NULL,
+	fProject VARCHAR(250) NOT NULL,
+	CONSTRAINT unique_user_record PRIMARY KEY(user,fProject),
+	CONSTRAINT user_has_project 
+		FOREIGN KEY (fProject) 
+		REFERENCES project(pName) 
+		ON DELETE CASCADE ON UPDATE CASCADE
+);

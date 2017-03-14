@@ -7,7 +7,6 @@
  */
 
 package RiskApplication.RisksServer;
-
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -18,6 +17,7 @@ public class Project {
     private String pmName;
     private String vErrors = "";
     private Integer veCount = 0;
+    private List<String> users;
     
 
     public Integer getid() {
@@ -29,6 +29,9 @@ public class Project {
     public String getpmName() {
         return pmName;
     }
+    public List<String> getUsers() {
+    	return users;
+    }
     public void setid(Integer id) {
     	this.id = id;
     }
@@ -37,6 +40,9 @@ public class Project {
     }
     public void setpmName(String pmName) {
     	this.pmName = pmName;
+    }
+    public void setUsers(List<String> users) {
+    	this.users = users;
     }
     
     
@@ -78,7 +84,7 @@ public class Project {
 		}
 		// No validation errors - submit to database
 		if (veCount==0){
-			return DBConnection.updateProject(getid(), getpName(), getpmName());
+			return DBConnection.updateProject(getid(), getpName(), getpmName(), getUsers());
 		}
 		// Validation errors - send errors to client with 500 response 
 		else {
@@ -112,7 +118,7 @@ public class Project {
 		}		
 		// No validation errors - submit to database
 		if (veCount==0){
-			return DBConnection.addProject(getpName(), getpmName());
+			return DBConnection.addProject(getpName(), getpmName(), getUsers());
 		}
 		// Validation errors - send errors to client with 500 response 
 		else {

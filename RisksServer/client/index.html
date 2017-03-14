@@ -50,6 +50,9 @@
     <!-- Error Handling -->
     <script src="js/errorHandling.js" type="text/javascript"></script>
     
+    <!-- Form Handling -->
+    <script src="js/formHandling.js" type="text/javascript"></script>
+    
 </head>	
 
 <body id="pageBody">
@@ -63,8 +66,7 @@
 	        	</ul>
 	        	<ul class="nav navbar-nav navbar-right">
 			    	<li>
-			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="document.getElementById('pmNameInput').value = 
-			    				localStorage.getItem('g_user_name'); errorHideAll(); document.getElementById('pNameInput').value = ''" href="">
+			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="emptyProjectFields(); errorHideAll();" href="">
 			    			Add Project
 			    		</a>
 	  				</li>
@@ -102,6 +104,7 @@
 	        </tr>
 	        </thead>
 	        <tbody id="projects">
+	        	<!-- Script produces below template for each project. -->
 	        	<script id="pTemplate" type="text/template">
     				<td>
 						<a href="/client/risk.html#<%= id %>"><%= pName %></a>
@@ -151,6 +154,25 @@
 												<input type="text" id="pmNameInput<%= id %>" class="form-control" value="<%= pmName %>" 
 														placeholder="project manager name" aria-describedby="sizing-addon2" maxlength="250">
 											</div>
+											<label for="usersInput">User Access</label>
+		        							<div class="input-group">
+		        								<div id="addUsers<%= id %>">
+													<!-- Add Input for each input. -->
+													<% for(var user in users) { %>
+														<input type="email" class="form-control usersInput<%= id %>" placeholder="users google email" 
+																aria-describedby="sizing-addon2" maxlength="100" value="<%= users[user] %>">
+													<% } %>
+													<input type="email" class="form-control usersInput<%= id %>" placeholder="users google email" aria-describedby="sizing-addon2"
+													maxlength="100">
+													<input type="email" class="form-control usersInput<%= id %>" placeholder="users google email" aria-describedby="sizing-addon2"
+													maxlength="100">
+												</div>
+												<p id="usersHelpBlock" class="form-text text-muted">
+													Enter the Google Email Addresses of any users who you wish to provide with access to view the 
+													list of risks associated with this project.
+												</p>
+												<button type="button" class="btn btn-default" style="font-size:11px;" onclick="addAnEmail(<%= id %>)">Add Another Email</button>
+											</div>
 		        						</form>
 							    	</div>
 							    	<div class="modal-footer">
@@ -170,8 +192,7 @@
 	  				<td></td>
 	  				<td>
 	  					<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal"
-	  							style="margin-top:30px;" onclick="document.getElementById('pmNameInput').value = localStorage.getItem('g_user_name');
-	  							errorHideAll(); document.getElementById('pNameInput').value = ''">
+	  							style="margin-top:30px;" onclick="emptyProjectFields(); errorHideAll();">
   							Add New Project
 						</button>
 					</td>
@@ -206,11 +227,27 @@
 							<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" 
 									aria-describedby="sizing-addon2" maxlength="250">
 						</div>
+						<label for="usersInput">User Access</label>
+		        		<div class="input-group">
+		        			<div id="addUsersnew">
+								<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
+										maxlength="100">
+								<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
+								maxlength="100">
+								<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
+								maxlength="100">
+							</div>
+							<p id="usersHelpBlock" class="form-text text-muted">
+								Enter the Google Email Addresses of any users who you wish to provide with access to view the 
+								list of risks associated with this project.
+							</p>
+							<button type="button" class="btn btn-default" style="font-size:11px;" onclick="addAnEmail('new')">Add Another Email</button>
+						</div>
 		        	</form>
 		    	</div>
 		    	<div class="modal-footer">
 		       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		       		<button type="button" class="btn btn-primary saveNew" >Save</button>
+		       		<button type="button" class="btn btn-primary saveNew">Save</button>
 		    	</div>
 		    </div>
 		</div>

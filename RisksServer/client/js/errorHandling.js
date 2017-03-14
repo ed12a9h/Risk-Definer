@@ -39,7 +39,7 @@ function errorNewProject(response) {
 	else {
 		localStorage.setItem("sError", "True");
 		//Refresh Page
-    	window.location.reload();
+    	//window.location.reload();
 	};
 };
 

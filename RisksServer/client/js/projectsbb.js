@@ -1,3 +1,10 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit
+ * 
+ * This file contains code used for creating a backbone MVC and syncing data with the Risk Definer Web service.
+ */
+
 // defines the namespace
 window.BBProj = {
   Models: {},
@@ -79,10 +86,11 @@ BBProj.Views.ProjectView = Backbone.View.extend({
     	// Get contents of edit form.
     	var newProjectpName = document.getElementById("pNameInput"+this.model.get("id")).value;
     	var newProjectpmName =document.getElementById("pmNameInput"+this.model.get("id")).value;
+    	var projectUsers = getEmails(this.model.get("id"));
     	
 		//Update project with new details.
 		var thisObj= this;
-		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName}, {
+		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName, "users":projectUsers}, {
 		        error: function(model, response) {
 		        	// Get Error response and pass to error function.
 		        	
@@ -164,7 +172,7 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         
         // Begin long polling. Listen for changes within collection and
         // re-render page accordingly.
-        this.collection.startLongPolling();
+        //this.collection.startLongPolling();
         this.listenTo(this.collection, 'change', this.render);
         this.listenTo(this.collection, 'remove', this.render);  
     },
@@ -192,9 +200,10 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     	//Get Details entered in form
     	var projectpName = document.getElementById("pNameInput").value;
     	var projectpmName =document.getElementById("pmNameInput").value;
+    	var projectUsers = getEmails("new");
         
     	// Save a newly create project and a details into list.
-		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName}, {
+		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName, "users":projectUsers}, {
 	        error: function(model, response) {
 	        	// Get Error response and pass to error function.
 	            errorNewProject(response);

@@ -103,7 +103,7 @@ body {
 
 
 /* Buttons */
-.btn-primary {
+.btn-primary, .btn-primary:visited,  .btn-primary:active, .btn-primary:focus  {
     color: #000;
     background-color: #AED18E!important;
     border: solid 2px #87D542!important;

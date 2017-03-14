@@ -72,6 +72,9 @@ public class DBConnection {
 		//Create new riskEvent table
 		String freshRiskDB = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskDB.txt"))); 
 		statement.executeUpdate(freshRiskDB);
+		//Create new user table
+		String freshUserDB = new String(Files.readAllBytes(Paths.get("servFiles/freshUserDB.txt"))); 
+		statement.executeUpdate(freshUserDB);
 		//Try create a trigger to automatically increment risk number unique to project.
 		String freshRiskTrig = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskTrigger.txt")));
 		try{
@@ -88,11 +91,15 @@ public class DBConnection {
 		
 
 	// Add a new project to project table
-	public static Response addProject(String pName, String pmName)
+	public static Response addProject(String pName, String pmName, List<String> users)
 	{
+		Connection database=null;
 		try {
-			Connection database = getConnection();
 			DBConnection.createTable();
+			database = getConnection();
+			
+			// Multiple insert transaction so auto commit turned off so both inserts can be turned off together.
+			database.setAutoCommit(false);
 			
 		    // Statement used to add new project to project table
 			PreparedStatement statement =
@@ -102,30 +109,51 @@ public class DBConnection {
 			statement.executeUpdate();
 	        statement.close();
 		    
-		    
 	        //HTTP Response body should contain ID assigned to new project in database.
 		    Statement statement2 = database.createStatement();
 		    ResultSet project = statement2.executeQuery("SELECT pRecID FROM project WHERE pName='"+pName+"';");
 	        project.first();
 	        Integer pRecID= project.getInt("pRecID");
 	        statement2.close();
+	        
+	        //Add Projects users to users DB
+	        for (String user:users){
+	        	PreparedStatement uStatement = database.prepareStatement("INSERT INTO user(user, fProject) VALUES(?,?)");
+	        	uStatement.setString(1, user);
+	        	uStatement.setString(2, pName);
+	        	uStatement.executeUpdate();
+	        	uStatement.close();
+	        }
+	        
+	        // All database transaction successful so commit changes.
+	        database.commit();	   
 	        database.close();
+	        
 		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		}
 		catch (Exception e){
-			e.printStackTrace();
-			return Response.status(500).build();
+			// At least one database change failed so roll back all changes
+			try {
+				database.rollback();
+				return Response.status(500).build();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				return Response.status(500).build();
+			}
 		}	
 	}
 	
 	
 	// Update a risk in riskEvent table
-	public static Response updateProject(Integer pRecID, String pName, String pmName)
+	public static Response updateProject(Integer pRecID, String pName, String pmName, List<String> users)
 	{
+		Connection database=null;
 		try {
 			DBConnection.createTable();
+			database = DBConnection.getConnection();
 			
-			Connection database = DBConnection.getConnection();
+			// Multiple insert transaction so auto commit turned off so both inserts can be turned off together.
+						database.setAutoCommit(false);
 			
 			// Statement used to update existing project in project table
 			PreparedStatement statement =
@@ -133,14 +161,37 @@ public class DBConnection {
 			statement.setString(1, pName);
 			statement.setString(2, pmName);
 			statement.executeUpdate();
-			
 		    statement.close();
+		    
+		    //Delete all Existing users
+ 			Statement dStatement = database.createStatement();
+ 			dStatement.executeUpdate("DELETE FROM user WHERE fProject='"+pName+"';");
+ 			dStatement.close();
+		    
+	        
+	        //Add Projects users to users DB
+	        for (String user:users){
+	        	PreparedStatement uStatement = database.prepareStatement("INSERT INTO user(user, fProject) VALUES(?,?)");
+	        	uStatement.setString(1, user);
+	        	uStatement.setString(2, pName);
+	        	uStatement.executeUpdate();
+	        	uStatement.close();
+	        }
+	        
+	        // All database transaction successful so commit changes.
+	        database.commit();	
 		    database.close();
 		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			return Response.status(500).build();
+			// At least one database change failed so roll back all changes
+			try {
+				database.rollback();
+				return Response.status(500).build();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				return Response.status(500).build();
+			}
 		}	
 	}
 		
@@ -172,8 +223,9 @@ public class DBConnection {
 			DBConnection.createTable();
 			Connection database = DBConnection.getConnection();
 			Statement statement = database.createStatement();
-		    
+			Statement ulStatement = database.createStatement();
 			List<Project> pList = new ArrayList<Project>();
+			
 			// Add each project found in database to a list of risk objects.
 		    ResultSet project = statement.executeQuery("SELECT * FROM project;");
 	        while (project.next()) {
@@ -181,6 +233,15 @@ public class DBConnection {
 	        	p.setid(project.getInt("pRecID"));
 	        	p.setpName(project.getString("pName"));
 	        	p.setpmName(project.getString("pmName"));
+	        	// Users attribute is an array of users with access to this project. They are stored in a  separate table which
+	        	// is queried below.
+	        	ResultSet users = ulStatement.executeQuery("SELECT user FROM user WHERE fProject='"+p.getpName()+"';");
+	        	List<String> uList = new ArrayList<String>();
+	        	while (users.next()){
+	        		String user = users.getString("user");
+	        		uList.add(user);
+	        	}
+	        	p.setUsers(uList);
 	        	pList.add(p);
 	        }
 	        statement.close();
@@ -305,8 +366,8 @@ public class DBConnection {
 			statement.setString(6, status);
 			statement.setString(7, fProject);
 			statement.executeUpdate();
-			
 		    statement.close();
+		    
 		    database.close();
 		    return Response.ok().entity("{\"id\":"+rRecID+"}").build();
 		} 
@@ -371,7 +432,5 @@ public class DBConnection {
 			return null;
 			
 		}
-		
-		
 	}
 }
