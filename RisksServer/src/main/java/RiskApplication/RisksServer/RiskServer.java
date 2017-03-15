@@ -18,6 +18,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -123,12 +124,12 @@ public class RiskServer {
     @Path("/risks/{pID}/")
     @Produces({MediaType.APPLICATION_JSON})
     public Response listRisks(@HeaderParam("token") String token, @PathParam("pID") Integer pID) throws IOException, SQLException {
-    	AuthenticationFilter.validateToken(token);
     	String pName= DBConnection.projectName(pID);
     	String pmName= DBConnection.managerName(pID);
     	List <Risk> risks = DBConnection.listRisk(pName);
     	GenericEntity<List<Risk>> rList = new GenericEntity<List<Risk>>(risks) {};
-    	return Response.ok(rList).header("projectName", pName).header("managerName", pmName).build();
+    	String accessRights = AuthenticationFilter.validateTokenIncClient(token, pName);
+    	return Response.ok(rList).header("projectName", pName).header("managerName", pmName).header("access", accessRights).build();
     }
     
 }

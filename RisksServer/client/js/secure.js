@@ -13,6 +13,8 @@ function onSignIn(googleUser) {
     localStorage.setItem("rd_id_token", id_token);
     var profile = googleUser.getBasicProfile();
     localStorage.setItem("g_user_name", profile.getName());
+    //localStorage.setItem("g_user_name", profile.getName());
+    //console.log('ID: ' + profile.getId());
     
     // Google Sign-in id token must be sent in the header of all requests to web service.
     // Web service will verify this token for authentication purposes.
@@ -65,5 +67,17 @@ function signOut() {
     	$('#loginWindow').show();
     });
 };
+
+
+// Hide elements not available to clients. Make view details form read only.
+function readOnly() {
+	$('.priv').hide();
+	$('.editForm :input').attr('readonly','readonly');
+	$(".statusGroup").html($('input[name=statusInput]:checked').val());
+}
+
+
+
+
 
 

@@ -155,6 +155,13 @@ BBRisk.Views.RisksView = Backbone.View.extend({
         // Get project items from web service.
         this.collection.fetch({
         	success: function(collection, response, options) {
+        		// Hide modification elements if user has read only access.
+        		var access = options.xhr.getResponseHeader("access");
+        		if (access==="client"){
+        			console.log (access);
+        			readOnly();
+        		}
+        		//Get project and manager name.
         		headerpName= options.xhr.getResponseHeader("projectName");
         		headerpmName= options.xhr.getResponseHeader("managerName");
         		if (!headerpmName){

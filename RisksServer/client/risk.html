@@ -60,13 +60,13 @@
     <nav class="navbar navbar-default navbar-fixed-top">
 	  	<div class="container contentHolder">
 	        <div id="navbar" class="navbar-collapse collapse">
-	       		<ul class="nav navbar-nav">
+	       		<ul class="nav navbar-nav priv">
 	            	<li><a href="/client/">Select Project</a></li>
 	           		<li class="active1"><a>Project Risks</a></li>
 	        	</ul>
 	        	<ul class="nav navbar-nav navbar-right">
 			    	<li>
-			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="errorHideAll();emptyRiskFields()" href="">
+			    		<a class="priv" data-toggle="modal" data-target="#newProjectModal" onclick="errorHideAll();emptyRiskFields()" href="">
 			    			Add Risk
 			    		</a>
 	  				</li>
@@ -116,10 +116,10 @@
 					<td class="center"><%= status %></td>
 					<td>
 						
-						<button class="delete pull-right rButtons btn btn-info" aria-label="Delete Project" title="Delete">
+						<button class="delete pull-right rButtons btn btn-info priv" aria-label="Delete Project" title="Delete">
 							<span class="glyphicon glyphicon-trash" aria-hidden="true"> 
 						</button>
-						<button class="edit pull-right rButtons btn btn-info" aria-label="Edit Project" title="Edit" data-toggle="modal" 
+						<button class="edit pull-right rButtons btn btn-info priv" aria-label="Edit Project" title="Edit" data-toggle="modal" 
 								data-target="#editModal<%= id %>" onclick="errorHideAll()">
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true">
 						</button>
@@ -147,7 +147,7 @@
  											<strong>Warning!</strong> Sorry the system cannot submit this because...
 											<ul class="vfReason"></ul>
 										</div>
-							        	<form>
+							        	<form class="editForm">
 		        							<label for="rNameInput">Risk Name*</label>
 		       						 		<div class="input-group">
 												<input type="text" id="rNameInput<%= id %>" class="form-control" placeholder="risk name" 
@@ -174,7 +174,7 @@
 														aria-describedby="sizing-addon2"  value="<%= mitigation %>"></textarea>
 											</div>
 											<label for="statusInput">Status*</label>
-		        							<div class="input-group">
+		        							<div class="input-group statusGroup">
 												<% if(status==="Open"){ %>
 													<input type="radio" name="statusInput<%= id %>"" id="sDefault" value="Open" checked> Open<br />
   													<input type="radio" name="statusInput<%= id %>" value="Closed"> Closed
@@ -188,7 +188,7 @@
 							    	<div class="modal-footer">
 										<p class="pull-left">* = Required</p>
 							       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							       		<button type="button" class="btn btn-primary saveEdit" >Save changes</button>
+							       		<button type="button" class="btn btn-primary saveEdit priv" >Save changes</button>
 					
 							    	</div>
 							    </div>
@@ -205,7 +205,7 @@
 	  				<td></td>
 	  				<td></td>
 	  				<td>
-	  					<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal"
+	  					<button type="button" class="btn btn-primary btn-lg pull-right priv" data-toggle="modal" data-target="#newProjectModal"
 	  							style="margin-top:30px;" onclick="errorHideAll();emptyRiskFields()">
   							Add New Risk
 						</button>
@@ -264,7 +264,7 @@
 		    	<div class="modal-footer">
 		    		<p class="pull-left">* = Required</p>
 		       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		       		<button type="button" class="btn btn-primary saveNew">Save</button>
+		       		<button type="button" class="btn btn-primary saveNew priv">Save</button>
 		    	</div>
 		    </div>
 		</div>

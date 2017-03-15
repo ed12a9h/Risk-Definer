@@ -433,4 +433,32 @@ public class DBConnection {
 			
 		}
 	}
+	
+	
+	// Return if a user is authorised view to a project.
+		public static Boolean clientAccess(String pName, String email)
+		{
+			try {
+				DBConnection.createTable();
+				Connection database = DBConnection.getConnection();
+				Statement statement = database.createStatement();
+				
+			    // Check if users email is authorised to view project.
+			    ResultSet users = statement.executeQuery("SELECT * FROM user WHERE fProject='"+pName+"' AND user='"+email+"';");
+		        if (users.next()) {
+		        	statement.close();
+				    database.close();
+		        	return true;
+		        }
+		        else {
+		        	statement.close();
+				    database.close();
+		        	return false;
+		        }
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+				return false;	
+			}
+		}
 }
