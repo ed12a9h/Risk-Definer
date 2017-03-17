@@ -39,7 +39,7 @@ function errorNewProject(response) {
 	else {
 		localStorage.setItem("sError", "True");
 		//Refresh Page
-    	//window.location.reload();
+    	window.location.reload();
 	};
 };
 
@@ -53,10 +53,16 @@ function errorHideAll() {
 
 
 // Network connection lost.
-function errorFetchFail() {
+function errorFetchFail(status) {
 	$('.pItem').remove();
 	$('.rItem').remove();
-	$("#networkLost").show();
+	if (status===401) {
+		$("#unauthorisedAccess").show();
+		$('.priv').hide();
+	}
+	else {
+		$("#networkLost").show();
+	}	
 };
 
 

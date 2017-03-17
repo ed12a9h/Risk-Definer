@@ -60,13 +60,13 @@
     <nav class="navbar navbar-default navbar-fixed-top">
 	  	<div class="container contentHolder">
 	        <div id="navbar" class="navbar-collapse collapse">
-	       		<ul class="nav navbar-nav">
+	       		<ul class="nav navbar-nav priv">
 	            	<li class="active1"><a href="">Select Project</a></li>
 	           		<li class="subsequentItem"><a>Project Risks</a></li>
 	        	</ul>
 	        	<ul class="nav navbar-nav navbar-right">
 			    	<li>
-			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="emptyProjectFields(); errorHideAll();" href="">
+			    		<a data-toggle="modal" data-target="#newProjectModal" onclick="emptyProjectFields(); errorHideAll();" href="" class="priv">
 			    			Add Project
 			    		</a>
 	  				</li>
@@ -78,7 +78,7 @@
    	<!-- Main Page Content -->
    	<div class="container theme-showcase contentHolder" role="main">
 		<!-- Main jumbotron-->
-      	<div class="jumbotron">
+      	<div class="jumbotron priv">
         <h1>Risk Definer</h1>
         <p>Select a project from the list below or add a new project now to get started!</p>
         </div>
@@ -93,9 +93,12 @@
  			<strong>Warning!</strong> Network Connection has been Lost! Please <a href="" onclick="window.location.reload();">click here</a> 
  					to reload page.
 		</div>
+		<div class="alert alert-danger" id="unauthorisedAccess" role="alert">
+ 			<strong>Warning!</strong> You are not authorised to view this page.
+		</div>
     	
     	<!-- Table of Projects -->
-	    <table class="table">
+	    <table class="table priv">
 	    	<thead>
 	        <tr>
 	            <th id="col1">Project</th>
@@ -169,7 +172,10 @@
 												</div>
 												<p id="usersHelpBlock" class="form-text text-muted">
 													Enter the Google Email Addresses of any users who you wish to provide with access to view the 
-													list of risks associated with this project.
+													list of risks associated with this project. Inform the user to view the project by navigating to 
+													<a href="https://riskdefiner.me/client/risk.html#<%= id %>">
+														https://riskdefiner.me/client/risk.html#<%= id %>
+													</a>
 												</p>
 												<button type="button" class="btn btn-default" style="font-size:11px;" onclick="addAnEmail(<%= id %>)">Add Another Email</button>
 											</div>
@@ -252,10 +258,6 @@
 		    </div>
 		</div>
 	</div>
-	
-	
-    
-  	
   	
   	<!-- Google Sign In / Authentication -->
   	<div id="loginWindow" class="container container-table">

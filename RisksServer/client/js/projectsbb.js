@@ -51,9 +51,9 @@ BBProj.Collections.Projects=  Backbone.Collection.extend({
 	
 	executeLongPolling : function(){
 	    this.fetch({
-	        error: function() {
+	        error: function(model,collecton, options) {
 	        	// Call fetch fail function.
-	            errorFetchFail();
+	        	errorFetchFail(options.xhr.status);
 	        },
 	        success: this.onFetch,
 	        wait: true // Do not report status until web service response.
@@ -93,8 +93,6 @@ BBProj.Views.ProjectView = Backbone.View.extend({
 		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName, "users":projectUsers}, {
 		        error: function(model, response) {
 		        	// Get Error response and pass to error function.
-		        	
-		            //console.log(responseObj.error);
 		            errorNewProject(response);
 		        },
 		        success: function(model, response) {
@@ -155,9 +153,9 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         this.collection = new BBProj.Collections.Projects();
         // Get project items from web service.
         this.collection.fetch({
-	        error: function() {
+	        error: function(model,collecton, options) {
 	        	// Call fetch fail function.
-	            errorFetchFail();
+	            errorFetchFail(options.xhr.status);
 	        },
 	        wait: true // Do not report status until web service response.
 	    });
@@ -172,7 +170,7 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
         
         // Begin long polling. Listen for changes within collection and
         // re-render page accordingly.
-        //this.collection.startLongPolling();
+        this.collection.startLongPolling();
         this.listenTo(this.collection, 'change', this.render);
         this.listenTo(this.collection, 'remove', this.render);  
     },
