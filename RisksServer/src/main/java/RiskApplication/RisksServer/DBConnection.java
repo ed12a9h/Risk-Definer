@@ -129,6 +129,11 @@ public class DBConnection {
 	        database.commit();	   
 	        database.close();
 	        
+	        // Send message to slack
+	        Slack message = new Slack();
+	        message.addProject(pName, pmName);
+	        
+	        
 		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		}
 		catch (Exception e){
