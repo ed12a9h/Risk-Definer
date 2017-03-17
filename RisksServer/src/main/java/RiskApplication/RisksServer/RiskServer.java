@@ -127,6 +127,7 @@ public class RiskServer {
     	String pName= DBConnection.projectName(pID);
     	String pmName= DBConnection.managerName(pID);
     	List <Risk> risks = DBConnection.listRisk(pName);
+    	// Code reference #4
     	GenericEntity<List<Risk>> rList = new GenericEntity<List<Risk>>(risks) {};
     	String accessRights = AuthenticationFilter.validateTokenIncClient(token, pName);
     	return Response.ok(rList).header("projectName", pName).header("managerName", pmName).header("access", accessRights).build();

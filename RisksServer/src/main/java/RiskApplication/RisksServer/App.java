@@ -66,7 +66,7 @@ public class App
     	hList.setHandlers(new Handler[]{rctxHandler, sctxHandler}); // Security removed now google auth implemented.
     	server.setHandler(hList);
     	
-    	// Config for SSL
+    	// Config for SSL (Code Reference #1,2)
     	HttpConfiguration http_config = new HttpConfiguration();
         http_config.setSecureScheme("https");
         http_config.setSecurePort(443);

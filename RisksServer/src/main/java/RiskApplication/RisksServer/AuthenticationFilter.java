@@ -21,8 +21,8 @@ import com.google.api.client.json.gson.GsonFactory;
 
 public class AuthenticationFilter {
 
-    // Method that uses google apis to validate tokens issued by Google
-	// after a user logs into web application using their Google Account. 
+    // Method that uses google apis to validate tokens issued by Google after a user logs into web
+	// application using their Google Account. Code reference #3.
     public static boolean validateToken(String token) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
             .Builder(new NetHttpTransport(), new GsonFactory())
@@ -57,8 +57,8 @@ public class AuthenticationFilter {
     }
     
     
-    // Method that uses google apis to validate tokens issued by Google
- 	// after a user logs into web application using their Google Account. 
+    // Method that uses google apis to validate tokens issued by Google after a user logs into web
+ 	// application using their Google Account. Code reference #3. Also authenticates clients read only access.
     public static String validateTokenIncClient(String token, String pName ) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
             .Builder(new NetHttpTransport(), new GsonFactory())

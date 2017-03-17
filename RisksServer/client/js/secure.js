@@ -17,7 +17,7 @@ function onSignIn(googleUser) {
     //console.log('ID: ' + profile.getId());
     
     // Google Sign-in id token must be sent in the header of all requests to web service.
-    // Web service will verify this token for authentication purposes.
+    // Web service will verify this token for authentication purposes. Code Reference #14.
     $.ajaxSetup({
     	headers: {'token':localStorage.getItem("rd_id_token")}
     });

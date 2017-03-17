@@ -26,9 +26,8 @@ BBRisk.Collections.Risks=  Backbone.Collection.extend({
 	url: url, // Web Service URL for CRUD operations
 	
 	
-	//Long Polling:
+	// Long Polling (Code Reference #10)
 	longPolling : false,
-	intervalMinutes : 0.0001,
 	
 	initialize : function(){
 	    _.bindAll(this, "stopLongPolling", "startLongPolling", "executeLongPolling", "onFetch");
@@ -37,28 +36,23 @@ BBRisk.Collections.Risks=  Backbone.Collection.extend({
 	stopLongPolling : function(){
 		this.longPolling = false;
 	},
-	startLongPolling : function(intervalMinutes){
+	startLongPolling : function(){
 	    this.longPolling = true;
-	    if( intervalMinutes ){
-	      this.intervalMinutes = intervalMinutes;
-	    }
 	    this.executeLongPolling();
 	},
 	
 	executeLongPolling : function(){
 	    this.fetch({
-	        error: function() {
+	        error: function(model,collecton, options) {
 	        	// Call fetch fail function.
-	            errorFetchFail();
+	        	errorFetchFail(options.xhr.status);
 	        },
 	        success: this.onFetch,
 	        wait: true // Do not report status until web service response.
 	    });
 	},
 	onFetch : function () {
-		if( this.longPolling ){
-			//this.reset()
-			setTimeout(this.executeLongPolling, 1000 * 60 * this.intervalMinutes); // in order to update the view each N minutes
+		if( this.longPolling ){setTimeout(this.executeLongPolling, 500); // Update view each 0.5 seconds
 	    }
 	},
 	
@@ -254,7 +248,7 @@ BBRisk.Views.RisksView = Backbone.View.extend({
 BBRisk.Views.risksView = new BBRisk.Views.RisksView();
 
 
-// A view created in order to receive event from from a button outside of el of projectsView.
+// A view created in order to receive event from from a button outside of el of projectsView. Code Reference #11.
 BBRisk.Views.TFooterView = Backbone.View.extend({
     el: '#pageBody',
     
