@@ -186,6 +186,11 @@ public class DBConnection {
 	        // All database transaction successful so commit changes.
 	        database.commit();	
 		    database.close();
+		    
+		    // Send message to slack
+	        Slack message = new Slack();
+	        message.updatedProject(pName, pmName);
+	        
 		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		}
 		catch (Exception e) {
@@ -200,12 +205,12 @@ public class DBConnection {
 		}	
 	}
 		
-	
-	public static Response deleteProject(Integer pRecID)
+	// Delete a project from project table.
+	public static Response deleteProject(Integer pRecID, Slack lastUpdate)
 	{
 		try {
+			String pName= projectName(pRecID);// Get project name before delete.
 			DBConnection.createTable();
-			
 			Connection database = DBConnection.getConnection();
 			
 		    // Statement used to update existing risks in riskEvent table
@@ -213,6 +218,9 @@ public class DBConnection {
 			statement.executeUpdate("DELETE FROM project WHERE pRecID="+pRecID);
 		    statement.close();
 		    database.close();
+		    // Send Slack Message
+	        lastUpdate.deletedProject(pName);
+		    
 		    return Response.ok().entity("{\"id\":"+pRecID+"}").build();
 		} 
 		catch (Exception e) {
@@ -310,7 +318,7 @@ public class DBConnection {
 		
 	// Add a new risk to risk table
 	public static Response addRisk(String rName, Integer impact, Integer probability, String description, 
-			String mitigation, String status, String fProject)
+			String mitigation, String status, String fProject, Slack lastUpdate)
 	{
 		try {
 			DBConnection.createTable();
@@ -340,6 +348,9 @@ public class DBConnection {
 	        Integer rID= project.getInt("rID");
 	        statement2.close();
 	        database.close();
+	        // Send Slack Message
+	        lastUpdate.updatedRisk(fProject);
+	        
 		    return Response.ok().entity("{\"id\":"+rRecID+", \"rID\":"+rID+"}").build();
 		} 
 		catch (Exception e) {
@@ -352,7 +363,7 @@ public class DBConnection {
 	// Update a risk in riskEvent table
 	public static Response updateRisk(Integer rRecID, Integer rID, String rName, Integer impact, 
 			Integer probability, String description, String mitigation, String status, 
-			String fProject)
+			String fProject, Slack lastUpdate)
 	{
 		try {
 			DBConnection.createTable();
@@ -374,6 +385,10 @@ public class DBConnection {
 		    statement.close();
 		    
 		    database.close();
+		    lastUpdate.updatedRisk(fProject);
+		    // Send Slack Message
+	        lastUpdate.updatedRisk(fProject);
+	        
 		    return Response.ok().entity("{\"id\":"+rRecID+"}").build();
 		} 
 		catch (Exception e) {
@@ -383,7 +398,7 @@ public class DBConnection {
 	}
 	
 	
-	public static Response deleteRisk(Integer rRecID)
+	public static Response deleteRisk(Integer rRecID, Slack lastUpdate, Integer pID)
 	{
 		try {
 			DBConnection.createTable();
@@ -395,6 +410,9 @@ public class DBConnection {
 			statement.executeUpdate("DELETE FROM riskEvent WHERE rRecID='"+rRecID+"';");
 		    statement.close();
 		    database.close();
+		    // Send Slack Message
+	        lastUpdate.updatedRisk(projectName(pID));
+	        
 		    return Response.ok().entity("{\"id\":"+rRecID+"}").build();
 		} 
 		catch (Exception e) {

@@ -12,7 +12,6 @@ function emptyRiskFields(){
 	document.getElementById("probabilityInput").value= "";
 	document.getElementById("descriptionInput").value= "";
 	document.getElementById("mitigationInput").value= "";
-	document.getElementById("statusInput").value= "";
 	$("#sDefault").prop('checked',true);
 }
 

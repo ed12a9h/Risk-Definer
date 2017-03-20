@@ -97,6 +97,7 @@ BBRisk.Views.RiskView = Backbone.View.extend({
 		        	//Remove Model
 		        	$(".modal .close").click();
 		        	
+		        	
 		        	//Remove UI Backdrop from Model that contained form. 
 		            //Required to be called manually due to the above render method.
 		            $(document).ready(function(){
@@ -124,8 +125,6 @@ BBRisk.Views.RiskView = Backbone.View.extend({
 	        },
 	        success: function(model, response) {
 	        	errorHideAll();
-	        	//Delete view
-	            this.remove();
 	        },
 	        wait: true // Do not report status until web service response.
         });
@@ -225,8 +224,7 @@ BBRisk.Views.RisksView = Backbone.View.extend({
 	        success: function(model, response) {
 	        	errorHideAll();
 	        	//Remove Model
-	        	$(".modal .close").click();
-	        	
+	        	$(".modal-header .close").click();
 	        	//Remove UI Backdrop from Model that contained form. 
 	            //Required to be called manually due to the above render method.
 	            $(document).ready(function(){

@@ -97,7 +97,7 @@ public class Risk {
     
     
     // Validate update to a project
-    public Response validateUpdate(){
+    public Response validateUpdate(Slack lastUpdate){
 		if (this.rName.length() <=1){
 			vErrors= vErrors + "\"Risk name must be longer than one character.\", ";
 			veCount = veCount+1;
@@ -125,7 +125,7 @@ public class Risk {
 		// No validation errors - submit to database
 		if (veCount==0){
 			return DBConnection.updateRisk(getid(), getrID(), getrName(), getImpact(), getProbability(),
-    	    		getDescription(), getMitigation(), getStatus(), getfProject());
+    	    		getDescription(), getMitigation(), getStatus(), getfProject(), lastUpdate);
 		}
 		// Validation errors - send errors to client with 500 response 
 		else {
@@ -136,7 +136,7 @@ public class Risk {
     
     
     // Validate addition of a new project
-    public Response validateAdd(){
+    public Response validateAdd(Slack lastUpdate){
 		if (this.rName.length() <=1){
 			vErrors= vErrors + "\"Risk name must be longer than one character.\", ";
 			veCount = veCount+1;
@@ -164,7 +164,7 @@ public class Risk {
 		// No validation errors - submit to database
 		if (veCount==0){
 			return DBConnection.addRisk(getrName(), getImpact(), getProbability(),
-    	    		getDescription(), getMitigation(), getStatus(), getfProject());
+    	    		getDescription(), getMitigation(), getStatus(), getfProject(), lastUpdate);
 		}
 		// Validation errors - send errors to client with 500 response 
 		else {
@@ -174,23 +174,3 @@ public class Risk {
     }
 }
 	
-	
-	
-	
-	
-	
-	
-	
-	//public Response validateAdd() {
-//		if (this.rName.length() >=2)
-//			return DBConnection.addRisk(getrName(), getImpact(), getProbability(),
-//    	    		getDescription(), getMitigation(), getStatus(), getfProject());
-//		else return Response.status(500).entity("{\"error\":\"Risk name should have more than one character.\", \"errorType\":\"validation\"}").build();
-//	}
-	
-//	public Response validateUpdate() {
-//		if (this.rName.length() >=2)
-//			return DBConnection.addRisk(getrName(), getImpact(), getProbability(),
- //   	    		getDescription(), getMitigation(), getStatus(), getfProject());
-//		else return Response.status(500).entity("{\"error\":\"Risk name should have more than one character.\", \"errorType\":\"validation\"}").build();
-//	}

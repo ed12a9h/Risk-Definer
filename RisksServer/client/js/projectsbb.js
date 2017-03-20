@@ -94,7 +94,7 @@ BBProj.Views.ProjectView = Backbone.View.extend({
 		        	thisObj.render();
 		        	
 		        	//Remove Model
-		        	$(".modal .close").click();
+		        	$(".modal-header .close").click();
 		        	
 		        	//Remove UI Backdrop from Model that contained form. 
 		            //Required to be called manually due to the above render method.
@@ -123,8 +123,6 @@ BBProj.Views.ProjectView = Backbone.View.extend({
 	        },
 	        success: function(model, response) {
 	        	errorHideAll();
-	        	//Delete view
-	            this.remove();
 	        },
 	        wait: true // Do not report status until web service response.
         });
@@ -203,7 +201,7 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
 	        success: function(model, response) {
 	        	errorHideAll();
 	        	//Remove Model
-	        	$(".modal .close").click();
+	        	$(".modal-header .close").click();
 	        	
 	        	//Remove UI Backdrop from Model that contained form. 
 	            //Required to be called manually due to the above render method.

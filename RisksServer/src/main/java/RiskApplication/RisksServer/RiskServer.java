@@ -18,7 +18,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -33,6 +32,7 @@ import javax.ws.rs.core.Response;
 // Call containing routing for all urls
 @Path("/request")
 public class RiskServer {
+	static Slack lastUpdate = new Slack();
 	
 	// Method to add new project to project table. Accepts new project details in json
 	// and returns success status to client.
@@ -60,14 +60,14 @@ public class RiskServer {
     }
     
     
-    // Method to remove an existing risk from the riskEvent table.
+    // Method to remove an existing project from the project table.
     @DELETE
     @Path("/projects/{pRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response deleteProject(@HeaderParam("token") String token, @PathParam("pRecID") Integer pRecID) throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
-    	return DBConnection.deleteProject(pRecID);
+    	return DBConnection.deleteProject(pRecID, lastUpdate);
     }
      
 	
@@ -91,7 +91,7 @@ public class RiskServer {
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addRisk(@HeaderParam("token") String token, final Risk risk) throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
-    	return risk.validateAdd();
+    	return risk.validateAdd(lastUpdate);
     }
     
     
@@ -104,7 +104,7 @@ public class RiskServer {
     public Response updateRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID, final Risk risk) 
     		throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
-    	return risk.validateUpdate();
+    	return risk.validateUpdate(lastUpdate);
     }
     
     
@@ -113,9 +113,9 @@ public class RiskServer {
     @Path("/risks/{pID}/{rRecID}/")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response deleteRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID) throws IOException, SQLException {
+    public Response deleteRisk(@HeaderParam("token") String token, @PathParam("rRecID") Integer rRecID, @PathParam("pID") Integer pID) throws IOException, SQLException {
     	AuthenticationFilter.validateToken(token);
-    	return DBConnection.deleteRisk(rRecID);
+    	return DBConnection.deleteRisk(rRecID, lastUpdate, pID);
     }
     
     

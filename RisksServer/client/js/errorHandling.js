@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 // message to the user in web application.
 function errorNewProject(response) {
 	errorHideAll();
-	$('.vfReason').empty();
 	var json = false
 	// Check if response is received.
 	try {
@@ -48,7 +47,7 @@ function errorNewProject(response) {
 function errorHideAll() {
     // Hide all error messages
     $(".alert").hide();
-    $('.vfReason').empty();
+    $(".vfReason").empty();
 };
 
 

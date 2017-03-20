@@ -36,15 +36,15 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 public class App 
 {
+	
 	//Create server port 9999 Local host
 	static Server server = new Server(9999);
+	
 	
     public static void main( String[] args )
     {
     	//Security
     	//ConstraintSecurityHandler security = userAuth(server);
-    	
-    	
     	
     	//Servlet Config for web service (/server)
     	ResourceConfig config = new ResourceConfig();
