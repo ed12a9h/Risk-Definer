@@ -151,7 +151,6 @@ BBRisk.Views.RisksView = Backbone.View.extend({
         		// Hide modification elements if user has read only access.
         		var access = options.xhr.getResponseHeader("access");
         		if (access==="client"){
-        			console.log (access);
         			readOnly();
         		}
         		//Get project and manager name.
@@ -271,3 +270,25 @@ BBRisk.Views.TFooterView = Backbone.View.extend({
 BBRisk.Views.tFooterView = new BBRisk.Views.TFooterView();
 
 
+//View for Single Project in grid
+BBRisk.Views.RiskGridView = BBRisk.Views.RiskView.extend({
+	tagName: 'div',
+	className: 'rGridItem',
+	template:$("#gridTemplate").html(),
+});
+
+BBRisk.Views.RisksGridView = BBRisk.Views.RisksView.extend({
+    el:$("#riskTest"),
+    
+    // Produce HTML for an individual risk item.
+    renderRisk:function (item) {
+    	BBRisk.Views.riskGridView = new BBRisk.Views.RiskGridView({
+            model:item
+        });
+        this.$el.append(BBRisk.Views.riskGridView.render().el);
+    }
+});
+
+
+// Create an instance of projects view
+BBRisk.Views.risksGridView = new BBRisk.Views.RisksGridView();

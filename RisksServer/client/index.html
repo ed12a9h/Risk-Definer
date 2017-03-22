@@ -202,59 +202,60 @@
 	  			</tr>
 	        </tfoot>
 	    </table>
-	</div>	
 	
-	<!-- Popup Modal To add new project-->
-	<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-		    	<div class="modal-header">
-		        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        	<h4 class="modal-title" id="editProjectTitle">Add New Project</h4>
-		      	</div>
-		    	<div class="modal-body">
-		    		<!-- Validation Error Messages -->
-   					<div class="alert alert-danger saveFailed" role="alert">
-						<strong>Warning!</strong> Sorry the system cannot submit this because...
-						<ul class="vfReason"></ul>
-					</div>
-		        	<form>
-		        		<label for="pNameInput">Project Name</label>
-		        		<div class="input-group">
-							<input type="text" id="pNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2"
-									maxlength="250">
+		<!-- Popup Modal To add new project-->
+		<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+			    	<div class="modal-header">
+			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        	<h4 class="modal-title" id="editProjectTitle">Add New Project</h4>
+			      	</div>
+			    	<div class="modal-body">
+			    		<!-- Validation Error Messages -->
+	   					<div class="alert alert-danger saveFailed" role="alert">
+							<strong>Warning!</strong> Sorry the system cannot submit this because...
+							<ul class="vfReason"></ul>
 						</div>
-						<label for="pmNameInput">Project Manager Name</label>
-		        		<div class="input-group">
-							<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" 
-									aria-describedby="sizing-addon2" maxlength="250">
-						</div>
-						<label for="usersInput">User Access</label>
-		        		<div class="input-group">
-		        			<div id="addUsersnew">
-								<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
-										maxlength="100">
-								<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
-								maxlength="100">
-								<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
-								maxlength="100">
+			        	<form>
+			        		<label for="pNameInput">Project Name</label>
+			        		<div class="input-group">
+								<input type="text" id="pNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2"
+										maxlength="250">
 							</div>
-							<p id="usersHelpBlock" class="form-text text-muted">
-								Enter the Google Email Addresses of any users who you wish to provide with access to view the 
-								list of risks associated with this project.
-							</p>
-							<button type="button" class="btn btn-default" style="font-size:11px;" onclick="addAnEmail('new')">Add Another Email</button>
-						</div>
-		        	</form>
-		    	</div>
-		    	<div class="modal-footer">
-		       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		       		<button type="button" class="btn btn-primary saveNew">Save</button>
-		    	</div>
-		    </div>
+							<label for="pmNameInput">Project Manager Name</label>
+			        		<div class="input-group">
+								<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" 
+										aria-describedby="sizing-addon2" maxlength="250">
+							</div>
+							<label for="usersInput">User Access</label>
+			        		<div class="input-group">
+			        			<div id="addUsersnew">
+									<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
+											maxlength="100">
+									<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
+									maxlength="100">
+									<input type="email" class="form-control usersInputnew" placeholder="users google email" aria-describedby="sizing-addon2"
+									maxlength="100">
+								</div>
+								<p id="usersHelpBlock" class="form-text text-muted">
+									Enter the Google Email Addresses of any users who you wish to provide with access to view the 
+									list of risks associated with this project.
+								</p>
+								<button type="button" class="btn btn-default" style="font-size:11px;" onclick="addAnEmail('new')">Add Another Email</button>
+							</div>
+			        	</form>
+			    	</div>
+			    	<div class="modal-footer">
+			       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			       		<button type="button" class="btn btn-primary saveNew">Save</button>
+			    	</div>
+			    </div>
+			</div>
 		</div>
+	  	<div id="bbProjectScriptHolder"></div>
 	</div>
-  	
+	
   	<!-- Google Sign In / Authentication -->
   	<div id="loginWindow" class="container container-table">
   		<div class="row vertical-center-row">
@@ -267,8 +268,8 @@
   			</div>
   		</div>
   	</div>
-	
-  	
-  	<div id="bbProjectScriptHolder"></div>
+		
+	  	
+	  	
 </body>
 </html>

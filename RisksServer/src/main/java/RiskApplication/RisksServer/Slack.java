@@ -31,11 +31,14 @@ public class Slack {
 			// Send message to Slack API
 			CloseableHttpClient client = HttpClients.createDefault();
 		    HttpPost request = new HttpPost("https://hooks.slack.com/services/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");
-		    request.setEntity(new StringEntity("{\"text\":\"A New Project was just added!\nProject Name: "+pName+" \nProject Manager: "+pmName+"\"}"));
+		    request.setEntity(new StringEntity("{\"text\":\"A New Project was just added!\n*Project Name:* "+pName+" \n*Project Manager:* "
+		    			+pmName+"\n<https://riskdefiner.me/client/|Click To Launch Risk Definer>\"}"));
+
 		    client.execute(request);
 		    client.close();
 		} 
 		catch (Exception e) {
+			System.out.println("Slack Message Failure");
 			e.printStackTrace();
 		}
 	}
@@ -49,11 +52,12 @@ public class Slack {
 			CloseableHttpClient client = HttpClients.createDefault();
 		    HttpPost request = new HttpPost("https://hooks.slack.com/services/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");
 		    request.setEntity(new StringEntity("{\"text\":\"A project was updated with the following details...\nProject Name: "+pName+
-		    		" \nProject Manager: "+pmName+"\"}"));
+		    		" \nProject Manager: "+pmName+"\n<https://riskdefiner.me/client/|Click To Launch Risk Definer>\"}"));
 		    client.execute(request);
 		    client.close();
 		} 
 		catch (Exception e) {
+			System.out.println("Slack Message Failure");
 			e.printStackTrace();
 		}
 	}
@@ -66,11 +70,13 @@ public class Slack {
 			// Send message to Slack API
 			CloseableHttpClient client = HttpClients.createDefault();
 		    HttpPost request = new HttpPost("https://hooks.slack.com/services/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");
-		    request.setEntity(new StringEntity("{\"text\":\"The Project '"+pName+"' was just deleted.\"}"));
+		    request.setEntity(new StringEntity("{\"text\":\"The Project '"+pName
+		    		+"' was just deleted.\n<https://riskdefiner.me/client/|Click To Launch Risk Definer>\"}"));
 		    client.execute(request);
 		    client.close();
 		} 
 		catch (Exception e) {
+			System.out.println("Slack Message Failure");
 			e.printStackTrace();
 		}
 	}
@@ -97,7 +103,8 @@ public class Slack {
 		        		// Send message to Slack API
 		        		CloseableHttpClient client = HttpClients.createDefault();
 		    		    HttpPost request = new HttpPost("https://hooks.slack.com/services/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");
-		    		    request.setEntity(new StringEntity("{\"text\":\"Risks have been updated on the project '"+pName+"'.\"}"));
+		    		    request.setEntity(new StringEntity("{\"text\":\"Risks have been updated on the project '"+pName
+		    		    		+"'.\n<https://riskdefiner.me/client/|Click To Launch Risk Definer>\"}"));
 		    		    client.execute(request);
 		    		    client.close();
 		    		    System.out.println("time run");

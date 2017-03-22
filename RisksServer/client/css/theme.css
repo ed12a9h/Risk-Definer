@@ -157,6 +157,74 @@ padding-right: 17px;
 	display:none;
 }
 
-    
-    
+/* Risk Grid */
+.gridBox {
+	float:left;
+	width:205px;
+	height:80px;
+	border:2px solid #000;
+}
+.probHeading{
+	float:left;
+	width:80px;
+	height:80px;
+	display: table;
+} 
+#pHead4{
+	height:30px;
+}   
+.probHeading>h3{
+	display: table-cell;
+	vertical-align:middle;
+	text-align:center;
+	font-size:15pt;
+} 
+.likeHeading {
+	float:left;
+	width:205px;
+	height:30px;
+	text-align:center;
+	font-size:15pt;
+	display: table;
+}
+.likeHeading>h3{
+	padding-top: 5px;
+	display: table-cell;
+	vertical-align:top;
+	text-align:center;
+	font-size:15pt;
+} 
+
+/* Insert Reference */
+.rotate {
+	transform: rotate(-90deg);
+	transform-origin: left top 0;
+	padding-left: 100px;
+	position: relative;
+    top: 335px;
+}
+#y-axis {
+	width:30px;
+	height:455px;
+	float:left;
+}
+#x-axis {
+	width:1104px;
+	height:60px;
+	float:left;
+}
+#x-axis>h3 {
+	margin-top:0px;
+	text-align:center;
+	margin-left: 80px;
+}
+#div4, #div5, #div10{
+	background-color:red;
+}
+#div1, #div2, #div3, #div8, #div9, #div14, #div15, #div20, #div25{
+	background-color:orange;
+}
+#div6, #div7, #div11, #div12, #div13, #div16, #div17, #div18, #div19, #div21, #div22, #div23, #div24{
+	background-color:green;
+}
     
