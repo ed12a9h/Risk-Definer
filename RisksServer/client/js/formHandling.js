@@ -36,3 +36,13 @@ function getEmails(id) {
 	return usersArray;
 }
 
+// Pop up message for user to confirm they wish to delete project and associated risks.
+function checkDelete() {
+    var conf = confirm("This will delete all project risks.\nPress OK to confirm deletion of project.");
+    if (conf == true) {
+        return true;
+    } 
+    else {
+    	return false;
+    }
+}

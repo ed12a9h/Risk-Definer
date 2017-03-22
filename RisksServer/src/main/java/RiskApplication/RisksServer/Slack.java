@@ -90,7 +90,6 @@ public class Slack {
 			Timer oldTimer = (Timer)this.timers.get(fProject);
 			if (oldTimer!=null){
 				oldTimer.cancel(); //this will cancel the current task. if there is no active task, nothing happens
-				System.out.println(oldTimer);
 				timers.remove(fProject);
 			}
 			// Create new timer and function timer executes
@@ -107,7 +106,6 @@ public class Slack {
 		    		    		+"'.\n<https://riskdefiner.me/client/|Click To Launch Risk Definer>\"}"));
 		    		    client.execute(request);
 		    		    client.close();
-		    		    System.out.println("time run");
 		        	}
 		        	catch (Exception e) {
 		    			e.printStackTrace();

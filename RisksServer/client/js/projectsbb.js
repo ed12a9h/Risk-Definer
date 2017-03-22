@@ -114,18 +114,23 @@ BBProj.Views.ProjectView = Backbone.View.extend({
     
     // Function to delete a project.
     deleteProject:function () {
-        //Delete model
-        this.model.destroy({
-	        error: function(model, response) {
-	        	console.log(response);
-	        	// Show unsuccessful modification message
-	        	$("#modFailed").show();
-	        },
-	        success: function(model, response) {
-	        	errorHideAll();
-	        },
-	        wait: true // Do not report status until web service response.
-        });
+    	// User prompted to confirm delete.
+    	if (checkDelete()===true) {
+    		//Delete model
+    		this.model.destroy({
+    	        error: function(model, response) {
+    	        	console.log(response);
+    	        	// Show unsuccessful modification message
+    	        	$("#modFailed").show();
+    	        },
+    	        success: function(model, response) {
+    	        	errorHideAll();
+    	        },
+    	        wait: true // Do not report status until web service response.
+            });
+    	}
+        
+        
     },
     
     // Produce HTML in template for a project.

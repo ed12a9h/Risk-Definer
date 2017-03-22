@@ -234,6 +234,6 @@ padding-right: 17px;
     behavior: url(PIE.htc); /* remove if you don't care about IE8 */
     background-color: #5bc0de;
     border-color: #46b8da;
-    
+    margin:2px;
 }
     
