@@ -188,6 +188,7 @@ BBRisk.Views.RisksView = Backbone.View.extend({
     render:function () {
     	this.$el.empty();
         var that = this;
+        removeAllPlots();
         _.each(this.collection.models, function (item) {
         	// For each project in list call renderRisk function.
             that.renderRisk(item);
@@ -200,6 +201,8 @@ BBRisk.Views.RisksView = Backbone.View.extend({
             model:item
         });
         this.$el.append(BBRisk.Views.riskView.render().el);
+        //removeRiskPlot(item.get("rID"));
+        plotRisk(item);
     },
     
     // Function to save a new project.
@@ -269,26 +272,3 @@ BBRisk.Views.TFooterView = Backbone.View.extend({
 // Create an instance of tFooterView
 BBRisk.Views.tFooterView = new BBRisk.Views.TFooterView();
 
-
-//View for Single Project in grid
-BBRisk.Views.RiskGridView = BBRisk.Views.RiskView.extend({
-	tagName: 'div',
-	className: 'rGridItem',
-	template:$("#gridTemplate").html(),
-});
-
-BBRisk.Views.RisksGridView = BBRisk.Views.RisksView.extend({
-    el:$("#riskTest"),
-    
-    // Produce HTML for an individual risk item.
-    renderRisk:function (item) {
-    	BBRisk.Views.riskGridView = new BBRisk.Views.RiskGridView({
-            model:item
-        });
-        this.$el.append(BBRisk.Views.riskGridView.render().el);
-    }
-});
-
-
-// Create an instance of projects view
-BBRisk.Views.risksGridView = new BBRisk.Views.RisksGridView();
