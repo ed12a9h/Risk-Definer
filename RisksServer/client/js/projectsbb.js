@@ -5,6 +5,9 @@
  * This file contains code used for creating a backbone MVC and syncing data with the Risk Definer Web service.
  */
 
+// IE10 Cache Fix
+$.ajaxSetup({ cache: false });
+
 // defines the namespace
 window.BBProj = {
   Models: {},

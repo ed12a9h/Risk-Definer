@@ -6,6 +6,9 @@ window.BBRisk = {
   Router: {}
 };
 
+//IE10 Cache Fix
+$.ajaxSetup({ cache: false });
+
 //Build web service url
 var rID = window.location.hash.substr(1);
 var url = "../server/request/risks/"+rID
