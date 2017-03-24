@@ -43,6 +43,13 @@ function errorNewProject(response) {
 };
 
 
+// Display error message on risk grid update fail.
+function riskGridFail(response) {
+	errorHideAll();
+	$("#modFailedGrid").show();
+}
+
+
 // Hides all previous error messages.
 function errorHideAll() {
     // Hide all error messages
@@ -55,6 +62,7 @@ function errorHideAll() {
 function errorFetchFail(status) {
 	$('.pItem').remove();
 	$('.rItem').remove();
+	$('#rGrid').remove();
 	if (status===401) {
 		$("#unauthorisedAccess").show();
 		$('.priv').hide();

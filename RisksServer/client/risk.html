@@ -98,14 +98,14 @@
  					to reload page.
 		</div>
     	
-    	<!-- Table of Projects -->
+    	<!-- Table of Risks -->
 	    <table class="table">
 	    	<thead>
 	        <tr>
 	        	<th id="col0r">ID</th>
 	            <th id="col1r">Risk</th>
 	            <th id="col2r">Impact</th>
-	            <th id="col3r">Probability</th>
+	            <th id="col3r">Likelihood</th>
 	            <th id="col4r">Status</th>
 	            <th id="col5r"></th>
 	        </tr>
@@ -121,10 +121,10 @@
 					<td class="center"><%= status %></td>
 					<td>
 						
-						<button class="delete pull-right rButtons btn btn-info priv" aria-label="Delete Project" title="Delete">
+						<button class="delete pull-right rButtons btn btn-info priv" aria-label="Delete Risk" title="Delete">
 							<span class="glyphicon glyphicon-trash" aria-hidden="true"> 
 						</button>
-						<button class="edit pull-right rButtons btn btn-info priv" aria-label="Edit Project" title="Edit" data-toggle="modal" 
+						<button class="edit pull-right rButtons btn btn-info priv" aria-label="Edit Risk" title="Edit" data-toggle="modal" 
 								data-target="#editModal<%= id %>" onclick="errorHideAll()">
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true">
 						</button>
@@ -133,7 +133,7 @@
 							Full Details
 						</button>
 						
-						<!-- Popup Modal for project edit-->
+						<!-- Popup Modal for risk edit-->
 						<div class="modal fade" id="editModal<%= id %>" tabindex="-1" role="dialog" aria-labelledby="EditRisk">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
@@ -141,7 +141,7 @@
 							        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-							        	<h4 class="modal-title">Edit Project: <%= rName %></h4>
+							        	<h4 class="modal-title">Edit Risk: <%= rName %></h4>
 							      	</div>
 							    	<div class="modal-body">
 										<!-- Validation Error Messages -->
@@ -217,50 +217,192 @@
 	        </tfoot>
 	    </table>
 	    
-	    <!-- Popup Modal To add new project-->
+	    <!-- Risk Grid Error Messages -->
+        <div class="alert alert-danger alert-dismissible" id="modFailedGrid" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+ 			<strong>Warning!</strong> Something went wrong your latest modification, Sorry! Look below nothing has changed &#9785;
+		</div>
+	    
+	    <!-- Grid Plotting Risks-->
 	    <div id="rGrid">
-	    	<div id="y-axis"><h3 class="rotate">Probability</h3></div>
+	    	<div id="y-axis"><h3 class="rotate">Likelihood</h3></div>
 	    	<div id="pHead1" class="probHeading">
-				<h3>Very High</h3>
+				<div class="probCatHolder rotate">
+					<h3 class="probCat">Very High</h3>
+				</div>
+				<div class="rotate probNumHolder">
+					<h3 class="probNum">9</h3>
+					<h3 class="probNum">10</h3>
+				</div>
 			</div>
-			<div id="div1" data-impact="1 2" data-prob="9 10" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="div2" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="div3" data-impact="5 6" data-prob="9 10" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="div4" data-impact="7 8" data-prob="9 10" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-red"></div>
-			<div id="div5" data-impact="9 10" data-prob="9 10" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=1 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=2 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=3 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=4 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=5 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=6 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=7 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=8 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=9 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=10 data-prob=10 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=1 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=2 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=3 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=4 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=5 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=6 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=7 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=8 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=9 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=10 data-prob=9 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
 			<div id="pHead2" class="probHeading">
-				<h3>High</h3>
+				<div class="probCatHolder rotate">
+					<h3 class="probCat">High</h3>
+				</div>
+				<div class="rotate probNumHolder">
+					<h3 class="probNum">7</h3>
+					<h3 class="probNum">8</h3>
+				</div>
 			</div>
-			<div id="div6" data-impact="1 2" data-prob="7 8" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div7" data-impact="3 4" data-prob="7 8" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div8" data-impact="5 6" data-prob="7 8" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="div9" data-impact="7 8" data-prob="7 8" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="div10" data-impact="9 10" data-prob="7 8" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=1 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=6 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=7 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=8 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=9 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=10 data-prob=8 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=1 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=6 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=7 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=8 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=9 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
+			<div data-impact=10 data-prob=7 ondragover="allowDrop(event)" class="gridBox bg-red"></div>
 			<div id="pHead3" class="probHeading">
-				<h3>Medium</h3>
+				<div class="probCatHolder rotate">
+					<h3 class="probCat">Medium</h3>
+				</div>
+				<div class="rotate probNumHolder">
+					<h3 class="probNum">5</h3>
+					<h3 class="probNum">6</h3>
+				</div>
 			</div>
-			<div id="div11" data-impact="1 2" data-prob="5 6" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div12" data-impact="3 4" data-prob="5 6" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div13" data-impact="5 6" data-prob="5 6" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div14" data-impact="7 8" data-prob="5 6" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="div15" data-impact="9 10" data-prob="5 6" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=1 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=6 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=7 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=8 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=9 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=10 data-prob=6 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=1 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=6 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=7 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=8 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=9 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=10 data-prob=5 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
 			<div id="pHead3" class="probHeading">
-				<h3>Low</h3>
+				<div class="probCatHolder rotate">
+					<h3 class="probCat">Low</h3>
+				</div>
+				<div class="rotate probNumHolder">
+					<h3 class="probNum">3</h3>
+					<h3 class="probNum">4</h3>
+				</div>
 			</div>
-			<div id="div16" data-impact="1 2"  data-prob="3 4" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div17" data-impact="3 4"  data-prob="3 4" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div18" data-impact="5 6"  data-prob="3 4" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div19" data-impact="7 8"  data-prob="3 4" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div20" data-impact="9 10"  data-prob="3 4" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=1 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=6 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=7 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=8 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=9 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=10 data-prob=4 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=1 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=6 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=7 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=8 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=9 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=10 data-prob=3 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
 			<div id="pHead4" class="probHeading">
-				<h3>Very Low</h3>
+				<div class="probCatHolder rotate">
+					<h3 class="probCat">Very Low</h3>
+				</div>
+				<div class="rotate probNumHolder">
+					<h3 class="probNum">1</h3>
+					<h3 class="probNum">2</h3>
+				</div>
 			</div>
-			<div id="div21" data-impact="1 2"  data-prob="1 2" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div22" data-impact="3 4"  data-prob="1 2" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div23" data-impact="5 6"  data-prob="1 2" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div24" data-impact="7 8"  data-prob="1 2" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-green"></div>
-			<div id="div25" data-impact="9 10"  data-prob="1 2" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
-			<div id="pHead4" ondrop="drop(event, this)" ondragover="allowDrop(event)" class="probHeading"></div>
+			<div data-impact=1 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=6 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=7 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=8 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=9 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=10 data-prob=2 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=1 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=2 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=3 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=4 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=5 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=6 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=7 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=8 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-green"></div>
+			<div data-impact=9 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div data-impact=10 data-prob=1 ondragover="allowDrop(event)" class="gridBox bg-orange"></div>
+			<div id="pHead5" class="probHeading"></div>
+			<div class="impNumHeading">
+				<h3>1</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>2</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>3</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>4</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>5</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>6</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>7</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>8</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>9</h3>
+			</div>
+			<div class="impNumHeading">
+				<h3>10</h3>
+			</div>
+			<div id="pHead6" class="probHeading"></div>
 			<div id="iHead1" class="impHeading">
 				<h3>Very Low</h3>
 			</div>
@@ -278,13 +420,15 @@
 			</div>
 			<div id="x-axis"><h3>Impact</h3></div>
 	    </div>
-		<!-- Popup Modal To add new project-->
+	    
+	    
+		<!-- Popup Modal To add new risk-->
 		<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 			    	<div class="modal-header">
 			        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        	<h4 class="modal-title" id="editProjectTitle">Add New Project</h4>
+			        	<h4 class="modal-title" id="editRiskTitle">Add New Risk</h4>
 			      	</div>
 			    	<div class="modal-body">
 			    		<!-- Validation Error Messages -->
@@ -293,9 +437,9 @@
 							<ul class="vfReason"></ul>
 						</div>
 			        	<form>
-			        		<label for="rNameInput">Project Name*</label>
+			        		<label for="rNameInput">Risk Name*</label>
 			        		<div class="input-group">
-								<input type="text" id="rNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2"
+								<input type="text" id="rNameInput" class="form-control" placeholder="risk name" aria-describedby="sizing-addon2"
 										maxlength="250">
 							</div>
 							<label for="impactInput">Impact*</label>

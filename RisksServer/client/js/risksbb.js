@@ -141,13 +141,14 @@ BBRisk.Views.RiskView = Backbone.View.extend({
 	},
 });
 
+BBRisk.Collections.risks = new BBRisk.Collections.Risks();
 
 // View for collection of Projects
 BBRisk.Views.RisksView = Backbone.View.extend({
     el:$("#risks"),
 
     initialize:function () {
-        this.collection = new BBRisk.Collections.Risks();
+        this.collection = BBRisk.Collections.risks;
         // Get project items from web service.
         this.collection.fetch({
         	success: function(collection, response, options) {
@@ -204,7 +205,6 @@ BBRisk.Views.RisksView = Backbone.View.extend({
             model:item
         });
         this.$el.append(BBRisk.Views.riskView.render().el);
-        //removeRiskPlot(item.get("rID"));
         plotRisk(item);
     },
     
@@ -251,24 +251,52 @@ BBRisk.Views.RisksView = Backbone.View.extend({
 BBRisk.Views.risksView = new BBRisk.Views.RisksView();
 
 
-// A view created in order to receive event from from a button outside of el of projectsView. Code Reference #11.
+// A view created in order to receive events outside of el of projectsView. Code Reference #11.
 BBRisk.Views.TFooterView = Backbone.View.extend({
     el: '#pageBody',
     
     // Listens for click on button.
     events: {
-        "click .saveNew" : "saveNewRiskLink"
+        "click .saveNew" : "saveNewRiskLink",
+        "drop .gridBox" : "dropUpdate"
     },
     
     // Bind functions to view.
     initialize: function(){
-        _.bindAll(this, "saveNewRiskLink");
+        _.bindAll(this, "saveNewRiskLink", "dropUpdate");
     },
     
     // Function which links to trigger on projectsView
     saveNewRiskLink: function() {
     	BBRisk.Views.risksView.trigger("newRiskEvent");
+    },
+    // Function for handling of a drop event when risks are plotted.
+    dropUpdate: function(event) {
+    	var plotID = event.originalEvent.dataTransfer.getData("text");// Get element id of risk plot object.
+    	var rId = document.getElementById(plotID).getAttribute("data-rid");// Get project specific risk ID of dragged risk
+    	var collection= BBRisk.Collections.risks; // Get collection of risks.
+    	var model = collection.findWhere({rID : parseInt(rId)}); // Find model of risk with matching risk id.
+    	// Get impact and probability values of box risk is dropped within.
+    	var riskImpact = event.currentTarget.dataset.impact;
+    	var riskProbability = event.currentTarget.dataset.prob;
+    	
+    	// Update Model with new impact and/or probability
+    	model.save({"impact":riskImpact, "probability":riskProbability}, {
+		        error: function(model, response) {
+		        	// Get Error response and pass to error function.
+		        	riskGridFail(response);
+		        },
+		        success: function(model, response) {
+		        	errorHideAll();
+		        	// Move risk marker on grid to its new position
+		        	event.originalEvent.preventDefault();
+		        	$('div[data-impact~='+parseInt(riskImpact)+'][data-prob~='+parseInt(riskProbability)+']').append(document.getElementById(plotID));
+		        },
+		        wait: true // Do not report status until web service response.
+		});
     }
+    	
+    
 });
 
 

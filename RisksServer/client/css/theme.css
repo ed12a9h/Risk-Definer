@@ -160,29 +160,55 @@ padding-right: 17px;
 /* Risk Grid */
 .gridBox {
 	float:left;
-	width:205px;
-	height:80px;
+	width:102px;
+	height:60px;
 	border:2px solid #000;
 }
 .probHeading{
 	float:left;
 	width:80px;
-	height:80px;
-	display: table;
+	height:120px;
 } 
-#pHead4{
-	height:30px;
+#pHead5, #pHead6{
+	height:20px;
 }   
-.probHeading>h3{
-	display: table-cell;
-	vertical-align:middle;
-	text-align:center;
+.probCat, .probNum,{
 	font-size:15pt;
 } 
+.probCatHolder {
+	height: 20px!important;
+    width: 120px;
+    right:30px;
+    position: relative;
+}
+.probCat {
+	height: 20px!important;
+    width: 120px;
+    top: 8px;
+    right:30px;
+    position: relative;
+    font-size:15pt;
+    text-align: center;
+}
+.probNum {
+    height: 20px;
+    width: 60px;
+    float: left;
+    text-align: center;
+    font-size:15pt;
+}
+.probNumHolder{
+	width: 120px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    right: 15px;
+    top: 9px;
+}
 .impHeading {
 	float:left;
 	width:205px;
-	height:30px;
+	height:20px;
 	text-align:center;
 	font-size:15pt;
 	display: table;
@@ -194,27 +220,41 @@ padding-right: 17px;
 	text-align:center;
 	font-size:15pt;
 } 
+.impNumHeading{
+	float:left;
+	width:102px;
+	height:20px;
+	text-align:center;
+}
+.impNumHeading>h3{
+	font-size:15pt;
+	margin-top: 1px;
+    margin-bottom: 5px;
+}
 .rotate {
 	transform: rotate(-90deg);
-	transform-origin: left top 0;
-	padding-left: 100px;
-	position: relative;
-    top: 335px;
+	transform-origin: center;
+	
 }
 #y-axis {
 	width:30px;
-	height:455px;
+	height:650px;
 	float:left;
 }
+#y-axis>h3 {
+	position: relative;
+    top: 310px;
+}
 #x-axis {
-	width:1104px;
+	width:100%;
 	height:60px;
 	float:left;
+	margin-top:8px;
 }
 #x-axis>h3 {
 	margin-top:0px;
 	text-align:center;
-	margin-left: 80px;
+	margin-left: 105px;
 }
 .bg-red{
 	background-color:red;
