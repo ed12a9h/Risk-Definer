@@ -265,7 +265,7 @@ padding-right: 17px;
 .bg-green{
 	background-color:green;
 }
-.gridItem{
+.gridItem, .gridItem:focus{
 	text-align: center;
     width: 20px;
 	height: 20px;
@@ -275,5 +275,6 @@ padding-right: 17px;
     background-color: #5bc0de;
     border-color: #46b8da;
     margin:2px;
+    outline: none;
 }
     

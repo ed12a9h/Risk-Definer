@@ -197,6 +197,7 @@ BBRisk.Views.RisksView = Backbone.View.extend({
         	// For each project in list call renderRisk function.
             that.renderRisk(item);
         });
+        gridOverflow();
     },
     
     // Produce HTML for an individual risk item.
