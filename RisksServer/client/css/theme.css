@@ -1,3 +1,10 @@
+/*
+ * Risk Definer Web Application
+ * Produced by Adam Hustwit
+ * 
+ * This file contains all custom styling code.
+*/
+
 /* Default Bootstrap Theme */
 body {
 	padding-top: 70px;
@@ -277,7 +284,8 @@ padding-right: 17px;
     margin:2px;
     outline: none;
 }
-.popoverText{
+.popover-content p{
 	font-size:9pt;
+	min-width:235px;
 }
     

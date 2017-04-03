@@ -1,3 +1,11 @@
+/**
+ * Risk Definer Web Application
+ * Produced by Adam Hustwit
+ * 
+ * This file contains code used for creating a backbone MVC and syncing risks data associated with
+ * a specific project with the Risk Definer Web service.
+ */
+
 // defines the namespace
 window.BBRisk = {
   Models: {},
@@ -273,6 +281,9 @@ BBRisk.Views.TFooterView = Backbone.View.extend({
     },
     // Function for handling of a drop event when risks are plotted.
     dropUpdate: function(event) {
+    	$('[data-toggle="popover"]').popover('destroy'); // Hide pop-over
+    	$('[data-toggle="modal"]').popover('destroy'); // Hide pop-over
+    	
     	var plotID = event.originalEvent.dataTransfer.getData("text");// Get element id of risk plot object.
     	var rId = document.getElementById(plotID).getAttribute("data-rid");// Get project specific risk ID of dragged risk
     	var collection= BBRisk.Collections.risks; // Get collection of risks.
@@ -280,18 +291,42 @@ BBRisk.Views.TFooterView = Backbone.View.extend({
     	// Get impact and probability values of box risk is dropped within.
     	var riskImpact = event.currentTarget.dataset.impact;
     	var riskProbability = event.currentTarget.dataset.prob;
+    	// Move risk marker on grid to its new position
+    	event.originalEvent.preventDefault();
+    	$('div[data-impact~='+parseInt(riskImpact)+'][data-prob~='+parseInt(riskProbability)+']').append(document.getElementById(plotID));
     	
     	// Update Model with new impact and/or probability
     	model.save({"impact":riskImpact, "probability":riskProbability}, {
 		        error: function(model, response) {
 		        	// Get Error response and pass to error function.
 		        	riskGridFail(response);
+		        	//Refresh collection to reset grid to post failure state.
+		        	this.collection = BBRisk.Collections.risks.fetch({
+		            	success: function(collection, response, options) {
+		            		// Hide modification elements if user has read only access.
+		            		var access = options.xhr.getResponseHeader("access");
+		            		if (access==="client"){
+		            			readOnly();
+		            		}
+		            		//Get project and manager name.
+		            		headerpName= options.xhr.getResponseHeader("projectName");
+		            		headerpmName= options.xhr.getResponseHeader("managerName");
+		            		if (!headerpmName){
+		            			headerpmName="";
+		            		}
+		            		document.getElementById("projectName").textContent = "Project: "+headerpName;
+		            		document.getElementById("managerName").textContent = "Project Manager: "+headerpmName;
+		            	},
+		    	        error: function() {
+		    	        	// Call fetch fail function.
+		    	            errorFetchFail();
+		    	        },
+		    	        wait: true // Do not report status until web service response.
+		    	    });
 		        },
 		        success: function(model, response) {
 		        	errorHideAll();
-		        	// Move risk marker on grid to its new position
-		        	event.originalEvent.preventDefault();
-		        	$('div[data-impact~='+parseInt(riskImpact)+'][data-prob~='+parseInt(riskProbability)+']').append(document.getElementById(plotID));
+		        	
 		        },
 		        wait: true // Do not report status until web service response.
 		});

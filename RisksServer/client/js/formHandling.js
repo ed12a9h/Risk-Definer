@@ -1,5 +1,5 @@
 /**
- * Risk Definer Web Service
+ * Risk Definer Web Application
  * Produced by Adam Hustwit
  * 
  * This file maintains the state of the risk and project forms.

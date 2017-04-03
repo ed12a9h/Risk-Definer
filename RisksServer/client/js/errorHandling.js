@@ -1,5 +1,5 @@
 /**
- * Risk Definer Web Service
+ * Risk Definer Web Application
  * Produced by Adam Hustwit
  * 
  * This file contains code handling any unexpected errors or validation errors.

@@ -1,8 +1,8 @@
 /**
- * Risk Definer Web Service
+ * Risk Definer Web Application
  * Produced by Adam Hustwit
  * 
- * This file contains code used for creating a backbone MVC and syncing data with the Risk Definer Web service.
+ * This file contains code used for creating a backbone MVC and syncing project data with the Risk Definer Web service.
  */
 
 // IE10 Cache Fix

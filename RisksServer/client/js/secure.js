@@ -1,5 +1,5 @@
 /**
- * Risk Definer Web Service
+ * Risk Definer Web Application
  * Produced by Adam Hustwit
  * 
  * This Javascript file provides functions for presenting and hiding login
