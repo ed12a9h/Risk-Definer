@@ -14,7 +14,7 @@ var rID = window.location.hash.substr(1);
 var url = "../server/request/risks/"+rID
 
 // Default Model for Projects
-BBRisk.Models.Project = Backbone.Model.extend({
+BBRisk.Models.Risk = Backbone.Model.extend({
 	defaults: {
 		rName: ''
 	},
@@ -23,9 +23,9 @@ BBRisk.Models.Project = Backbone.Model.extend({
 });
 
 
-// Projects Collection
+// Risks Collection
 BBRisk.Collections.Risks=  Backbone.Collection.extend({
-	model: BBRisk.Models.Project,
+	model: BBRisk.Models.Risk,
 	url: url, // Web Service URL for CRUD operations
 	
 	
@@ -122,7 +122,6 @@ BBRisk.Views.RiskView = Backbone.View.extend({
         //Delete model
         this.model.destroy({
 	        error: function(model, response) {
-	        	console.log(response);
 	        	// Show unsuccessful modification message
 	        	$("#modFailed").show();
 	        },
@@ -165,6 +164,7 @@ BBRisk.Views.RisksView = Backbone.View.extend({
         		}
         		document.getElementById("projectName").textContent = "Project: "+headerpName;
         		document.getElementById("managerName").textContent = "Project Manager: "+headerpmName;
+        		gridOverflow();
         	},
 	        error: function() {
 	        	// Call fetch fail function.

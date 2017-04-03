@@ -17,16 +17,25 @@ function drag(ev) {
 function plotRisk(item) {
 	// Items with closed status given grey background.
 	if (item.get("status")==="Closed"){
-		var gridElement = '<div class="gridItem" draggable="true" ondragstart="drag(event)" id="drag'+item.get("rID")
-		+'" style="background-color:grey;" width="88" height="31" data-rid='+item.get("rID")+' data-toggle="modal"' 
-		+'data-target="#editModal'+item.get("id")+'" onclick="errorHideAll()">'+item.get("rID")+'</div>';
+		var gridElement = '<div class="gridItem" draggable="true" ondragstart="drag(event)" id="drag'+item.get("rID")+'" style="background-color:grey;"'
+			+' width="88" height="31" data-rid='+item.get("rID")+'" data-toggle="modal" tabindex="0" data-placement="bottom" data-trigger="hover"' 
+			+' data-target="#editModal'+item.get("id")+'" onclick="errorHideAll()">'+item.get("rID")+'</div>';
 	}
 	else {
-		var gridElement = '<div class="gridItem" draggable="true" ondragstart="drag(event)" id="drag'+item.get("rID")
-		+'" width="88" height="31" data-rid='+item.get("rID")+' data-toggle="modal"' 
-		+' data-target="#editModal'+item.get("id")+'" onclick="errorHideAll()">'+item.get("rID")+'</div>';
+		var gridElement = '<div class="gridItem" draggable="true" ondragstart="drag(event)" id="drag'+item.get("rID")+'" width="88" height="31"'
+			+' data-rid='+item.get("rID")+' data-toggle="modal" tabindex="0" data-placement="bottom" data-trigger="hover" data-target="#editModal"'
+			+' item.get("id") onclick="errorHideAll()">'+item.get("rID")+'</div>';
 	}
+	// Risk is placed in grid box with matching impact and probability.
     $('div[data-impact~='+item.get("impact")+'][data-prob~='+item.get("probability")+']').append(gridElement);
+    // Add hover over pop-over to risk items
+    $('#drag'+item.get("rID")).popover({
+		html: true,
+		content: function() {
+		    return '<p class="popoverText">Risk Name: '+item.get("rName")+'<br>Status: '+item.get("status")+'<br>Impact: '+item.get("impact")
+		    +'<br>Probability:'+item.get("probability")+'<br><strong>Click risk number to view or edit details.</strong></p>';
+		    }
+	});
 	
 }
 
@@ -49,14 +58,12 @@ function gridOverflow () {
 			
 			// Display plus icon to allow user to choose to display further risks
 			var gridPlusElement = '<div class="gridItem gridPlusItem" width="88" height="31"'
-			+' tabindex="0" data-placement="bottom" data-trigger="hover focus" rel="popover">+</div>';
+			+' tabindex="0" data-placement="bottom" data-trigger="hover focus">+</div>';
 		    $(this).append(gridPlusElement);
 		 	// Add hover pop-over functionality to plus icon.
 			$(this).children('.gridPlusItem').popover({
 				html: true,
-				content: function() {
-				      return overflowEl;
-				    }
+				content: function() {return overflowEl;}
 			});
 		}
 	});
