@@ -19,3 +19,4 @@ Access can be obtained with the email riskdefiner@gmail.com and password. Access
 (#13) Ekengren, B. Backbone in Baby Steps, part 3. CodeByExample. [Online]. c2012. [Accessed: 18/02/2017]. Available from: codebyexample.info/2012/04/30/backbone-in-baby-steps-part-3/  
 (#15) Polhill, A. Add request header on backbone. December 17th. stackoverflow. [Online]. 2013. [Accessed: 07/03/2017]. Available from: stackoverflow.com/questions/10081728/add-request-header-on-backbone  
 (#16) Favicon Generator. Favicon Generator For real. [Online]. 2017. [14/04/2017]. Available from: realfavicongenerator.net
+(#17) mattdlockyer. How to dismiss a Twitter Bootstrap popover by clicking outside?. December 27th. stackoverflow. [Online]. 2016. [Accessed: 03/04/2017]. Available from: stackoverflow.com/questions/11703093/how-to-dismiss-a-twitter-bootstrap-popover-by-clicking-outside  
