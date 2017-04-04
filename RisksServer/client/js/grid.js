@@ -101,3 +101,15 @@ function removeRiskPlot(rID) {
 function removeAllPlots() {
 	$('.gridItem').remove();
 }
+
+
+//Double click grid to add risk
+$(document).ready(function(){
+    $(".gridBox").dblclick(function(ev){
+    	errorHideAll();
+    	emptyRiskFields();
+    	document.getElementById("impactInput").value= ev.currentTarget.dataset.impact;
+    	document.getElementById("probabilityInput").value= ev.currentTarget.dataset.prob;
+        $('#newProjectModal').modal('toggle');
+    });
+});
