@@ -9,6 +9,7 @@
 body {
 	padding-top: 70px;
 	padding-bottom: 30px;
+	background-color: #fafdfa;
 }
 .theme-dropdown .dropdown-menu {
 	position: static;
@@ -21,7 +22,9 @@ body {
 .theme-showcase .navbar .container {
 	width: auto;
 }
-
+.contentHolder{
+	min-width:630px!important;
+}
 
 /* Modal Window */
 .input-group {
@@ -39,11 +42,15 @@ body {
 .rButtons {
 	margin-right: 15px;
 }
+.table {
+	table-layout:fixed;
+}
 .table thead tr th {
 	border-bottom: 2px solid #87D542!important;
 }
 .table tbody tr td {
 	border-bottom: 1px solid #AED18E!important;
+	overflow-wrap: break-word;
 }
 .table tbody tr td a{
 	color: #333;
@@ -54,19 +61,21 @@ body {
 }
 .table #col3, .table #col5r{
 	min-width:240px;
-} 
-.table #col2{
-	min-width:300px;
+	width: 240px;
 } 
 .table>tbody>tr>td{
 	    vertical-align: middle;
 }
 .table #col2r, .table #col3r, .table #col4r{
 	text-align:center;
+	width: 80px;
 } 
 .table .center{
 	text-align:center;
 } 
+.table #col0r{
+	width:35px;
+}
 
 
 /* Jumbotron */
@@ -75,6 +84,45 @@ body {
 	border: 3px solid #87D542!important;
 }
 
+/* Risk Jumbotron */
+#rJumbotron, #pJumbotron {
+	height:100px;
+	padding:0px;
+	background-color:#fff!important;
+}
+#rJumRight, #pJumRight {
+	float:right;
+	width:300px;
+}
+#rJumRight p, #pJumRight p{
+	line-height: 29px;
+    font-size: 30pt;
+    float: left;
+    font-family: 'Arial Black', 'Arial Bold', "Helvetica Neue",Helvetica,Arial,sans-serif;;
+    margin-left: 7px;
+    margin-top: 15px;
+    color: #1f1f1f;
+}
+#rJumLeft, #pJumLeft {
+	overflow-y: auto;
+    float: left;
+    margin-top: 13px;
+    margin-left: 30px;
+    height: 70px;
+    max-width: calc(100% - 335px);
+}
+#projectName{
+	margin-bottom: 0px;
+	font-size: 23pt;
+}
+#managerName{
+	margin-bottom: 0px;
+	font-size: 12pt;
+}
+#intro{
+	    margin-bottom: 0px;
+	    margin-top: 21px;
+}
 
 /* Navigation Bar */
 .navbar-default {
@@ -145,6 +193,13 @@ padding-right: 17px;
 .modal-header {
     border-bottom: 1px solid #AED18E;
 }
+.modal-footer {
+    border-top: 1px solid #AED18E;
+}
+.modal-backdrop {
+    background-color: #0b5806!important;
+}
+
 
 
 /* Form */

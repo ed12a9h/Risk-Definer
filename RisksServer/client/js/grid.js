@@ -73,8 +73,7 @@ function gridOverflow () {
 		}
 	});
 	
-	// Close pop-over containing additional risks on click on risk or outside pop-over.
-	// INSERT CODE REFERENCE   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// Close pop-over containing additional risks on click on risk or outside pop-over.(Code Reference #17)
 	$(document).on('click', function (e) {
 		if($(event.target).hasClass('gRisk'))
         {

@@ -102,8 +102,8 @@ public class Risk {
 			vErrors= vErrors + "\"Risk name must be longer than one character.\", ";
 			veCount = veCount+1;
 		}
-		if (this.rName.length() >=250){
-			vErrors= vErrors + "\"Risk name should be less than 250 characters.\", ";
+		if (this.rName.length() >=65){
+			vErrors= vErrors + "\"Risk name should be less than 65 characters.\", ";
 			veCount = veCount+1;
 		}
 		if (validateUnique() ==false){

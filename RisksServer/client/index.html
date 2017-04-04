@@ -84,9 +84,14 @@
    	<!-- Main Page Content -->
    	<div class="container theme-showcase contentHolder" role="main">
 		<!-- Main jumbotron-->
-      	<div class="jumbotron priv">
-        <h1>Risk Definer</h1>
-        <p>Select a project from the list below or add a new project now to get started!</p>
+      	<div id="pJumbotron" class="jumbotron priv">
+      		<div id="rJumLeft">
+	        	<p id="intro">Select a project from the list below or add a new project now to get started!</p>
+	        </div>
+	        <div id="rJumRight">
+	        	<img style="float:left;" src="fav/android-chrome-192x192.png" alt="Risk Definer Logo" height="92" width="92">
+	        	<p>Risk<br>Definer</p>
+	        </div>
         </div>
         
         <!-- Error Messages -->
@@ -153,12 +158,12 @@
 							        		<label for="pNameInput">Project Name</label>
 							        		<div class="input-group">
 												<input type="text" id="pNameInput<%= id %>" class="form-control" value="<%= pName %>"
-														placeholder="project name" aria-describedby="sizing-addon2" maxlength="250">
+														placeholder="project name" aria-describedby="sizing-addon2" maxlength="65">
 											</div>
 											<label for="pmNameInput">Project Manager Name</label>
 							        		<div class="input-group">
 												<input type="text" id="pmNameInput<%= id %>" class="form-control" value="<%= pmName %>" 
-														placeholder="project manager name" aria-describedby="sizing-addon2" maxlength="250">
+														placeholder="project manager name" aria-describedby="sizing-addon2" maxlength="65">
 											</div>
 											<label for="usersInput">User Access</label>
 		        							<div class="input-group">
@@ -227,12 +232,12 @@
 			        		<label for="pNameInput">Project Name</label>
 			        		<div class="input-group">
 								<input type="text" id="pNameInput" class="form-control" placeholder="project name" aria-describedby="sizing-addon2"
-										maxlength="250">
+										maxlength="65">
 							</div>
 							<label for="pmNameInput">Project Manager Name</label>
 			        		<div class="input-group">
 								<input type="text" id="pmNameInput" class="form-control" placeholder="project manager name" 
-										aria-describedby="sizing-addon2" maxlength="250">
+										aria-describedby="sizing-addon2" maxlength="65">
 							</div>
 							<label for="usersInput">User Access</label>
 			        		<div class="input-group">

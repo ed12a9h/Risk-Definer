@@ -70,12 +70,12 @@ public class Project {
 			vErrors= vErrors + "\"Project manager name should be empty or longer than one character.\", ";
 			veCount = veCount+1;
 		}
-		if (this.pName.length() >=250){
-			vErrors= vErrors + "\"Project name should be less than 250 characters.\", ";
+		if (this.pName.length() >=65){
+			vErrors= vErrors + "\"Project name should be less than 65 characters.\", ";
 			veCount = veCount+1;
 		}
-		if (this.pmName.length() >=100){
-			vErrors= vErrors + "\"Project manager name should under 100 characters.\", ";
+		if (this.pmName.length() >=65){
+			vErrors= vErrors + "\"Project manager name should under 65 characters.\", ";
 			veCount = veCount+1;
 		}
 		if (validateUnique() ==false){

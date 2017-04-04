@@ -170,8 +170,8 @@ BBRisk.Views.RisksView = Backbone.View.extend({
         		if (!headerpmName){
         			headerpmName="";
         		}
-        		document.getElementById("projectName").textContent = "Project: "+headerpName;
-        		document.getElementById("managerName").textContent = "Project Manager: "+headerpmName;
+        		document.getElementById("projectName").innerHTML = "<strong>Project: </strong>"+headerpName;
+        		document.getElementById("managerName").innerHTML = "<strong>Project Manager: </strong>"+headerpmName;
         		gridOverflow();
         	},
 	        error: function() {

@@ -71,7 +71,10 @@
 	        <div id="navbar" class="navbar-collapse collapse">
 	       		<ul class="nav navbar-nav priv">
 	            	<li><a href="/client/">Select Project</a></li>
-	           		<li class="active1"><a>Project Risks</a></li>
+	           		<li class="active1">
+	           			<a href="" onclick="$('html,body').animate({scrollTop: $('#pageBody').offset().top},'slow');event.preventDefault();">
+	           				Project Risks</a>
+	           		</li>
 	        	</ul>
 	        	<ul class="nav navbar-nav navbar-right">
 			    	<li>
@@ -80,7 +83,7 @@
 			    		</a>
 	  				</li>
 	  				<li>
-			    		<a href="#rGrid">
+			    		<a href="" onclick="$('html,body').animate({scrollTop: $('#rGrid').offset().top},'slow');event.preventDefault();">
 			    			View Grid
 			    		</a>
 	  				</li>
@@ -92,10 +95,16 @@
    	<!-- Main Page Content -->
    	<div class="container theme-showcase contentHolder" role="main">
 		<!-- Main jumbotron-->
-      	<div class="jumbotron">
-        <h1>Risk Definer</h1>
-        <p id="projectName"></p>
-        <p id="managerName"></p>
+      	<div class="jumbotron" id="rJumbotron">
+	        <div id="rJumLeft">
+	        	<p id="projectName"></p>
+	        	<p id="managerName"></p>
+	        </div>
+	        <div id="rJumRight">
+	        	<img style="float:left;" src="fav/android-chrome-192x192.png" alt="Risk Definer Logo" height="92" width="92">
+	        	<p>Risk<br>Definer</p>
+	        </div>
+	        
         </div>
         
         <!-- Error Messages -->
@@ -164,7 +173,7 @@
 		        							<label for="rNameInput">Risk Name*</label>
 		       						 		<div class="input-group">
 												<input type="text" id="rNameInput<%= id %>" class="form-control" placeholder="risk name" 
-														aria-describedby="sizing-addon2" value="<%= rName %>">
+														aria-describedby="sizing-addon2" value="<%= rName %>" maxlength="65">
 											</div>
 											<label for="impactInput">Impact*</label>
 		 						       		<div class="input-group">
@@ -451,7 +460,7 @@
 			        		<label for="rNameInput">Risk Name*</label>
 			        		<div class="input-group">
 								<input type="text" id="rNameInput" class="form-control" placeholder="risk name" aria-describedby="sizing-addon2"
-										maxlength="250">
+										maxlength="65">
 							</div>
 							<label for="impactInput">Impact*</label>
 			        		<div class="input-group">
