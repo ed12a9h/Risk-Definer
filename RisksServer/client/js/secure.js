@@ -75,19 +75,11 @@ function readOnly() {
 	$('.editForm :input').attr('readonly','readonly');
 	$(".statusGroup").html($('input[name=statusInput]:checked').val());
 	$(".gRisk").attr("draggable", "false")
+	//$(".gridBox").attr("ondblclick", "event.preventDefault();")
+	$('.gridBox').unbind('dblclick');
 }
 
 
-//Double click grid to add risk
-$(document).ready(function(){
-    $(".gridBox").dblclick(function(ev){
-    	errorHideAll();
-    	emptyRiskFields();
-    	document.getElementById("impactInput").value= ev.currentTarget.dataset.impact;
-    	document.getElementById("probabilityInput").value= ev.currentTarget.dataset.prob;
-        $('#newProjectModal').modal('toggle');
-    });
-});
 
 
 
