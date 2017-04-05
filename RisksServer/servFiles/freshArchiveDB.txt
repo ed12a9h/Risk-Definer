@@ -1,0 +1,14 @@
+-- Risk Definer Web Service
+-- Produced by Adam Hustwit
+-- SQL command used to create archive table within database
+CREATE TABLE IF NOT EXISTS riskArchive (
+	rRecID INTEGER,
+	rID INTEGER,
+	rName VARCHAR(250) NOT NULL,
+	impact INTEGER,
+	probability INTEGER,
+	description TEXT,
+	mitigation TEXT,
+	status VARCHAR(25),
+	fProject VARCHAR(250) NOT NULL
+);

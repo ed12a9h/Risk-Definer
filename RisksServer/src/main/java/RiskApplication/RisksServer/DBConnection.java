@@ -50,8 +50,7 @@ public class DBConnection {
 		String user = props.getProperty("jdbc.user");
 		String password = props.getProperty("jdbc.password");
 		Connection connection = DriverManager.getConnection(url, user, password);
-	    return connection;
-	    
+	    return connection;   
 	}
 	  
 
@@ -69,6 +68,14 @@ public class DBConnection {
 		// Create a new project table
 		String freshProjectDB = new String(Files.readAllBytes(Paths.get("servFiles/freshProjectDB.txt"))); 
 		statement.executeUpdate(freshProjectDB);
+		//Try create a trigger to move risks to archive table when parent project deleted.
+		String freshProjDelTrig = new String(Files.readAllBytes(Paths.get("servFiles/freshProjDelTrigger.txt")));
+		try{
+			statement.executeUpdate(freshProjDelTrig);
+		}
+		catch(Exception e){
+			//Do nothing - Trigger already exists.
+		}
 		//Create new riskEvent table
 		String freshRiskDB = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskDB.txt"))); 
 		statement.executeUpdate(freshRiskDB);
@@ -79,6 +86,22 @@ public class DBConnection {
 		String freshRiskTrig = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskTrigger.txt")));
 		try{
 			statement.executeUpdate(freshRiskTrig);
+		}
+		catch(Exception e){
+			//Do nothing - Trigger already exists.
+		}
+		//Try create a table for archived risks
+		String freshArchiveDB = new String(Files.readAllBytes(Paths.get("servFiles/freshArchiveDB.txt")));
+		try{
+			statement.executeUpdate(freshArchiveDB);
+		}
+		catch(Exception e){
+			//Do nothing - table already exists.
+		}
+		//Try create a trigger to move risks to archive table when deleted.
+		String freshRiskDelTrig = new String(Files.readAllBytes(Paths.get("servFiles/freshRiskDelTrigger.txt")));
+		try{
+			statement.executeUpdate(freshRiskDelTrig);
 		}
 		catch(Exception e){
 			//Do nothing - Trigger already exists.

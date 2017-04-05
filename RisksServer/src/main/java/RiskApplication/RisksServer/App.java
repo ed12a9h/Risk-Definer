@@ -38,6 +38,7 @@ public class App
 {
 	
 	//Create server port 9999 Local host
+	// For online server change port to 80.
 	static Server server = new Server(9999);
 	
 	
@@ -79,6 +80,7 @@ public class App
         		new HttpConnectionFactory(https_config));
         httpsConnector.setPort(443);
         httpsConnector.setIdleTimeout(50000);
+        // Comment out below line for local host.
         //server.setConnectors(new Connector[]{ httpsConnector });
         
         
@@ -92,7 +94,7 @@ public class App
 		} 
     	finally {
     	     server.destroy();
-    	 }
+    	}
     }
     
     public static ConstraintSecurityHandler userAuth(Server server){

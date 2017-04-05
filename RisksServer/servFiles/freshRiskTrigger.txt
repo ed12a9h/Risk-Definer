@@ -1,3 +1,6 @@
+-- Risk Definer Web Service
+-- Produced by Adam Hustwit
+-- Trigger to automatically assign a risk id unique to risks within risks project.
 CREATE TRIGGER rIdInc BEFORE INSERT ON riskEvent
 FOR EACH ROW BEGIN
     SET NEW.rID = (

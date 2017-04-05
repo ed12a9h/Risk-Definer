@@ -1,0 +1,9 @@
+-- Risk Definer Web Service
+-- Produced by Adam Hustwit
+-- Trigger to ensure risks related to project are moved to archive before delete.
+CREATE TRIGGER archiveProjRisk BEFORE DELETE ON project
+FOR EACH ROW BEGIN
+    INSERT riskArchive
+	SELECT * FROM riskEvent
+	WHERE fProject = OLD.pName;
+    END
