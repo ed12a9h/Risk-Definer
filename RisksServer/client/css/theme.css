@@ -25,6 +25,9 @@ body {
 .contentHolder{
 	min-width:630px!important;
 }
+#pageBody{
+	min-width:630px!important;
+}
 
 /* Modal Window */
 .input-group {
@@ -343,4 +346,10 @@ padding-right: 17px;
 	font-size:9pt;
 	min-width:235px;
 }
+
+/* Hide grid on low res screen */
+@media (max-width: 1200px){
+.hidden-grid-low-res {
+    display: none!important;
+}}
     

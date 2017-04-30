@@ -115,7 +115,7 @@ public class Risk {
 			veCount = veCount+1;
 		}
 		if (this.probability<1  || this.probability>10){
-			vErrors= vErrors + "\"Probability must be between 1 and 10.\", ";
+			vErrors= vErrors + "\"Likelihood must be between 1 and 10.\", ";
 			veCount = veCount+1;
 		}
 		if (!this.status.equals("Open") && !this.status.equals("Closed")){
@@ -154,7 +154,7 @@ public class Risk {
 			veCount = veCount+1;
 		}
 		if (this.probability<1  || this.probability>10){
-			vErrors= vErrors + "\"Probability must be between 1 and 10.\", ";
+			vErrors= vErrors + "\"Lieklihood must be between 1 and 10.\", ";
 			veCount = veCount+1;
 		}
 		if (!this.status.equals("Open") && !this.status.equals("Closed")){

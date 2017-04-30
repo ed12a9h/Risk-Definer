@@ -9,7 +9,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=0.5">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="">
 	<meta name="author" content="">
@@ -180,7 +180,7 @@
 												<input type="number" id="impactInput<%= id %>" class="form-control" placeholder="impact" 
 														aria-describedby="sizing-addon2" value="<%= impact %>" max="10" min="1">
 											</div>
-											<label for="probabilityInput">Probability*</label>
+											<label for="probabilityInput">Likelihood*</label>
 		        							<div class="input-group">
 												<input type="number" id="probabilityInput<%= id %>" class="form-control" placeholder="probability" 
 														aria-describedby="sizing-addon2"  value="<%= probability %>" max="10" min="1">
@@ -190,9 +190,9 @@
 												<textarea id="descriptionInput<%= id %>" class="form-control" placeholder="description" 
 														aria-describedby="sizing-addon2" value="<%= description %>"></textarea>
 											</div>
-											<label for="mitigationInput">Mitigation</label>
+											<label for="mitigationInput">Control</label>
 		        							<div class="input-group">
-												<textarea id="mitigationInput<%= id %>" class="form-control" placeholder="mitigation" 
+												<textarea id="mitigationInput<%= id %>" class="form-control" placeholder="control" 
 														aria-describedby="sizing-addon2"  value="<%= mitigation %>"></textarea>
 											</div>
 											<label for="statusInput">Status*</label>
@@ -244,7 +244,7 @@
 		</div>
 	    
 	    <!-- Grid Plotting Risks-->
-	    <div id="rGrid">
+	    <div id="rGrid" class="hidden-grid-low-res">
 	    	<div id="y-axis"><h3 class="rotate">Likelihood</h3></div>
 	    	<div id="pHead1" class="probHeading">
 				<div class="probCatHolder rotate">
@@ -467,7 +467,7 @@
 								<input type="number" id="impactInput" class="form-control" placeholder="impact" aria-describedby="sizing-addon2"
 										max="10" min="1">
 							</div>
-							<label for="probabilityInput">Probability*</label>
+							<label for="probabilityInput">Likelihood*</label>
 			        		<div class="input-group">
 								<input type="number" id="probabilityInput" class="form-control" placeholder="probability" aria-describedby="sizing-addon2"
 										max="10" min="1">
@@ -476,9 +476,9 @@
 			        		<div class="input-group">
 								<textarea id="descriptionInput" class="form-control" placeholder="description" aria-describedby="sizing-addon2"></textarea>
 							</div>
-							<label for="mitigationInput">Mitigation</label>
+							<label for="mitigationInput">Control</label>
 			        		<div class="input-group">
-								<textarea id="mitigationInput" class="form-control" placeholder="mitigation" aria-describedby="sizing-addon2"></textarea>
+								<textarea id="mitigationInput" class="form-control" placeholder="control" aria-describedby="sizing-addon2"></textarea>
 							</div>
 							<label for="statusInput">Status*</label>
 			        		<div class="input-group">
