@@ -362,7 +362,7 @@ padding-right: 17px;
 
 /* Hide grid on low res screen */
 @media (max-width: 1200px){
-.hidden-grid-low-res {
+.hidden-grid-low-res{
     display: none!important;
 }}
     

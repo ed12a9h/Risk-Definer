@@ -152,6 +152,13 @@ public class DBConnection {
 	        database.commit();	   
 	        database.close();
 	        
+	        // Send new client users invitation emails.
+	        InviteEmail email = new InviteEmail();
+	        for (String user:users){
+				email.sendEmail(pName, pRecID, user);
+	        }
+	        
+	       
 	        // Send message to slack
 	        Slack message = new Slack();
 	        message.addProject(pName, pmName);
