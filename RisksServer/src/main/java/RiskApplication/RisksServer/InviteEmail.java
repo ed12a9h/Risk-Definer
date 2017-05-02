@@ -48,13 +48,12 @@ public class InviteEmail {
 			msg.setContent("<p>Hello,</p><p>This is an automated email from Risk Definer (do not"
 					+ " respond) to inform you that you have been sent an invitation to view the"
 					+ " below project.</p><p>Project Name: " + pName +"</p><p>URL: <a href="
-					+ "'https://riskdefiner.me/client/risk.html#'>"+pRecID+"'>"
+					+ "'https://riskdefiner.me/client/risk.html#"+pRecID+"'>"
 					+ "https:riskdefiner.me/client/risk.html#"+pRecID+"</a></p><p>Please login "
-					+ "using your Google account associated with the email "+email+"</p><p>"
+					+ "using a Google account associated with the email "+email+"</p><p>"
 					+ "From Risk Definer.</p>", "text/html");
-	        // sends the e-mail
+	        // Sends the e-mail
 	        Transport.send(msg);
-	        System.out.println("Email sent.");
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

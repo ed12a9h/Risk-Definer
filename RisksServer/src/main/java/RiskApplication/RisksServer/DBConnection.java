@@ -188,7 +188,7 @@ public class DBConnection {
 			database = DBConnection.getConnection();
 			
 			// Multiple insert transaction so auto commit turned off so both inserts can be turned off together.
-						database.setAutoCommit(false);
+			database.setAutoCommit(false);
 			
 			// Statement used to update existing project in project table
 			PreparedStatement statement =
@@ -198,24 +198,47 @@ public class DBConnection {
 			statement.executeUpdate();
 		    statement.close();
 		    
-		    //Delete all Existing users
- 			Statement dStatement = database.createStatement();
- 			dStatement.executeUpdate("DELETE FROM user WHERE fProject='"+pName+"';");
- 			dStatement.close();
+		    //Delete all removed users from users table.
+		    Statement ouStatement = database.createStatement();
+		    ResultSet oldUsersList = ouStatement.executeQuery("Select user FROM user WHERE fProject='"+pName+"';");
+		    while (oldUsersList.next()){
+		    	if (!users.contains(oldUsersList.getString("user"))){
+		    		Statement dStatement = database.createStatement();
+		 			dStatement.executeUpdate("DELETE FROM user WHERE fProject='"+pName+"' AND user='"+oldUsersList.getString("user")+"';");
+		 			dStatement.close();
+		    	}
+		    }
 		    
-	        
-	        //Add Projects users to users DB
+		    // Array to store newly added users in need of email invitation.
+		    ArrayList<String> newUsers = new ArrayList<String>(); 
+		    
+		    //Add Projects users to users DB
 	        for (String user:users){
-	        	PreparedStatement uStatement = database.prepareStatement("INSERT INTO user(user, fProject) VALUES(?,?)");
-	        	uStatement.setString(1, user);
-	        	uStatement.setString(2, pName);
-	        	uStatement.executeUpdate();
-	        	uStatement.close();
+	        	//Test if user already exists for project
+	 			Statement cStatement = database.createStatement();
+	 			ResultSet foundUser=cStatement.executeQuery("SELECT user FROM user WHERE "
+	 						+ "fProject='"+pName+"' AND user='"+user+"';");
+	 			//Add new users to user table.
+	 			if (!foundUser.next()){
+	 				PreparedStatement uStatement = database.prepareStatement("INSERT INTO user(user, fProject) VALUES(?,?)");
+		        	uStatement.setString(1, user);
+		        	uStatement.setString(2, pName);
+		        	uStatement.executeUpdate();
+		        	uStatement.close();
+		        	newUsers.add(user);
+	 			}
+	 			cStatement.close();
 	        }
 	        
 	        // All database transaction successful so commit changes.
 	        database.commit();	
 		    database.close();
+		    
+		    // Send new client users invitation emails.
+	        InviteEmail email = new InviteEmail();
+	        for (String user:newUsers){
+				email.sendEmail(pName, pRecID, user);
+	        }
 		    
 		    // Send message to slack
 	        Slack message = new Slack();
@@ -228,7 +251,8 @@ public class DBConnection {
 			try {
 				database.rollback();
 				return Response.status(500).build();
-			} catch (Exception e2) {
+			} 
+			catch (Exception e2) {
 				e2.printStackTrace();
 				return Response.status(500).build();
 			}
