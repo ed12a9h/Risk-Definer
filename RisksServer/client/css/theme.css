@@ -123,8 +123,8 @@ body {
 	font-size: 12pt;
 }
 #intro{
-	    margin-bottom: 0px;
-	    margin-top: 21px;
+	margin-bottom: 0px;
+	margin-top: 21px;
 }
 
 /* Navigation Bar */
@@ -312,6 +312,8 @@ padding-right: 17px;
 .rotate {
 	transform: rotate(-90deg);
 	transform-origin: center;
+	-webkit-transform: rotate(-90deg);
+	-webkit-transform-origin: center;
 	
 }
 #y-axis {

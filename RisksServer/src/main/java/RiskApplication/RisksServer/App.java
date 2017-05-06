@@ -44,7 +44,7 @@ public class App
 	
     public static void main( String[] args )
     {
-    	//Security
+    	//Security - Old Basic HTTP Authentication method.
     	//ConstraintSecurityHandler security = userAuth(server);
     	
     	//Servlet Config for web service (/server)
