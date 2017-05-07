@@ -10,69 +10,68 @@ $.ajaxSetup({ cache: false });
 
 // defines the namespace
 window.BBProj = {
-  Models: {},
-  Collections: {},
-  Views: {},
-  Router: {}
+    Models: {},
+    Collections: {},
+    Views: {},
+    Router: {}
 };
 
 // Default Model for Projects
 BBProj.Models.Project = Backbone.Model.extend({
-	defaults: {
-		pName: '',
-		pmName: ''
-	},
-	urlRoot: '../server/request/projects/',
-	idAttribute: "id"
+    defaults: {
+        pName: '',
+        pmName: ''
+    },
+    urlRoot: '../server/request/projects/',
+    idAttribute: "id"
 });
 
 
 // Projects Collection
 BBProj.Collections.Projects=  Backbone.Collection.extend({
-	model: BBProj.Models.Project,
-	url: '../server/request/projects/', // Web Service URL for CRUD operations
-	
-	
-	// Long Polling (Code Reference #10)
-	longPolling : false,
-	
-	initialize : function(){
-	    _.bindAll(this, "stopLongPolling", "startLongPolling", "executeLongPolling", "onFetch");
-	},
-	
-	stopLongPolling : function(){
-		this.longPolling = false;
-	},
-	startLongPolling : function(){
-	    this.longPolling = true;
-	    this.executeLongPolling();
-	},
-	
-	executeLongPolling : function(){
-	    this.fetch({
-	        error: function(model,collecton, options) {
-	        	// Call fetch fail function.
-	        	errorFetchFail(options.xhr.status);
-	        },
-	        success: this.onFetch,
-	        wait: true // Do not report status until web service response.
-	    });
-	},
-	onFetch : function () {
-		if( this.longPolling ){setTimeout(this.executeLongPolling, 500); // Update view each 0.5 seconds
-	    }
-	},
-	
+    model: BBProj.Models.Project,
+    url: '../server/request/projects/', // Web Service URL for CRUD operations
+    
+    
+    // Long Polling (Code Reference #10)
+    longPolling : false,
+    
+    initialize : function(){
+        _.bindAll(this, "stopLongPolling", "startLongPolling", "executeLongPolling", "onFetch");
+    },
+    
+    stopLongPolling : function(){
+        this.longPolling = false;
+    },
+    startLongPolling : function(){
+        this.longPolling = true;
+        this.executeLongPolling();
+    },
+    
+    executeLongPolling : function(){
+        this.fetch({
+            error: function(model,collecton, options) {
+            	// Call fetch fail function.
+            	errorFetchFail(options.xhr.status);
+            },
+            success: this.onFetch,
+            wait: true // Do not report status until web service response.
+        });
+    },
+    onFetch : function () {
+        if( this.longPolling ){setTimeout(this.executeLongPolling, 500); // Update view each 0.5 seconds
+        }
+    },
 });
 
 
 // View for Single Project
 BBProj.Views.ProjectView = Backbone.View.extend({
-	tagName: 'tr',
-	className: 'pItem',
-	template:$("#pTemplate").html(),
-	
-	events: {
+    tagName: 'tr',
+    className: 'pItem',
+    template:$("#pTemplate").html(),
+    
+    events: {
         'click .delete':   'deleteProject',
         'click .saveEdit':   'saveEditProject'
     },
@@ -80,85 +79,84 @@ BBProj.Views.ProjectView = Backbone.View.extend({
     
     // Function used to update existing projects.
     saveEditProject: function(){
-    	// Get contents of edit form.
-    	var newProjectpName = document.getElementById("pNameInput"+this.model.get("id")).value;
-    	var newProjectpmName =document.getElementById("pmNameInput"+this.model.get("id")).value;
-    	var projectUsers = getEmails(this.model.get("id"));
-    	
-		//Update project with new details.
-		var thisObj= this;
-		this.model.save({"pName":newProjectpName, "pmName":newProjectpmName, "users":projectUsers}, {
-		        error: function(model, response) {
-		        	// Get Error response and pass to error function.
-		            errorNewProject(response);
-		        },
-		        success: function(model, response) {
-		        	errorHideAll();
-		        	thisObj.render();
-		        	
-		        	//Remove Model
-		        	$(".modal-header .close").click();
-		        	
-		        	//Remove UI Backdrop from Model that contained form. 
-		            //Required to be called manually due to the above render method.
-		            $(document).ready(function(){
-		            	$(".modal-backdrop").fadeOut(function() {
-		            	    // Remove element after the fadeOut
-		            		$(".modal-backdrop").remove()
-		            		$("#pageBody").removeClass("modal-open");
-		            		$("#pageBody").css("padding", "");
-		            	});
-		            });
-		        },
-		        wait: true // Do not report status until web service response.
-		});
+        // Get contents of edit form.
+        var newProjectpName = document.getElementById("pNameInput"+this.model.get("id")).value;
+        var newProjectpmName =document.getElementById("pmNameInput"+this.model.get("id")).value;
+        var projectUsers = getEmails(this.model.get("id"));
+        
+        //Update project with new details.
+        var thisObj= this;
+        this.model.save({"pName":newProjectpName, "pmName":newProjectpmName, "users":projectUsers}, {
+            error: function(model, response) {
+                // Get Error response and pass to error function.
+                errorNewProject(response);
+            },
+            success: function(model, response) {
+                errorHideAll();
+                thisObj.render();
+                
+                //Remove Model
+                $(".modal-header .close").click();
+                
+                //Remove UI Backdrop from Model that contained form. 
+                //Required to be called manually due to the above render method.
+                $(document).ready(function(){
+                    $(".modal-backdrop").fadeOut(function() {
+                        // Remove element after the fadeOut
+                        $(".modal-backdrop").remove()
+                        $("#pageBody").removeClass("modal-open");
+                        $("#pageBody").css("padding", "");
+                    });
+                });
+            },
+            wait: true // Do not report status until web service response.
+        });
     },
     
     
     // Function to delete a project.
     deleteProject:function () {
-    	// User prompted to confirm delete.
-    	if (checkDelete()===true) {
-    		//Delete model
-    		this.model.destroy({
-    	        error: function(model, response) {
-    	        	console.log(response);
-    	        	// Show unsuccessful modification message
-    	        	$("#modFailed").show();
-    	        },
-    	        success: function(model, response) {
-    	        	errorHideAll();
-    	        },
-    	        wait: true // Do not report status until web service response.
+        // User prompted to confirm delete.
+        if (checkDelete()===true) {
+            //Delete model
+            this.model.destroy({
+                error: function(model, response) {
+                    console.log(response);
+                    // Show unsuccessful modification message
+                    $("#modFailed").show();
+                },
+                success: function(model, response) {
+                    errorHideAll();
+                },
+                wait: true // Do not report status until web service response.
             });
-    	}
-        
-        
+        }
     },
     
+    
     // Produce HTML in template for a project.
-	render: function() {
-		var tmpl = _.template(this.template);
+    render: function() {
+        var tmpl = _.template(this.template);
         this.$el.html(tmpl(this.model.toJSON()));
         return this;
-	},
+    },
 });
 
 
 // View for collection of Projects
 BBProj.Views.ProjectsView = Backbone.View.extend({
     el:$("#projects"),
-
+    
     initialize:function () {
         this.collection = new BBProj.Collections.Projects();
         // Get project items from web service.
         this.collection.fetch({
-	        error: function(model,collecton, options) {
-	        	// Call fetch fail function.
-	            errorFetchFail(options.xhr.status);
-	        },
-	        wait: true // Do not report status until web service response.
-	    });
+            error: function(model,collecton, options) {
+                // Call fetch fail function.
+                errorFetchFail(options.xhr.status);
+            },
+            wait: true // Do not report status until web service response.
+        });
         
         // Call function to produce HTML 
         this.render();
@@ -177,17 +175,17 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     
     // Produce HTML for list of projects
     render:function () {
-    	this.$el.empty();
+        this.$el.empty();
         var that = this;
         _.each(this.collection.models, function (item) {
-        	// For each project in list call renderProject function.
+            // For each project in list call renderProject function.
             that.renderProject(item);
         });
     },
     
     // Produce HTML for an individual project item.
     renderProject:function (item) {
-    	BBProj.Views.projectView = new BBProj.Views.ProjectView({
+        BBProj.Views.projectView = new BBProj.Views.ProjectView({
             model:item
         });
         this.$el.append(BBProj.Views.projectView.render().el);
@@ -195,35 +193,35 @@ BBProj.Views.ProjectsView = Backbone.View.extend({
     
     // Function to save a new project.
     saveNewProject: function(){
-    	//Get Details entered in form
-    	var projectpName = document.getElementById("pNameInput").value;
-    	var projectpmName =document.getElementById("pmNameInput").value;
-    	var projectUsers = getEmails("new");
+        //Get Details entered in form
+        var projectpName = document.getElementById("pNameInput").value;
+        var projectpmName =document.getElementById("pmNameInput").value;
+        var projectUsers = getEmails("new");
         
-    	// Save a newly create project and a details into list.
-		saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName, "users":projectUsers}, {
-	        error: function(model, response) {
-	        	// Get Error response and pass to error function.
-	            errorNewProject(response);
-	        },
-	        success: function(model, response) {
-	        	errorHideAll();
-	        	//Remove Model
-	        	$(".modal-header .close").click();
-	        	
-	        	//Remove UI Backdrop from Model that contained form. 
-	            //Required to be called manually due to the above render method.
-	            $(document).ready(function(){
-	            	$(".modal-backdrop").fadeOut(function() {
-	            	    // Remove element after the fadeOut
-	            		$(".modal-backdrop").remove()
-	            		$('#pageBody').removeClass("modal-open");
-	            		$('#pageBody').css("padding", "");
-	            	});
-	            });
-	        },
-	        wait: true // Do not report status until web service response.
-		});
+        // Save a newly create project and a details into list.
+        saveNew = this.collection.create({"pName":projectpName, "pmName":projectpmName, "users":projectUsers}, {
+            error: function(model, response) {
+                // Get Error response and pass to error function.
+                errorNewProject(response);
+            },
+            success: function(model, response) {
+                errorHideAll();
+                //Remove Model
+                $(".modal-header .close").click();
+                
+                //Remove UI Backdrop from Model that contained form. 
+                //Required to be called manually due to the above render method.
+                $(document).ready(function(){
+                    $(".modal-backdrop").fadeOut(function() {
+                        // Remove element after the fadeOut
+                        $(".modal-backdrop").remove()
+                        $('#pageBody').removeClass("modal-open");
+                        $('#pageBody').css("padding", "");
+                    });
+                });
+            },
+            wait: true // Do not report status until web service response.
+    	});
     		
     }
 });
@@ -249,7 +247,7 @@ BBProj.Views.TFooterView = Backbone.View.extend({
     
     // Function which links to trigger on projectsView
     saveNewProjectLink: function() {
-    	BBProj.Views.projectsView.trigger("newProjectEvent");
+        BBProj.Views.projectsView.trigger("newProjectEvent");
     }
 });
 

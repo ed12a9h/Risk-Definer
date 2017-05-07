@@ -7,98 +7,101 @@
 
 /* Default Bootstrap Theme */
 body {
-	padding-top: 70px;
-	padding-bottom: 30px;
-	background-color: #fafdfa;
+    padding-top: 70px;
+    padding-bottom: 30px;
+    background-color: #fafdfa;
 }
 .theme-dropdown .dropdown-menu {
-	position: static;
-	display: block;
-	margin-bottom: 20px;
+    position: static;
+    display: block;
+    margin-bottom: 20px;
 }
 .theme-showcase > p > .btn {
-	margin: 5px 0;
+    margin: 5px 0;
 }
 .theme-showcase .navbar .container {
-	width: auto;
+    width: auto;
 }
 .contentHolder{
-	min-width:630px!important;
+    min-width:630px!important;
 }
 #pageBody{
-	min-width:630px!important;
+    min-width:630px!important;
 }
 
 /* Modal Window */
 .input-group {
-	width: 100%;
+    width: 100%;
 }
 
 
 /* Page Content Hidden Until Login */
 .contentHolder {
-	display:none;
+    display:none;
 }
-
+#loginWindow {
+    display:none;
+}
 
 /* Project and Risk Lists */
 .rButtons {
-	margin-right: 15px;
+    margin-right: 15px;
 }
 .table {
-	table-layout:fixed;
+    table-layout:fixed;
 }
 .table thead tr th {
-	border-bottom: 2px solid #87D542!important;
+    border-bottom: 2px solid #87D542!important;
 }
 .table tbody tr td {
-	border-bottom: 1px solid #AED18E!important;
-	overflow-wrap: break-word;
+    border-bottom: 1px solid #AED18E!important;
+    overflow-wrap: break-word;
 }
 .table tbody tr td a{
-	color: #333;
+    color: #333;
 }
 .table tbody tr td a:hover{
-	color: #777;
-	text-decoration: none;
+    color: #777;
+    text-decoration: none;
 }
 .table #col3, .table #col5r{
-	min-width:240px;
-	width: 240px;
+    min-width:240px;
+    width: 240px;
 } 
 .table>tbody>tr>td{
-	    vertical-align: middle;
+    vertical-align: middle;
 }
 .table #col2r, .table #col3r, .table #col4r{
-	text-align:center;
-	width: 80px;
+    text-align:center;
+    width: 80px;
 } 
 .table .center{
-	text-align:center;
+    text-align:center;
 } 
 .table #col0r{
-	width:35px;
+    width:35px;
 }
 
 
 /* Jumbotron */
 .jumbotron {
-	background-color:#AED18E!important;
-	border: 3px solid #87D542!important;
+    background-color:#AED18E!important;
+    border: 3px solid #87D542!important;
 }
+
 
 /* Risk Jumbotron */
 #rJumbotron, #pJumbotron {
-	height:100px;
-	padding:0px;
-	background-color:#fff!important;
+    height:100px;
+    padding:0px;
+    background-color:#fff!important;
 }
 #rJumRight, #pJumRight {
-	float:right;
-	width:300px;
+    float:right;
+    width:300px;
 }
 #rJumRight p, #pJumRight p{
-	line-height: 29px;
+    line-height: 29px;
     font-size: 30pt;
     float: left;
     font-family: 'Arial Black', 'Arial Bold', "Helvetica Neue",Helvetica,Arial,sans-serif;;
@@ -107,7 +110,7 @@ body {
     color: #1f1f1f;
 }
 #rJumLeft, #pJumLeft {
-	overflow-y: auto;
+    overflow-y: auto;
     float: left;
     margin-top: 13px;
     margin-left: 30px;
@@ -115,62 +118,62 @@ body {
     max-width: calc(100% - 335px);
 }
 #projectName{
-	margin-bottom: 0px;
-	font-size: 23pt;
+    margin-bottom: 0px;
+    font-size: 23pt;
 }
 #managerName{
-	margin-bottom: 0px;
-	font-size: 12pt;
+    margin-bottom: 0px;
+    font-size: 12pt;
 }
 #intro{
-	margin-bottom: 0px;
-	margin-top: 21px;
+    margin-bottom: 0px;
+    margin-top: 21px;
 }
+
 
 /* Navigation Bar */
 .navbar-default {
-	border-top: 2px solid!important;
-	border-bottom: 2px solid!important;
-  	border-color: #87D542!important;
+    border-top: 2px solid!important;
+    border-bottom: 2px solid!important;
+    border-color: #87D542!important;
 }
 .navbar-default .navbar-nav>.active1>a, .navbar-default .navbar-nav>.active1>a:focus, .navbar-default .navbar-nav>.active1>a:hover {
     background-color:#AED18E!important;
 }
 .active1:after{
-	content: " ";
-	border-top: 25px solid transparent;           /* Go big on the size, and let overflow hide */
-	border-bottom: 25px solid transparent;
-	border-left: 25px solid #AED18E;
-	position: absolute;
-	top: 50%;
-	margin-top: -25px; 
-	left: 100%;
+    content: " ";
+    border-top: 25px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 25px solid transparent;
+    border-left: 25px solid #AED18E;
+    position: absolute;
+    top: 50%;
+    margin-top: -25px; 
+    left: 100%;
 }
 .navbar-right>li{
-	border-left: 2px solid #AED18E!important;
+    border-left: 2px solid #AED18E!important;
 }
 .navbar-right{
-	border-right: 2px solid #AED18E!important;
+    border-right: 2px solid #AED18E!important;
 }
 .nav .subsequentItem{
-	margin-left:13px!important;
+    margin-left:13px!important;
 }
 .nav .subsequentItem> a:hover{
-	color:#777!important;
+    color:#777!important;
 }
 .navbar-collapse.collapse {
-  display: block!important;
+    display: block!important;
 }
 .navbar-nav>li, .navbar-nav {
-  float: left !important;
+    float: left !important;
 }
 .navbar-nav.navbar-right:last-child {
-  margin-right: -15px !important;
+    margin-right: -15px !important;
 }
 .navbar-right {
-  float: right!important;
+    float: right!important;
 }
-
 
 
 /* Buttons */
@@ -201,7 +204,7 @@ body {
 /* Bootstrap bug fix for nav bar nudge on model open. */
 .modal-open .navbar-fixed-top,
 .modal-open .navbar-fixed-bottom {
-padding-right: 17px;
+    padding-right: 17px;
 }
 
 
@@ -217,7 +220,6 @@ padding-right: 17px;
 }
 
 
-
 /* Form */
 .form-control {
     border-color: #AED18E!important;
@@ -226,41 +228,41 @@ padding-right: 17px;
     border-color: #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(92, 184, 92, 0.77);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(92, 184, 92, 0.77);;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(92, 184, 92, 0.77);
 }
 
 
 /* Alerts */
 .alert {
-	display:none;
+    display:none;
 }
 
 /* Risk Grid */
 .gridBox {
-	float:left;
-	width:102px;
-	height:60px;
-	border:2px solid #000;
+    float:left;
+    width:102px;
+    height:60px;
+    border:2px solid #000;
 }
 .probHeading{
-	float:left;
-	width:80px;
-	height:120px;
+    float:left;
+    width:80px;
+    height:120px;
 } 
 #pHead5, #pHead6{
-	height:20px;
-}   
+    height:20px;
+}
 .probCat, .probNum,{
-	font-size:15pt;
+    font-size:15pt;
 } 
 .probCatHolder {
-	height: 20px!important;
+    height: 20px!important;
     width: 120px;
     right:30px;
     position: relative;
 }
 .probCat {
-	height: 20px!important;
+    height: 20px!important;
     width: 120px;
     top: 8px;
     right:30px;
@@ -276,7 +278,7 @@ padding-right: 17px;
     font-size:15pt;
 }
 .probNumHolder{
-	width: 120px;
+    width: 120px;
     height: 20px;
     display: inline-block;
     position: relative;
@@ -284,71 +286,70 @@ padding-right: 17px;
     top: 9px;
 }
 .impHeading {
-	float:left;
-	width:205px;
-	height:20px;
-	text-align:center;
-	font-size:15pt;
-	display: table;
+    float:left;
+    width:205px;
+    height:20px;
+    text-align:center;
+    font-size:15pt;
+    display: table;
 }
 .impHeading>h3{
-	padding-top: 5px;
-	display: table-cell;
-	vertical-align:top;
-	text-align:center;
-	font-size:15pt;
+    padding-top: 5px;
+    display: table-cell;
+    vertical-align:top;
+    text-align:center;
+    font-size:15pt;
 } 
 .impNumHeading{
-	float:left;
-	width:102px;
-	height:20px;
-	text-align:center;
+    float:left;
+    width:102px;
+    height:20px;
+    text-align:center;
 }
 .impNumHeading>h3{
-	font-size:15pt;
-	margin-top: 1px;
+    font-size:15pt;
+    margin-top: 1px;
     margin-bottom: 5px;
 }
 .rotate {
-	transform: rotate(-90deg);
-	transform-origin: center;
-	-webkit-transform: rotate(-90deg);
-	-webkit-transform-origin: center;
-	
+    transform: rotate(-90deg);
+    transform-origin: center;
+    -webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: center;
 }
 #y-axis {
-	width:30px;
-	height:650px;
-	float:left;
+    width:30px;
+    height:650px;
+    float:left;
 }
 #y-axis>h3 {
-	position: relative;
+    position: relative;
     top: 310px;
 }
 #x-axis {
-	width:100%;
-	height:60px;
-	float:left;
-	margin-top:8px;
+    width:100%;
+    height:60px;
+    float:left;
+    margin-top:8px;
 }
 #x-axis>h3 {
-	margin-top:0px;
-	text-align:center;
-	margin-left: 105px;
+    margin-top:0px;
+    text-align:center;
+    margin-left: 105px;
 }
 .bg-red{
-	background-color:red;
+    background-color:red;
 }
 .bg-orange{
-	background-color:orange;
+    background-color:orange;
 }
 .bg-green{
-	background-color:green;
+    background-color:green;
 }
 .gridItem, .gridItem:focus{
-	text-align: center;
+    text-align: center;
     width: 20px;
-	height: 20px;
+    height: 20px;
     float: left;
     border-radius: 50%;
     behavior: url(PIE.htc); /* remove if you don't care about IE8 */
@@ -358,13 +359,14 @@ padding-right: 17px;
     outline: none;
 }
 .popover-content p{
-	font-size:9pt;
-	min-width:235px;
+    font-size:9pt;
+    min-width:235px;
 }
+
 
 /* Hide grid on low res screen */
 @media (max-width: 1200px){
 .hidden-grid-low-res{
     display: none!important;
 }}
-    
+   

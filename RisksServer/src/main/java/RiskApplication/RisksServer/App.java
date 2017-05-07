@@ -1,15 +1,6 @@
-/**
- * Risk Definer Web Service
- * Produced by Adam Hustwit
- * 
- * This file contains code for the start up of the jetty server which 
- * contains my jersey web service framework as a servlet.
- */
-
 package RiskApplication.RisksServer;
-
+// Imports
 import java.util.Collections;
-
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.HashLoginService;
@@ -33,42 +24,50 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-
-public class App 
-{
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ * 
+ * This class contains code for the start up of the Jetty server which 
+ * contains my jersey web service framework as a servlet.
+ * 
+ * @author Adam Hustwit
+ */
+public class App {
 	
-	//Create server port 9999 Local host
-	// For online server change port to 80.
-	static Server server = new Server(9999);
-	
-	
-    public static void main( String[] args )
-    {
-    	//Security - Old Basic HTTP Authentication method.
-    	//ConstraintSecurityHandler security = userAuth(server);
-    	
-    	//Servlet Config for web service (/server)
-    	ResourceConfig config = new ResourceConfig();
-    	config.packages("RiskApplication");
-    	ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-    	ServletContextHandler sctxHandler = new ServletContextHandler(server, "/*");
-    	sctxHandler.addServlet(servlet, "/server/*");    	
-    	
-    	 
-    	// Web Application Hosting Config (/client)
-    	ResourceHandler rHandler = new ResourceHandler();
-    	rHandler.setResourceBase("client");
-    	ContextHandler rctxHandler = new ContextHandler ("/client/*");
-    	rctxHandler.setHandler(rHandler);
-    	
-    	
-    	// Combining of both context handlers and security
-    	HandlerList hList = new HandlerList();
-    	hList.setHandlers(new Handler[]{rctxHandler, sctxHandler}); // Security removed now google auth implemented.
-    	server.setHandler(hList);
-    	
-    	// Config for SSL (Code Reference #1,2)
-    	HttpConfiguration http_config = new HttpConfiguration();
+    // Create server port 9999 Local host
+    // For online server change port to 80.
+    static Server server = new Server(9999);
+    
+    /**
+     * Main method starts Jetty server as servlet container and hosts web application.
+     */
+    public static void main(String[] args){
+        	
+        //Security - Old Basic HTTP Authentication method.
+        //ConstraintSecurityHandler security = userAuth(server);
+        
+        //Servlet Config for web service (/server)
+        ResourceConfig config = new ResourceConfig();
+        config.packages("RiskApplication");
+        ServletHolder servlet = new ServletHolder(new ServletContainer(config));
+        ServletContextHandler sctxHandler = new ServletContextHandler(server, "/*");
+        sctxHandler.addServlet(servlet, "/server/*");    	
+        
+        // Web Application Hosting Config (/client)
+        ResourceHandler rHandler = new ResourceHandler();
+        rHandler.setResourceBase("client");
+        ContextHandler rctxHandler = new ContextHandler ("/client/*");
+        rctxHandler.setHandler(rHandler);
+        
+        // Combining of both context handlers and security
+        HandlerList hList = new HandlerList();
+        // Security removed now Google Sign-In implemented.
+        hList.setHandlers(new Handler[]{rctxHandler, sctxHandler}); 
+        server.setHandler(hList);
+        
+        // Config for SSL (Code Reference #1,2)
+        HttpConfiguration http_config = new HttpConfiguration();
         http_config.setSecureScheme("https");
         http_config.setSecurePort(443);
         HttpConfiguration https_config = new HttpConfiguration(http_config);
@@ -76,30 +75,34 @@ public class App
         SslContextFactory sslContextFactory = new SslContextFactory("ssl/keystore");
         sslContextFactory.setKeyStorePassword("chUya7RaQ+s3");
         ServerConnector httpsConnector = new ServerConnector(server, 
-        		new SslConnectionFactory(sslContextFactory, "http/1.1"),
-        		new HttpConnectionFactory(https_config));
+            new SslConnectionFactory(sslContextFactory, "http/1.1"),
+            new HttpConnectionFactory(https_config));
         httpsConnector.setPort(443);
         httpsConnector.setIdleTimeout(50000);
         // Comment out below line for local host.
         //server.setConnectors(new Connector[]{ httpsConnector });
         
-        
-
-    	// Try to start server - catch and print any exception
-    	try {
-    	     server.start();
-    	     server.join();
-    	 } catch (Exception e) {
-			e.printStackTrace();
-		} 
-    	finally {
-    	     server.destroy();
-    	}
+        // Try to start server - catch and print any exception
+        try {
+            server.start();
+            server.join();
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        } 
+        finally {
+            server.destroy();
+        }
     }
     
+    
+    /**
+     * Method adds HTTP basic authentication requirement to web server.
+     * 
+     * @param server Server object created in main for web service and web application.
+     */
     public static ConstraintSecurityHandler userAuth(Server server){
-    	LoginService loginService = new HashLoginService("MyRealm",
-                "client/realm.properties");
+        LoginService loginService = new HashLoginService("MyRealm", "client/realm.properties");
         server.addBean(loginService);
         ConstraintSecurityHandler security = new ConstraintSecurityHandler();
         Constraint constraint = new Constraint();
