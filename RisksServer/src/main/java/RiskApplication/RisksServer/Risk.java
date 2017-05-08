@@ -1,3 +1,7 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ */
 package RiskApplication.RisksServer;
 
 import java.util.List;
@@ -5,9 +9,6 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 
 /**
- * Risk Definer Web Service Produced by Adam Hustwit
- * <p>
- * 
  * This class is used for the temporary storage of risk events converted from
  * JSON. Also used for risk event validation.
  * 
@@ -159,8 +160,8 @@ public class Risk {
             vErrors = vErrors + "\"Risk name must be longer than one character.\", ";
             veCount = veCount + 1;
         }
-        if (this.rName.length() >= 250) {
-            vErrors = vErrors + "\"Risk name should be less than 250 characters.\", ";
+        if (this.rName.length() >= 65) {
+            vErrors = vErrors + "\"Risk name should be less than 65 characters.\", ";
             veCount = veCount + 1;
         }
         if (validateUnique() == false) {
@@ -172,7 +173,7 @@ public class Risk {
             veCount = veCount + 1;
         }
         if (this.probability < 1 || this.probability > 10) {
-            vErrors = vErrors + "\"Lieklihood must be between 1 and 10.\", ";
+            vErrors = vErrors + "\"Likelihood must be between 1 and 10.\", ";
             veCount = veCount + 1;
         }
         if (!this.status.equals("Open") && !this.status.equals("Closed")) {

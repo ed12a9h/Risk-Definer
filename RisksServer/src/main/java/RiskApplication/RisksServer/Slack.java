@@ -1,10 +1,7 @@
 /**
  * Risk Definer Web Service
- * Produced by Adam Hustwit
- * 
- * This file contains code for all interaction with the slack API.
+ * Produced by Adam Hustwit <p>
  */
-
 package RiskApplication.RisksServer;
 
 import java.util.HashMap;
@@ -20,9 +17,6 @@ import org.apache.http.impl.client.HttpClients;
 
 
 /**
- * Risk Definer Web Service
- * Produced by Adam Hustwit <p>
- * 
  * This class contains all functionality for interaction with the slack API.
  * 
  * @author Adam Hustwit

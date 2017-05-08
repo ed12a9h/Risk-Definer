@@ -1,3 +1,7 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ */
 package RiskApplication.RisksServer;
 // Imports
 import java.io.IOException;
@@ -18,9 +22,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * Risk Definer Web Service
- * Produced by Adam Hustwit <p>
- * 
  * This class contains code for defining the routing of URLs 
  * to java functions.
  * 

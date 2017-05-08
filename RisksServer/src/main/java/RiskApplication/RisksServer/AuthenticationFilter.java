@@ -1,3 +1,7 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ */
 package RiskApplication.RisksServer;
 // Jersey Imports
 import javax.ws.rs.NotAuthorizedException;
@@ -9,9 +13,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 
 /**
- * Risk Definer Web Service
- * Produced by Adam Hustwit <p>
- * 
  * This class contains code for validating tokens provided by the 
  * Google Sign-In for websites framework.
  * 

@@ -6,6 +6,13 @@
  * screens and other security features.
  */
 
+// Do not display login form unless no ID token is stored in local storage.
+$(document).ready(function(){  
+    if (!localStorage.getItem("rd_id_token")){
+        $('#loginWindow').show();
+    }
+})
+
 // Stores login token in local storage and hides login window after successful login.
 function onSignIn(googleUser) {
     // Get ID Token and user name then save in Local Storage

@@ -1,3 +1,7 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ */
 package RiskApplication.RisksServer;
 import java.util.Properties;
 
@@ -10,9 +14,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * Risk Definer Web Service
- * Produced by Adam Hustwit <p>
- * 
  * This class contains code sending emails to users
  * using SMTP2GO
  * 

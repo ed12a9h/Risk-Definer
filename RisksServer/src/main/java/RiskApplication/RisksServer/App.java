@@ -1,3 +1,7 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ */
 package RiskApplication.RisksServer;
 // Imports
 import java.util.Collections;
@@ -25,8 +29,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 /**
- * Risk Definer Web Service
- * Produced by Adam Hustwit <p>
  * 
  * This class contains code for the start up of the Jetty server which 
  * contains my jersey web service framework as a servlet.
@@ -35,9 +37,9 @@ import org.glassfish.jersey.servlet.ServletContainer;
  */
 public class App {
 	
-    // Create server port 9999 Local host
+    // Create server port 9999 for local host
     // For online server change port to 80.
-    static Server server = new Server(9999);
+    static Server server = new Server(80);
     
     /**
      * Main method starts Jetty server as servlet container and hosts web application.
@@ -80,7 +82,7 @@ public class App {
         httpsConnector.setPort(443);
         httpsConnector.setIdleTimeout(50000);
         // Comment out below line for local host.
-        //server.setConnectors(new Connector[]{ httpsConnector });
+        server.setConnectors(new Connector[]{ httpsConnector });
         
         // Try to start server - catch and print any exception
         try {

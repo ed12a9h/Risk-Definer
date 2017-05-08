@@ -1,12 +1,13 @@
+/**
+ * Risk Definer Web Service
+ * Produced by Adam Hustwit <p>
+ */
 package RiskApplication.RisksServer;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
 
 /**
- * Risk Definer Web Service
- * Produced by Adam Hustwit <p>
- * 
  * This class is used for the temporary storage of projects converted from JSON. 
  * Also used for project validation.
  * 
